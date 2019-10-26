@@ -18,7 +18,9 @@ namespace FunP
         public string GetValue(int index)
         {
             if (index < 0 || index >= line.Count)
-                return null;
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
 
             return line[index];
         }
@@ -46,7 +48,9 @@ namespace FunP
         public StrDataLine GetLine(int index)
         {
             if (index < 0 || index >= table.Count)
-                return null;
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
 
             return table[index];
         }

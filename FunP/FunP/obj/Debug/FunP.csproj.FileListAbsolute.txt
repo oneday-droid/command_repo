@@ -1,9 +1,0 @@
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\bin\Debug\FunP.exe.config
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\bin\Debug\FunP.exe
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\bin\Debug\FunP.pdb
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.csprojResolveAssemblyReference.cache
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.Form1.resources
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.Properties.Resources.resources
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.csproj.GenerateResource.Cache
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.exe
-c:\users\olgert\documents\visual studio 2015\Projects\FunP\FunP\obj\Debug\FunP.pdb
