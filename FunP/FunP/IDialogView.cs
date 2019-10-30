@@ -8,6 +8,6 @@ namespace FunP
 {
     interface IDialogView
     {
-        void SetDataLabels(List<string> list);
+        void SetDataLabels(ItableLine list);
     }
 }

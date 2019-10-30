@@ -37,7 +37,8 @@ namespace FunP
             DataDialog dialog = new DataDialog();
             dialog.Text = "Add data";
             dialog.SetDataLabels(list);
-            dialog.ShowDialog();
+            if (dialog.ShowDialog())
+		ITableLine data = dialog.GetData();
         }
 
         private void removeButton_Click(object sender, EventArgs e)

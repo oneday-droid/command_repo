@@ -12,6 +12,10 @@ namespace FunP
 {
     public partial class DataDialog : Form, IDialogView
     {
+	TextBox[] textBoxesArr;
+	Label[] labelsArr;
+	int count;
+
         public DataDialog()
         {
             InitializeComponent();
@@ -27,21 +31,32 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(List<string> list)
+        public void SetDataLabels(ITableLine labels)
         {
-            int count = list.Count;
-            TextBox[] textBoxes = new TextBox[count];
-            Label[] labels = new Label[count];
+            count = labels.Count;
+            textBoxesArr = new TextBox[count];
+            labelsArr = new Label[count];
 
             for (int k = 0; k < count; k++)
             {
-                labels[k] = new Label();
-                labels[k].Text = list[k];
-                flowLayoutPanel.Controls.Add(labels[k]);
+                labelsArr[k] = new Label();
+                labelsArr[k].Text = labels[k].GetName();
+                flowLayoutPanel.Controls.Add(labelsArr[k]);
 
-                textBoxes[k] = new TextBox();
-                flowLayoutPanel.Controls.Add(textBoxes[k]);                
+                textBoxesArr[k] = new TextBox();
+		textBoxesArr[k].Text = labels[k].GetValue();
+                flowLayoutPanel.Controls.Add(textBoxesArr[k]);                
             }
         }
+
+	public ITableLine GetData()
+	{
+            ITableLine list;
+
+            for (int k = 0; k < count; k++)
+                list.Add(new Pair(labelsArr[k].Text, textBoxesArr[k].Text));                
+            
+	    return list;
+	}
     }
 }
