@@ -16,5 +16,34 @@ namespace FunP
         {
             InitializeComponent();
         }
+
+        private void getDataButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            //здесь надо вытягивать список полей из презентера или модели
+            List<string> list = new List<string>();
+            list.Add("name");
+            list.Add("age");
+            list.Add("faculty");
+            DataDialog dialog = new DataDialog();
+            dialog.Text = "Add data";
+            dialog.SetDataLabels(list);
+            if (dialog.ShowDialog())
+		ITableLine data = dialog.GetData();
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
