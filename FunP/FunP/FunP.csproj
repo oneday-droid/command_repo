@@ -56,6 +56,7 @@
       <DependentUpon>DataDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="IDialogView.cs" />
+    <Compile Include="Model\Class1.cs" />
     <Compile Include="SaveInterface.cs" />
     <Compile Include="SQLModel.cs" />
     <Compile Include="StringData.cs" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
