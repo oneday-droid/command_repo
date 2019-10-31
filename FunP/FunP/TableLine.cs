@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public class TableLine : ITableLine 
+    public class TableLine : ITableLine                         //имплементирует ITableLine, описывая строку нетипизированной таблицы (с произвольными колонками)
     {
         protected List<Pair> dataPairs = new List<Pair>();
         protected string        tableName;

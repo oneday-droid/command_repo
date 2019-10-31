@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    class SQLWork : ISQLWork                                                    //модель работы с запросами
+    class SQLWork : ISQLWork                                                    //модель работы со сложными запросами
     {
         private Dictionary<string, ISQLRequest> requests = new Dictionary<string, ISQLRequest>();
 

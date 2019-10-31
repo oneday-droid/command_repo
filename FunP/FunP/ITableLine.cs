@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public interface ITableLine
+    public interface ITableLine                         //интерфейс базовой табличной строки
     {
         string  GetTableName();                              //имя таблицы, которой принадлежит строка
         void    SetValue(string valueNameToSet, string value);                    //устанавливает полю с именем Pair.name значение Pair.value

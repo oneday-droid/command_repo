@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public interface IPresenter
+    public interface IPresenter             //интерфейс презентера
     {
         List<string> GetRequestSheet();                                                                     //получает список названий запросов
         void SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs);          //реализует отправку запроса в бд

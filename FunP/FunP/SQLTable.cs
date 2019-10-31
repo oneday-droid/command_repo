@@ -10,7 +10,19 @@ namespace FunP
     {
         public bool SQLLineAdd(ITableLine lineToAdd)
         {
-            //добавить в таблицу lineToAdd.tableName текущую структуру dataPairs
+            //пример доступа к значениям lineToAdd
+            var colNames = lineToAdd.GetColumnNames();
+            var count = colNames.Count;
+
+            for(int i=0; i< count; i++)
+            {
+                var value = lineToAdd.GetValue(colNames[i]);    //получение элемента из строки
+
+                //TODO добавление в БД?
+            }
+
+
+            //добавить в таблицу lineToAdd.tableName текущую структуру dataPairs (через поля)
 
             return true;
         }

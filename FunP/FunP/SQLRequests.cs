@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public class ReqStudByMark : ISQLRequest
+    public class ReqStudByMark : ISQLRequest                //имплементирует интерфейс запроса
     {
         //TODO Андрей здесь раскомментируй и замени "SQLClass" на класс объекта работы с БД
         //private SQLClass sqlObject;
@@ -28,7 +28,7 @@ namespace FunP
             int lineSize = 2;                               //TODO заменить 2 на длину строки результата запроса
             var result = new List<ITableLine>();
             
-            //заполнение
+            //заполнение нетипизированной таблицы
             for(int line = 0; line < lineCount; line++)
             {
                 var pairs = new List<Pair>();
@@ -49,7 +49,7 @@ namespace FunP
     //====================================================================================
     //============================================тестовые запрос без бд==================
     //====================================================================================
-    public class ReqUniversities : ISQLRequest
+    public class ReqUniversities : ISQLRequest              //запрос всех строк таблицы университета
     {
         public List<ITableLine> SendRequest(List<Pair> paramPairs)
         {
@@ -91,8 +91,7 @@ namespace FunP
             var cols = result1[0].GetColumnNames();
             var result = new List<ITableLine>();
 
-            //заполнение
-
+            //заполнение типизированной таблицы
             for (int line = 0; line < lineCount; line++)
             {
                 result.Add(new UniversityLine());

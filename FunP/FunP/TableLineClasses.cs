@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public class UniversityLine : TableLine
+    public class UniversityLine : TableLine             //реализует строку типизированной таблицы University с заранее определенными колонками
     {
         public UniversityLine() : base(null)
         {
@@ -24,7 +24,9 @@ namespace FunP
             base.dataPairs.Add(new Pair("Год основания", ""));
         }
     }
-    public class FacultyLine : TableLine
+
+    //===============================================================
+    public class FacultyLine : TableLine            //реализует строку типизированной таблицы Faculty с заранее определенными колонками
     {
         public FacultyLine() : base(null)
         {
@@ -42,7 +44,10 @@ namespace FunP
             base.dataPairs.Add(new Pair("Университет", ""));
         }
     }
-    public class StudentLine : TableLine
+
+    //===============================================================
+
+    public class StudentLine : TableLine            //реализует строку типизированной таблицы Student с заранее определенными колонками
     {
         public StudentLine() : base(null)
         {
