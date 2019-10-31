@@ -28,147 +28,214 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.getDataButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
+            this.removeButton = new System.Windows.Forms.Button();
+            this.reqResultsList = new System.Windows.Forms.ListBox();
+            this.RequestGroup = new System.Windows.Forms.GroupBox();
+            this.GetGroup = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lastIndexText = new System.Windows.Forms.TextBox();
+            this.firstIndexText = new System.Windows.Forms.TextBox();
+            this.requestSheetList = new System.Windows.Forms.ListBox();
+            this.newLineTypeList = new System.Windows.Forms.ListBox();
+            this.AddGroup = new System.Windows.Forms.GroupBox();
+            this.RequestGroup.SuspendLayout();
+            this.GetGroup.SuspendLayout();
+            this.AddGroup.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // getDataButton
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(548, 410);
-            this.tabControl1.TabIndex = 0;
+            this.getDataButton.Location = new System.Drawing.Point(181, 45);
+            this.getDataButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.getDataButton.Name = "getDataButton";
+            this.getDataButton.Size = new System.Drawing.Size(266, 23);
+            this.getDataButton.TabIndex = 0;
+            this.getDataButton.Text = "Get data";
+            this.getDataButton.UseVisualStyleBackColor = true;
+            this.getDataButton.Click += new System.EventHandler(this.getDataButton_Click);
             // 
-            // tabPage1
+            // editButton
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(540, 377);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.editButton.Location = new System.Drawing.Point(181, 78);
+            this.editButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(123, 23);
+            this.editButton.TabIndex = 1;
+            this.editButton.Text = "Edit row";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // tabPage2
+            // addButton
             // 
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.textBox6);
-            this.tabPage2.Controls.Add(this.textBox5);
-            this.tabPage2.Controls.Add(this.textBox4);
-            this.tabPage2.Controls.Add(this.textBox3);
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.textBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(540, 377);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.addButton.Location = new System.Drawing.Point(7, 77);
+            this.addButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(167, 23);
+            this.addButton.TabIndex = 2;
+            this.addButton.Text = "Add row";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // button2
+            // removeButton
             // 
-            this.button2.Location = new System.Drawing.Point(278, 183);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 85);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.removeButton.Location = new System.Drawing.Point(324, 78);
+            this.removeButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(123, 23);
+            this.removeButton.TabIndex = 3;
+            this.removeButton.Text = "Remove row";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
-            // button1
+            // reqResultsList
             // 
-            this.button1.Location = new System.Drawing.Point(278, 60);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(125, 89);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.reqResultsList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.reqResultsList.FormattingEnabled = true;
+            this.reqResultsList.HorizontalScrollbar = true;
+            this.reqResultsList.ItemHeight = 16;
+            this.reqResultsList.Location = new System.Drawing.Point(6, 19);
+            this.reqResultsList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.reqResultsList.Name = "reqResultsList";
+            this.reqResultsList.Size = new System.Drawing.Size(630, 212);
+            this.reqResultsList.TabIndex = 4;
             // 
-            // textBox6
+            // RequestGroup
             // 
-            this.textBox6.Location = new System.Drawing.Point(138, 291);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(109, 26);
-            this.textBox6.TabIndex = 3;
+            this.RequestGroup.Controls.Add(this.reqResultsList);
+            this.RequestGroup.Location = new System.Drawing.Point(13, 129);
+            this.RequestGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.RequestGroup.Name = "RequestGroup";
+            this.RequestGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.RequestGroup.Size = new System.Drawing.Size(642, 228);
+            this.RequestGroup.TabIndex = 5;
+            this.RequestGroup.TabStop = false;
+            this.RequestGroup.Text = "Request results";
             // 
-            // textBox5
+            // GetGroup
             // 
-            this.textBox5.Location = new System.Drawing.Point(138, 242);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(109, 26);
-            this.textBox5.TabIndex = 4;
+            this.GetGroup.Controls.Add(this.label2);
+            this.GetGroup.Controls.Add(this.label1);
+            this.GetGroup.Controls.Add(this.lastIndexText);
+            this.GetGroup.Controls.Add(this.removeButton);
+            this.GetGroup.Controls.Add(this.firstIndexText);
+            this.GetGroup.Controls.Add(this.editButton);
+            this.GetGroup.Controls.Add(this.requestSheetList);
+            this.GetGroup.Controls.Add(this.getDataButton);
+            this.GetGroup.Location = new System.Drawing.Point(13, 12);
+            this.GetGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.GetGroup.Name = "GetGroup";
+            this.GetGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.GetGroup.Size = new System.Drawing.Size(453, 111);
+            this.GetGroup.TabIndex = 6;
+            this.GetGroup.TabStop = false;
+            this.GetGroup.Text = "Get";
             // 
-            // textBox4
+            // label2
             // 
-            this.textBox4.Location = new System.Drawing.Point(138, 196);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(109, 26);
-            this.textBox4.TabIndex = 5;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(319, 22);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Last line to show";
             // 
-            // textBox3
+            // label1
             // 
-            this.textBox3.Location = new System.Drawing.Point(138, 152);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(109, 26);
-            this.textBox3.TabIndex = 6;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(179, 22);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "First line to show";
             // 
-            // textBox2
+            // lastIndexText
             // 
-            this.textBox2.Location = new System.Drawing.Point(138, 105);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(109, 26);
-            this.textBox2.TabIndex = 7;
+            this.lastIndexText.Location = new System.Drawing.Point(406, 19);
+            this.lastIndexText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.lastIndexText.Name = "lastIndexText";
+            this.lastIndexText.Size = new System.Drawing.Size(41, 20);
+            this.lastIndexText.TabIndex = 1;
             // 
-            // textBox1
+            // firstIndexText
             // 
-            this.textBox1.Location = new System.Drawing.Point(138, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(109, 26);
-            this.textBox1.TabIndex = 8;
+            this.firstIndexText.Location = new System.Drawing.Point(266, 19);
+            this.firstIndexText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.firstIndexText.Name = "firstIndexText";
+            this.firstIndexText.Size = new System.Drawing.Size(41, 20);
+            this.firstIndexText.TabIndex = 1;
             // 
-            // Form1
+            // requestSheetList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.requestSheetList.FormattingEnabled = true;
+            this.requestSheetList.Location = new System.Drawing.Point(6, 19);
+            this.requestSheetList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.requestSheetList.Name = "requestSheetList";
+            this.requestSheetList.Size = new System.Drawing.Size(167, 82);
+            this.requestSheetList.TabIndex = 0;
+            // 
+            // newLineTypeList
+            // 
+            this.newLineTypeList.FormattingEnabled = true;
+            this.newLineTypeList.Location = new System.Drawing.Point(7, 19);
+            this.newLineTypeList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.newLineTypeList.Name = "newLineTypeList";
+            this.newLineTypeList.Size = new System.Drawing.Size(167, 56);
+            this.newLineTypeList.TabIndex = 0;
+            // 
+            // AddGroup
+            // 
+            this.AddGroup.Controls.Add(this.newLineTypeList);
+            this.AddGroup.Controls.Add(this.addButton);
+            this.AddGroup.Location = new System.Drawing.Point(474, 13);
+            this.AddGroup.Name = "AddGroup";
+            this.AddGroup.Size = new System.Drawing.Size(182, 110);
+            this.AddGroup.TabIndex = 7;
+            this.AddGroup.TabStop = false;
+            this.AddGroup.Text = "Add";
+            // 
+            // FunP
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 434);
-            this.Controls.Add(this.tabControl1);
-            this.Name = "Form1";
+            this.ClientSize = new System.Drawing.Size(668, 370);
+            this.Controls.Add(this.AddGroup);
+            this.Controls.Add(this.GetGroup);
+            this.Controls.Add(this.RequestGroup);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "FunP";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.Load += new System.EventHandler(this.FunP_Load);
+            this.RequestGroup.ResumeLayout(false);
+            this.GetGroup.ResumeLayout(false);
+            this.GetGroup.PerformLayout();
+            this.AddGroup.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button getDataButton;
+        private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button removeButton;
+        private System.Windows.Forms.ListBox reqResultsList;
+        private System.Windows.Forms.GroupBox RequestGroup;
+        private System.Windows.Forms.GroupBox GetGroup;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox lastIndexText;
+        private System.Windows.Forms.TextBox firstIndexText;
+        private System.Windows.Forms.ListBox requestSheetList;
+        private System.Windows.Forms.ListBox newLineTypeList;
+        private System.Windows.Forms.GroupBox AddGroup;
     }
 }
 
