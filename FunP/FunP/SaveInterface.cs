@@ -8,11 +8,11 @@ namespace FunP
 {
     public interface ISaveToPdf
     {
-        bool SaveToPdf(StringDataTable data);
+        bool SaveToPdf(List<ITableLine> table);
     }
 
     public interface ISaveToXls
     {
-        bool SaveToXls(StringDataTable data);
+        bool SaveToXls(List<ITableLine> table);
     }
 }

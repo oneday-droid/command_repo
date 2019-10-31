@@ -35,9 +35,10 @@
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(116, 172);
+            this.applyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.applyButton.Location = new System.Drawing.Point(12, 253);
             this.applyButton.Name = "applyButton";
-            this.applyButton.Size = new System.Drawing.Size(75, 23);
+            this.applyButton.Size = new System.Drawing.Size(118, 32);
             this.applyButton.TabIndex = 0;
             this.applyButton.Text = "Apply";
             this.applyButton.UseVisualStyleBackColor = true;
@@ -46,9 +47,9 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(197, 172);
+            this.cancelButton.Location = new System.Drawing.Point(154, 253);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(118, 32);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -58,7 +59,7 @@
             // 
             this.flowLayoutPanel.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(260, 131);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(260, 226);
             this.flowLayoutPanel.TabIndex = 2;
             // 
             // DataDialog
@@ -67,14 +68,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(284, 218);
+            this.ClientSize = new System.Drawing.Size(284, 298);
             this.Controls.Add(this.flowLayoutPanel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.applyButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DataDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DataDialog";
             this.ResumeLayout(false);
-
         }
 
         #endregion

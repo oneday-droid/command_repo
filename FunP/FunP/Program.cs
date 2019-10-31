@@ -16,7 +16,24 @@ namespace FunP
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FunP());
+
+            //создание диалога программы
+            var basicDialog = new FunP();
+
+            //инициализация запросов к БД
+            var sqlWork = new SQLWork();
+            sqlWork.AddReqToSheet("ReqTest", new ReqTest());
+            sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
+            //инициализация базовых функций работы с БД
+            var sqlBasicTableFunc = new SQLTable();
+            //создание презентера
+            var presenter = new Presenter(sqlWork, sqlBasicTableFunc, basicDialog);
+            //передача презентера во view
+            basicDialog.SetPresenter(presenter);
+            //инициализация элементов формы
+            basicDialog.InitializeFields();
+            //запуск программы
+            Application.Run(basicDialog);
         }
     }
 }

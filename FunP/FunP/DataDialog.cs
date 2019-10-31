@@ -12,10 +12,10 @@ namespace FunP
 {
     public partial class DataDialog : Form, IDialogView
     {
-	TextBox[] textBoxesArr;
-	Label[] labelsArr;
-	int count;
-
+        private TextBox[] textBoxes;
+        private Label[] labels;
+        private int count;
+        private string tableName;
         public DataDialog()
         {
             InitializeComponent();
@@ -31,32 +31,51 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(ITableLine labels)
-        {
-            count = labels.Count;
-            textBoxesArr = new TextBox[count];
-            labelsArr = new Label[count];
+        public void SetDataLabels(ITableLine tableLine)
+        { 
+            var colNames = tableLine.GetColumnNames();
+            count = colNames.Count;
+            tableName = tableLine.GetTableName();
+
+            textBoxes = new TextBox[count];
+            labels = new Label[count];
 
             for (int k = 0; k < count; k++)
             {
-                labelsArr[k] = new Label();
-                labelsArr[k].Text = labels[k].GetName();
-                flowLayoutPanel.Controls.Add(labelsArr[k]);
+                labels[k] = new Label();
+                labels[k].Text = colNames[k];
+                flowLayoutPanel.Controls.Add(labels[k]);
 
-                textBoxesArr[k] = new TextBox();
-		textBoxesArr[k].Text = labels[k].GetValue();
-                flowLayoutPanel.Controls.Add(textBoxesArr[k]);                
+                textBoxes[k] = new TextBox();
+                textBoxes[k].Text = tableLine.GetValue(colNames[k]);
+                flowLayoutPanel.Controls.Add(textBoxes[k]);                
             }
         }
 
-	public ITableLine GetData()
-	{
-            ITableLine list;
+        public ITableLine GetDataLabels()
+        {
+            ITableLine newLine;
 
-            for (int k = 0; k < count; k++)
-                list.Add(new Pair(labelsArr[k].Text, textBoxesArr[k].Text));                
-            
-	    return list;
-	}
+            if (tableName == "Student")
+            {
+                newLine = new StudentLine();
+            }
+            else if (tableName == "Faculty")
+            {
+                newLine = new FacultyLine();
+            }
+            else //(tableName == "University")
+            {
+                newLine = new UniversityLine();
+            }
+
+            for (int i=0; i < count; i++)
+            {
+                //TODO как-то проверять введенные значения?
+                newLine.SetValue(labels[i].Text, textBoxes[i].Text);
+            }
+
+            return newLine;
+        }
     }
 }

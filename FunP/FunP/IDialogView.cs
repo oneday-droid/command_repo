@@ -8,6 +8,8 @@ namespace FunP
 {
     interface IDialogView
     {
-        void SetDataLabels(ItableLine list);
+        void SetDataLabels(ITableLine tableLine);           //установка значений элементов формы
+
+        ITableLine GetDataLabels();                         //получение результата с формы
     }
 }
