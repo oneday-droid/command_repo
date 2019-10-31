@@ -77,7 +77,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DataDialog";
             this.ResumeLayout(false);
-
         }
 
         #endregion

@@ -217,7 +217,6 @@
             this.GetGroup.PerformLayout();
             this.AddGroup.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
