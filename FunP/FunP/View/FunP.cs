@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FunP.Savers;
 
 namespace FunP
 {
     public partial class FunP : Form, IView
     {
         private IPresenter presenter;
+        private List<ITableLine> currentTable;
 
         public FunP()
         {
@@ -55,6 +57,8 @@ namespace FunP
 
         public void OnRequestResults(List<ITableLine> table)
         {
+            currentTable = table;
+
             reqResultsList.Items.Clear();
 
             var columnNames = table[0].GetColumnNames();
@@ -143,8 +147,6 @@ namespace FunP
 
                 reqResultsList.Items.Add(lineToAdd);
             }
-
-
         }
 
         public void OnLineAdd(ITableLine lineToAdd)
@@ -278,6 +280,12 @@ namespace FunP
         private void FunP_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void savePdfButton_Click(object sender, EventArgs e)
+        {
+            PrintToPdfSaverImpl saver = new PrintToPdfSaverImpl();
+            saver.SaveToPdf(currentTable);
         }
     }
 }

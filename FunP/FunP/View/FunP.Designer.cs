@@ -42,6 +42,7 @@
             this.requestSheetList = new System.Windows.Forms.ListBox();
             this.newLineTypeList = new System.Windows.Forms.ListBox();
             this.AddGroup = new System.Windows.Forms.GroupBox();
+            this.savePdfButton = new System.Windows.Forms.Button();
             this.RequestGroup.SuspendLayout();
             this.GetGroup.SuspendLayout();
             this.AddGroup.SuspendLayout();
@@ -110,7 +111,7 @@
             this.RequestGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.RequestGroup.Name = "RequestGroup";
             this.RequestGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.RequestGroup.Size = new System.Drawing.Size(642, 228);
+            this.RequestGroup.Size = new System.Drawing.Size(642, 240);
             this.RequestGroup.TabIndex = 5;
             this.RequestGroup.TabStop = false;
             this.RequestGroup.Text = "Request results";
@@ -199,11 +200,22 @@
             this.AddGroup.TabStop = false;
             this.AddGroup.Text = "Add";
             // 
+            // savePdfButton
+            // 
+            this.savePdfButton.Location = new System.Drawing.Point(13, 408);
+            this.savePdfButton.Name = "savePdfButton";
+            this.savePdfButton.Size = new System.Drawing.Size(75, 23);
+            this.savePdfButton.TabIndex = 8;
+            this.savePdfButton.Text = "save as pdf";
+            this.savePdfButton.UseVisualStyleBackColor = true;
+            this.savePdfButton.Click += new System.EventHandler(this.savePdfButton_Click);
+            // 
             // FunP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 370);
+            this.ClientSize = new System.Drawing.Size(668, 443);
+            this.Controls.Add(this.savePdfButton);
             this.Controls.Add(this.AddGroup);
             this.Controls.Add(this.GetGroup);
             this.Controls.Add(this.RequestGroup);
@@ -236,6 +248,7 @@
         private System.Windows.Forms.ListBox requestSheetList;
         private System.Windows.Forms.ListBox newLineTypeList;
         private System.Windows.Forms.GroupBox AddGroup;
+        private System.Windows.Forms.Button savePdfButton;
     }
 }
 

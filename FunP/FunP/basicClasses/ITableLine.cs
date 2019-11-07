@@ -14,5 +14,4 @@ namespace FunP
         List<string> GetColumnNames();                      //возвращает список заголовков
         int     GetSize();                              //возвращает размер
     }
-
 }

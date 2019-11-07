@@ -29,6 +29,7 @@ namespace FunP
 
             return result;
         }
+
         public List<ITableLine> GetDataFromBase(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
         {
             if (paramPairs != lastPairs || lastRequestName != requestName)                                        
@@ -58,6 +59,7 @@ namespace FunP
 
             return result;
         }
+
         public ITableLine GetDataLine(int index)
         {
             if(index < 0 || index >= lastRequest.Count)
@@ -67,6 +69,7 @@ namespace FunP
 
             return lastRequest[index];
         }
+
         public void AddReqToSheet(string name, ISQLRequest request)
         {
             if( request == null)

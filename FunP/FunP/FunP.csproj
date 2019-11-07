@@ -53,6 +53,8 @@
     <Compile Include="Model\ISQLWork.cs" />
     <Compile Include="Model\ISQLRequest.cs" />
     <Compile Include="Model\ISQLTable.cs" />
+    <Compile Include="Savers\PdfSaverImpl.cs" />
+    <Compile Include="Savers\PrintToPdfSaverImpl.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="Presenter\Presenter.cs" />
     <Compile Include="Model\SQLTable.cs" />
@@ -67,7 +69,7 @@
     <Compile Include="basicClasses\ITableLine.cs" />
     <Compile Include="View\IDialogView.cs" />
     <Compile Include="basicClasses\Pair.cs" />
-    <Compile Include="Model\ISave.cs" />
+    <Compile Include="Savers\ISave.cs" />
     <Compile Include="Model\SQLRequests.cs" />
     <Compile Include="View\FunP.cs">
       <SubType>Form</SubType>
