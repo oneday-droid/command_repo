@@ -14,14 +14,14 @@ namespace FunP.Savers
         public bool SaveToPdf(List<ITableLine> table)
         {
             string fileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Протоколы", 
-                                                       string.Format("протокол_испытаний.xml"));
+                                                     string.Format("протокол.html"));
 
             System.IO.Directory.CreateDirectory((new System.IO.FileInfo(fileName)).DirectoryName);
 
             string stringXml = CreateXML(table);
-            System.IO.File.WriteAllText(fileName, stringXml);
+            //System.IO.File.WriteAllText(fileName + ".xml", stringXml);
 
-            /*XslCompiledTransform xslt = new XslCompiledTransform();
+            XslCompiledTransform xslt = new XslCompiledTransform();
             using (XmlReader xslReader = XmlReader.Create(new StringReader(new StreamReader("report.xsl").ReadToEnd())))
             {
                 xslt.Load(xslReader);
@@ -36,14 +36,14 @@ namespace FunP.Savers
                         xslt.Transform(reader, null, results);
                     }
                 }
-            }*/
+            }//*/
 
             return false;
         }
 
         string CreateXML(List<ITableLine> table)
         {
-            string outputText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+            string outputText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<main>\r\n";
 
             string tableName = "";
             List<string> labels = null;
@@ -73,7 +73,7 @@ namespace FunP.Savers
                 }
             }
 
-            outputText += "</table>\r\n";
+            outputText += "</table>\r\n</main>";
 
             return outputText;
         }

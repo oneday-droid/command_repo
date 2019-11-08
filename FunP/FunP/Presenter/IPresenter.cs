@@ -14,5 +14,7 @@ namespace FunP
         void SQLLineAdd(ITableLine lineToAdd);                                                              //реализует добавление строки в бд
         void SQLLineEdit(ITableLine lineToEdit, ITableLine newState);                                       //реализует изменение строки в бд
         void SQLLineDelete(ITableLine lineToDelete);                                                        //реализует удаление строки из бд
+
+        void SaveToPdf(List<ITableLine> table);
     }
 }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FunP.Savers;
 
 namespace FunP
 {
@@ -284,8 +283,7 @@ namespace FunP
 
         private void savePdfButton_Click(object sender, EventArgs e)
         {
-            PrintToPdfSaverImpl saver = new PrintToPdfSaverImpl();
-            saver.SaveToPdf(currentTable);
+            presenter.SaveToPdf(currentTable);
         }
     }
 }

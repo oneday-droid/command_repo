@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FunP.Savers;
 
 namespace FunP
 {
@@ -58,6 +59,12 @@ namespace FunP
             {
                 view.OnLineDelete(lineToDelete);
             }
+        }
+
+        public void SaveToPdf(List<ITableLine> table)
+        {
+            PrintToPdfSaverImpl saver = new PrintToPdfSaverImpl();
+            saver.SaveToPdf(table);
         }
     }
 }
