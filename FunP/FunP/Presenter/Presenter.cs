@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using FunP.Savers;
 
 namespace FunP
@@ -12,6 +13,8 @@ namespace FunP
         private ISQLWork    sqlRequests;
         private ISQLTable   sqlBasicTableFunc;
         private IView       view;
+
+        List<ITableLine> currentRequestResult;
 
         public Presenter(ISQLWork sqlRequests, ISQLTable sqlBasicTableFunc, IView view)
         {
@@ -27,9 +30,9 @@ namespace FunP
 
         public void         SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
         {
-            var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, paramPairs);
+            currentRequestResult = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, paramPairs);
 
-            view.OnRequestResults(result);
+            view.OnRequestResults(currentRequestResult);
         }
 
         public ITableLine   GetRequestResultLine(int index)
@@ -61,10 +64,17 @@ namespace FunP
             }
         }
 
-        public void SaveToPdf(List<ITableLine> table)
+        public void SaveAs(string filename)
         {
-            PrintToPdfSaverImpl saver = new PrintToPdfSaverImpl();
-            saver.SaveToPdf(table);
+            ISave saver;
+
+            FileInfo fi = new FileInfo(filename);
+            if (fi.Extension == "html")
+                saver = new PrintToPdfSaverImpl();
+            else
+                saver = new PdfSaverImpl();
+
+            saver.SaveAs(currentRequestResult, filename);
         }
     }
 }

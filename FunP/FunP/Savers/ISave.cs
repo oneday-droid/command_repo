@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public interface ISaveToPdf
+    public interface ISave 
     {
-        bool SaveToPdf(List<ITableLine> table);
+        bool SaveAs(List<ITableLine> table, string filename);
     }
 
-    public interface ISaveToXls
+    public interface ISaveToPdf : ISave
     {
-        bool SaveToXls(List<ITableLine> table);
+        bool SaveAs(List<ITableLine> table, string filename);
+    }
+
+    public interface ISaveToXls : ISave
+    {
+        bool SaveAs(List<ITableLine> table, string filename);
     }
 }

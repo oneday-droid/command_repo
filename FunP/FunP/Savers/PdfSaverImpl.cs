@@ -10,7 +10,7 @@ namespace FunP.Savers
 {
     class PdfSaverImpl : ISaveToPdf
     {
-        public bool SaveToPdf(List<ITableLine> table)
+        public bool SaveAs(List<ITableLine> table, string filename)
         {
             
             return false;

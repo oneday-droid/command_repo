@@ -14,8 +14,10 @@ namespace FunP
     {
         private TextBox[] textBoxes;
         private Label[] labels;
+
         private int count;
         private string tableName;
+
         public DataDialog()
         {
             InitializeComponent();
@@ -31,7 +33,7 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(ITableLine tableLine)
+        public void SetData(ITableLine tableLine)
         { 
             var colNames = tableLine.GetColumnNames();
             count = colNames.Count;
@@ -52,7 +54,7 @@ namespace FunP
             }
         }
 
-        public ITableLine GetDataLabels()
+        public ITableLine GetData()
         {
             ITableLine newLine;
 
@@ -64,7 +66,7 @@ namespace FunP
             {
                 newLine = new FacultyLine();
             }
-            else //(tableName == "University")
+            else //if (tableName == "University")
             {
                 newLine = new UniversityLine();
             }

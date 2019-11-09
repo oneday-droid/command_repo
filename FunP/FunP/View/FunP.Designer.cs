@@ -32,8 +32,8 @@
             this.editButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
-            this.reqResultsList = new System.Windows.Forms.ListBox();
             this.RequestGroup = new System.Windows.Forms.GroupBox();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.GetGroup = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,8 +42,9 @@
             this.requestSheetList = new System.Windows.Forms.ListBox();
             this.newLineTypeList = new System.Windows.Forms.ListBox();
             this.AddGroup = new System.Windows.Forms.GroupBox();
-            this.savePdfButton = new System.Windows.Forms.Button();
+            this.saveAsButton = new System.Windows.Forms.Button();
             this.RequestGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.GetGroup.SuspendLayout();
             this.AddGroup.SuspendLayout();
             this.SuspendLayout();
@@ -92,29 +93,30 @@
             this.removeButton.UseVisualStyleBackColor = true;
             this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
-            // reqResultsList
-            // 
-            this.reqResultsList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.reqResultsList.FormattingEnabled = true;
-            this.reqResultsList.HorizontalScrollbar = true;
-            this.reqResultsList.ItemHeight = 16;
-            this.reqResultsList.Location = new System.Drawing.Point(6, 19);
-            this.reqResultsList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.reqResultsList.Name = "reqResultsList";
-            this.reqResultsList.Size = new System.Drawing.Size(630, 212);
-            this.reqResultsList.TabIndex = 4;
-            // 
             // RequestGroup
             // 
-            this.RequestGroup.Controls.Add(this.reqResultsList);
+            this.RequestGroup.Controls.Add(this.dataGridView);
             this.RequestGroup.Location = new System.Drawing.Point(13, 129);
             this.RequestGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.RequestGroup.Name = "RequestGroup";
             this.RequestGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.RequestGroup.Size = new System.Drawing.Size(642, 240);
+            this.RequestGroup.Size = new System.Drawing.Size(642, 275);
             this.RequestGroup.TabIndex = 5;
             this.RequestGroup.TabStop = false;
             this.RequestGroup.Text = "Request results";
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView.Location = new System.Drawing.Point(6, 19);
+            this.dataGridView.MultiSelect = false;
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
+            this.dataGridView.Size = new System.Drawing.Size(629, 238);
+            this.dataGridView.TabIndex = 5;
             // 
             // GetGroup
             // 
@@ -200,22 +202,22 @@
             this.AddGroup.TabStop = false;
             this.AddGroup.Text = "Add";
             // 
-            // savePdfButton
+            // saveAsButton
             // 
-            this.savePdfButton.Location = new System.Drawing.Point(13, 408);
-            this.savePdfButton.Name = "savePdfButton";
-            this.savePdfButton.Size = new System.Drawing.Size(75, 23);
-            this.savePdfButton.TabIndex = 8;
-            this.savePdfButton.Text = "save as pdf";
-            this.savePdfButton.UseVisualStyleBackColor = true;
-            this.savePdfButton.Click += new System.EventHandler(this.savePdfButton_Click);
+            this.saveAsButton.Location = new System.Drawing.Point(13, 423);
+            this.saveAsButton.Name = "saveAsButton";
+            this.saveAsButton.Size = new System.Drawing.Size(75, 23);
+            this.saveAsButton.TabIndex = 8;
+            this.saveAsButton.Text = "Save as";
+            this.saveAsButton.UseVisualStyleBackColor = true;
+            this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
             // 
             // FunP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 443);
-            this.Controls.Add(this.savePdfButton);
+            this.ClientSize = new System.Drawing.Size(668, 465);
+            this.Controls.Add(this.saveAsButton);
             this.Controls.Add(this.AddGroup);
             this.Controls.Add(this.GetGroup);
             this.Controls.Add(this.RequestGroup);
@@ -225,6 +227,7 @@
             this.Text = " ";
             this.Load += new System.EventHandler(this.FunP_Load);
             this.RequestGroup.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.GetGroup.ResumeLayout(false);
             this.GetGroup.PerformLayout();
             this.AddGroup.ResumeLayout(false);
@@ -238,7 +241,6 @@
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button removeButton;
-        private System.Windows.Forms.ListBox reqResultsList;
         private System.Windows.Forms.GroupBox RequestGroup;
         private System.Windows.Forms.GroupBox GetGroup;
         private System.Windows.Forms.Label label2;
@@ -248,7 +250,8 @@
         private System.Windows.Forms.ListBox requestSheetList;
         private System.Windows.Forms.ListBox newLineTypeList;
         private System.Windows.Forms.GroupBox AddGroup;
-        private System.Windows.Forms.Button savePdfButton;
+        private System.Windows.Forms.Button saveAsButton;
+        private System.Windows.Forms.DataGridView dataGridView;
     }
 }
 

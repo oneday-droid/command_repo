@@ -11,12 +11,9 @@ namespace FunP.Savers
 {
     class PrintToPdfSaverImpl : ISaveToPdf
     {
-        public bool SaveToPdf(List<ITableLine> table)
+        public bool SaveAs(List<ITableLine> table, string filename)
         {
-            string fileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Протоколы", 
-                                                     string.Format("протокол.html"));
-
-            System.IO.Directory.CreateDirectory((new System.IO.FileInfo(fileName)).DirectoryName);
+            System.IO.Directory.CreateDirectory((new System.IO.FileInfo(filename)).DirectoryName);
 
             string stringXml = CreateXML(table);
             //System.IO.File.WriteAllText(fileName + ".xml", stringXml);
@@ -29,7 +26,7 @@ namespace FunP.Savers
 
             using (TextReader tr = new StringReader(stringXml))
             {
-                using (StreamWriter results = new StreamWriter(fileName))
+                using (StreamWriter results = new StreamWriter(filename))
                 {
                     using (XmlReader reader = XmlReader.Create(tr))
                     { 

@@ -13,7 +13,6 @@ namespace FunP
     public partial class FunP : Form, IView
     {
         private IPresenter presenter;
-        private List<ITableLine> currentTable;
 
         public FunP()
         {
@@ -55,96 +54,22 @@ namespace FunP
         }
 
         public void OnRequestResults(List<ITableLine> table)
-        {
-            currentTable = table;
-
-            reqResultsList.Items.Clear();
-
-            var columnNames = table[0].GetColumnNames();
-            var colCount = columnNames.Count;
-            var maxColLen = new List<int>();
-
-            //базовая длина = длине заголовка колонки
-            for (int i = 0; i < colCount; i++)
+        {            
+            if (table.Count != 0)
             {
-                maxColLen.Add(0);
-                var value = Convert.ToInt32(columnNames[i].Length);
-                if (value > maxColLen[i])
+                List<string> labels = table[0].GetColumnNames();
+                dataGridView.ColumnCount = labels.Count;
+                for (int k = 0; k < labels.Count; k++)
+                    dataGridView.Columns[k].Name = labels[k];
+
+                for (int k = 0; k < table.Count; k++)
                 {
-                    maxColLen[i] = value;
+                    string [] row = new string [labels.Count];
+                    for (int f = 0; f < labels.Count; f++)
+                        row[f] = table[k].GetValue(labels[f]);
+
+                    dataGridView.Rows.Add(row);
                 }
-            }
-
-            //поиск максимальной длины из значений по каждой колонке 
-            foreach (var line in table)
-            {
-                for (int i = 0; i < colCount; i++)
-                {
-                    var value = Convert.ToInt32(line.GetValue(columnNames[i]).Length);
-                    if (value > maxColLen[i])
-                    {
-                        maxColLen[i] = value;
-                    }
-                }
-            }
-
-            //добавление заголовка
-            var edge = " | ";
-            string lineToAdd = "";
-            for (int i = 0; i < colCount; i++)
-            {
-                var value = columnNames[i];
-                var valueSpaces = maxColLen[i] - value.Length;
-
-                lineToAdd += value;
-                for (int j = 0; j < valueSpaces; j++)
-                {
-                    lineToAdd += " ";
-                }
-                if (i != colCount - 1)
-                {
-                    lineToAdd += edge;
-                }
-            }
-            reqResultsList.Items.Add(lineToAdd);
-
-            //подсчет максимальной длины строки и добавление разделителя заголовка
-            int lineSize = 0;
-            foreach (var value in maxColLen)
-            {
-                lineSize += value;
-            }
-            lineSize += (colCount - 1) * edge.Length;
-
-            lineToAdd = "";
-            for (int i = 0; i < lineSize; i++)
-            {
-                lineToAdd += "-";
-            }
-            reqResultsList.Items.Add(lineToAdd);
-
-            //добавление строк значений
-            foreach (var line in table)
-            {
-                lineToAdd = "";
-                for (int i = 0; i < colCount; i++)
-                {
-                    var value = line.GetValue(columnNames[i]);
-                    var valueSpaces = maxColLen[i] - value.Length;
-
-                    lineToAdd += value;
-                    for (int j = 0; j < valueSpaces; j++)
-                    {
-                        lineToAdd += " ";
-                    }
-
-                    if (i != colCount - 1)
-                    {
-                        lineToAdd += edge;
-                    }
-                }
-
-                reqResultsList.Items.Add(lineToAdd);
             }
         }
 
@@ -178,58 +103,77 @@ namespace FunP
             pairs.Add(new Pair("Возраст", "26"));
             pairs.Add(new Pair("Оценка", "4.5"));
 
-            var request = (string)requestSheetList.SelectedItem;
+            var request = requestSheetList.SelectedItem.ToString();
 
             presenter.SendRequest(request, firstIndex, lastIndex, pairs);
         }
 
+        private List<string> GetColumnsName()
+        {
+            List<string> labels = new List<string>();
+            for (int k = 0; k  < dataGridView.Columns.Count; k++)        
+                labels.Add(dataGridView.Columns[k].Name);
+            return labels;
+        }
+
+        private TableLine SelectedRowToTableLine(DataGridViewCellCollection row)
+        {
+            List<string> labels = GetColumnsName();
+            List<Pair> list = new List<Pair>();
+            
+            for (int k = 0; k < row.Count; k++)
+                list.Add(new Pair(labels[k], row[k].Value.ToString()));
+
+            TableLine line = new TableLine(list);
+
+            return line;
+        }
+
         private void editButton_Click(object sender, EventArgs e)
         {
-            var index = reqResultsList.SelectedIndex;
-            index -= 2;                                     //смещение индекса, тк в первых двух строках заголовок и разделитель
-
-            if (index < 0)
+            var rows = dataGridView.SelectedRows;
+            
+            if (rows.Count == 0)
             {
                 //TODO сообщение "выберите строку значений для редактирования"
                 return;
             }
 
-            var line = presenter.GetRequestResultLine(index);
-
+            var row = rows[0].Cells;
+            TableLine line = SelectedRowToTableLine(row);
             if (line.GetTableName() == "CustomTable")
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
-                return;
+               // return;
             }
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Edit data";
-            dialog.SetDataLabels(line);
-            var dialRes = dialog.ShowDialog();
-            if(dialRes == DialogResult.OK)
+            dialog.SetData(line);
+             
+            if(dialog.ShowDialog() == DialogResult.OK)
             {
-                var newLine = dialog.GetDataLabels();
+                var newLine = dialog.GetData();
                 presenter.SQLLineEdit(line, newLine);
             }
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            var index = reqResultsList.SelectedIndex;
-            index -= 2;                                     //смещение индекса, тк в первых двух строках заголовок и разделитель
+            var rows = dataGridView.SelectedRows;
 
-            if (index < 0)
+            if (rows.Count == 0)
             {
                 //TODO сообщение "выберите строку значений для редактирования"
                 return;
             }
-
-            var line = presenter.GetRequestResultLine(index);
-
+                       
+            var row = rows[0].Cells;
+            TableLine line = SelectedRowToTableLine(row);
             if (line.GetTableName() == "CustomTable")
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
-                return;
+                // return;
             }
 
             presenter.SQLLineDelete(line);
@@ -243,7 +187,7 @@ namespace FunP
                 return;
             }
 
-            var line = (string)newLineTypeList.SelectedItem;
+            var line = newLineTypeList.SelectedItem.ToString();
             ITableLine tableLine;
 
             if(line == "Student")
@@ -266,11 +210,11 @@ namespace FunP
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Add data";
-            dialog.SetDataLabels(tableLine);
-            var dialRes = dialog.ShowDialog();
-            if (dialRes == DialogResult.OK)
+            dialog.SetData(tableLine);
+            
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var lineToAdd = dialog.GetDataLabels();
+                var lineToAdd = dialog.GetData();
                 presenter.SQLLineAdd(lineToAdd);
             }
         }
@@ -281,9 +225,14 @@ namespace FunP
 
         }
 
-        private void savePdfButton_Click(object sender, EventArgs e)
+        private void saveAsButton_Click(object sender, EventArgs e)
         {
-            presenter.SaveToPdf(currentTable);
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|HTML document (*.html)|*.html|All files (*.*)|*.*";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+            if ( saveFileDialog.ShowDialog() == DialogResult.OK )
+                presenter.SaveAs(saveFileDialog.FileName);
         }
     }
 }
