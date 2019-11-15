@@ -24,9 +24,29 @@ namespace FunP
 
                 var cmd = new SqlCommand();
                 
-                cmd.CommandText = "SELECT * FROM Students";
+                cmd.CommandText = "SELECT Students.Name, Faculties.Name FROM Students INNER JOIN Faculties ON Faculties.ID = Students.FacultyID AND Faculties.Name LIKE 'Aero'";
                 cmd.Connection = connection;
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var tableLine = new TableLine();
+                        if (reader.FieldCount != tableLine.GetSize())
+                            continue;
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            object value = reader.GetValue(i);
+                            tableLine.SetValue(name, value);
+                        }
+
+                        result.Add(tableLine);
+                    }
+                }
+
             }
 
             return result;

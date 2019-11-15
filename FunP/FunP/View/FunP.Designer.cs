@@ -100,7 +100,7 @@
             this.reqResultsList.Location = new System.Drawing.Point(6, 19);
             this.reqResultsList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.reqResultsList.Name = "reqResultsList";
-            this.reqResultsList.Size = new System.Drawing.Size(630, 212);
+            this.reqResultsList.Size = new System.Drawing.Size(806, 212);
             this.reqResultsList.TabIndex = 4;
             // 
             // RequestGroup
@@ -110,7 +110,7 @@
             this.RequestGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.RequestGroup.Name = "RequestGroup";
             this.RequestGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.RequestGroup.Size = new System.Drawing.Size(642, 228);
+            this.RequestGroup.Size = new System.Drawing.Size(820, 228);
             this.RequestGroup.TabIndex = 5;
             this.RequestGroup.TabStop = false;
             this.RequestGroup.Text = "Request results";
@@ -203,10 +203,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 370);
+            this.ClientSize = new System.Drawing.Size(846, 370);
             this.Controls.Add(this.AddGroup);
             this.Controls.Add(this.GetGroup);
             this.Controls.Add(this.RequestGroup);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FunP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
