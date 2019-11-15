@@ -14,14 +14,15 @@ namespace FunP
 
         protected override void InitTableName()
         {
-            base.tableName = "University";
+            base.tableName = "Universities";
         }
 
         protected override void InitDataPairs()
         {
-            base.dataPairs.Add(new Pair("Название", ""));
-            base.dataPairs.Add(new Pair("Город", ""));
-            base.dataPairs.Add(new Pair("Год основания", ""));
+            base.dataPairs.Add(new Pair("ID", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("Name", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("City", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("Year", -1, Type.GetType("System.Int32")));
         }
     }
 
@@ -34,14 +35,15 @@ namespace FunP
 
         protected override void InitTableName()
         {
-            base.tableName = "Faculty";
+            base.tableName = "Faculties";
         }
 
         protected override void InitDataPairs()
         {
-            base.dataPairs.Add(new Pair("Название", ""));
-            base.dataPairs.Add(new Pair("Декан", ""));
-            base.dataPairs.Add(new Pair("Университет", ""));
+            base.dataPairs.Add(new Pair("ID", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("UniversityID", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("Name", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("Dean", "", Type.GetType("System.String")));
         }
     }
 
@@ -56,18 +58,19 @@ namespace FunP
 
         protected override void InitTableName()
         {
-            base.tableName = "Student";
+            base.tableName = "Students";
         }
 
         protected override void InitDataPairs()
         {
-            base.dataPairs.Add(new Pair("Фамилия", ""));
-            base.dataPairs.Add(new Pair("Имя", ""));
-            base.dataPairs.Add(new Pair("Отчество", ""));
-            base.dataPairs.Add(new Pair("Возраст", ""));
-            base.dataPairs.Add(new Pair("Факультет", ""));
-            base.dataPairs.Add(new Pair("Средний балл", ""));
-            base.dataPairs.Add(new Pair("Год поступления", ""));
+            base.dataPairs.Add(new Pair("ID", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("FacultyID", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("Surname", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("Name", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("Patronymic", "", Type.GetType("System.String")));
+            base.dataPairs.Add(new Pair("Age", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("ReceiptYear", -1, Type.GetType("System.Int32")));
+            base.dataPairs.Add(new Pair("AvgGrade", -1.0, Type.GetType("System.Double")));
         }
     }
 }

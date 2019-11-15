@@ -77,7 +77,7 @@ namespace FunP
             {
                 for (int i = 0; i < colCount; i++)
                 {
-                    var value = Convert.ToInt32(line.GetValue(columnNames[i]).Length);
+                    var value = Convert.ToInt32(line.GetValue(columnNames[i]).ToString().Length);
                     if (value > maxColLen[i])
                     {
                         maxColLen[i] = value;
@@ -126,7 +126,7 @@ namespace FunP
                 lineToAdd = "";
                 for (int i = 0; i < colCount; i++)
                 {
-                    var value = line.GetValue(columnNames[i]);
+                    var value = line.GetValue(columnNames[i]).ToString();
                     var valueSpaces = maxColLen[i] - value.Length;
 
                     lineToAdd += value;
@@ -143,8 +143,6 @@ namespace FunP
 
                 reqResultsList.Items.Add(lineToAdd);
             }
-
-
         }
 
         public void OnLineAdd(ITableLine lineToAdd)
@@ -174,8 +172,12 @@ namespace FunP
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
 
             var pairs = new List<Pair>();
-            pairs.Add(new Pair("Возраст", "26"));
-            pairs.Add(new Pair("Оценка", "4.5"));
+
+            int age = 26;
+            double avgGrade = 4.5;
+
+            pairs.Add(new Pair("Age", age, age.GetType()));
+            pairs.Add(new Pair("AvgGrade", avgGrade, avgGrade.GetType()));
 
             var request = (string)requestSheetList.SelectedItem;
 

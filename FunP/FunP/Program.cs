@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace FunP
 {
     static class Program
@@ -19,11 +20,13 @@ namespace FunP
 
             //создание диалога программы
             var basicDialog = new FunP();
-
+            
             //инициализация запросов к БД
             var sqlWork = new SQLWork();
-            sqlWork.AddReqToSheet("ReqTest", new ReqTest());
             sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
+            sqlWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
+            sqlWork.AddReqToSheet("ReqStudents", new ReqStudents());
+            //sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
             //инициализация базовых функций работы с БД
             var sqlBasicTableFunc = new SQLTable();
             //создание презентера
