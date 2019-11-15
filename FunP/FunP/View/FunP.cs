@@ -18,7 +18,7 @@ namespace FunP
         {
             InitializeComponent();
         }
-
+                
         public void SetPresenter(IPresenter presenter)
         {
             this.presenter = presenter;
@@ -30,6 +30,11 @@ namespace FunP
             lastIndexText.Text = "50";
             SetRequestSheet();
             SetNewLineTypeSheet();
+        }
+
+        private void TranslateView()
+        {
+
         }
 
         private void SetRequestSheet()
