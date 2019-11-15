@@ -48,7 +48,9 @@ namespace FunP
             }
         }
 
-        public void     SetValue(string valueNameToSet, string value)
+        //public static ITableLine
+
+        public void     SetValue(string valueNameToSet, object value)
         {
             bool exist = false;
 
@@ -56,8 +58,13 @@ namespace FunP
             {
                 if (dataPair.Name == valueNameToSet)
                 {
-                    dataPair.Value = value;
-                    exist = true;
+                    if(dataPair.ValueType == value.GetType())
+                    {
+                        dataPair.Value = value;
+                        exist = true;
+                    }
+                    else
+                        throw new ArgumentException("Тип аргумента с именем {pair.Name} не совпадает с типом параметра value");
                 }
             }
 
@@ -65,7 +72,7 @@ namespace FunP
                 throw new ArgumentException("Аргумент с именем {pair.Name} не является членом таблицы");
         }
 
-        public string   GetValue(string name)
+        public object   GetValue(string name)
         {
             foreach (var dataPair in dataPairs)
             {
@@ -76,6 +83,29 @@ namespace FunP
             }
 
             throw new ArgumentException("Аргумент с именем {pair.Name} не является членом таблицы");
+        }
+
+        public object GetValue(int index)
+        {
+            return dataPairs[index].Value;
+        }
+
+        public Type GetValueType(string name)
+        {
+            foreach (var dataPair in dataPairs)
+            {
+                if (dataPair.Name == name)
+                {
+                    return dataPair.ValueType;
+                }
+            }
+
+            throw new ArgumentException("Аргумент с именем {pair.Name} не является членом таблицы");
+        }
+
+        public Type GetValueType(int index)
+        {
+            return dataPairs[index].ValueType;
         }
 
         public List<string> GetColumnNames()

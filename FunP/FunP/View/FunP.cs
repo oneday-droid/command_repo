@@ -71,7 +71,7 @@ namespace FunP
                 {
                     string [] row = new string [labels.Count];
                     for (int f = 0; f < labels.Count; f++)
-                        row[f] = table[k].GetValue(labels[f]);
+                        row[f] = table[k].GetValue(labels[f]).ToString();
 
                     dataGridView.Rows.Add(row);
                 }
@@ -105,10 +105,14 @@ namespace FunP
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
 
             var pairs = new List<Pair>();
-            pairs.Add(new Pair("Возраст", "26"));
-            pairs.Add(new Pair("Оценка", "4.5"));
 
-            var request = requestSheetList.SelectedItem.ToString();
+            int age = 26;
+            double avgGrade = 4.5;
+
+            pairs.Add(new Pair("Age", age, age.GetType()));
+            pairs.Add(new Pair("AvgGrade", avgGrade, avgGrade.GetType()));
+
+            var request = (string)requestSheetList.SelectedItem;
 
             presenter.SendRequest(request, firstIndex, lastIndex, pairs);
         }
@@ -126,8 +130,8 @@ namespace FunP
             List<string> labels = GetColumnsName();
             List<Pair> list = new List<Pair>();
             
-            for (int k = 0; k < row.Count; k++)
-                list.Add(new Pair(labels[k], row[k].Value.ToString()));
+            /*for (int k = 0; k < row.Count; k++)
+                list.Add(new Pair(labels[k], row[k].Value.ToString()));*/
 
             TableLine line = new TableLine(list);
 
@@ -145,7 +149,8 @@ namespace FunP
             }
 
             var row = rows[0].Cells;
-            TableLine line = SelectedRowToTableLine(row);
+            var index = dataGridView.CurrentCell.RowIndex;
+            ITableLine line = presenter.GetRequestResultLine(index); //SelectedRowToTableLine(row);
             if (line.GetTableName() == "CustomTable")
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
@@ -174,7 +179,8 @@ namespace FunP
             }
                        
             var row = rows[0].Cells;
-            TableLine line = SelectedRowToTableLine(row);
+            var index = dataGridView.CurrentCell.RowIndex;
+            ITableLine line = presenter.GetRequestResultLine(index); //SelectedRowToTableLine(row);
             if (line.GetTableName() == "CustomTable")
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return

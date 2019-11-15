@@ -17,7 +17,7 @@ namespace FunP
 
         private int count;
         private string tableName;
-
+        private ITableLine tableLine;
         public DataDialog()
         {
             InitializeComponent();
@@ -34,7 +34,8 @@ namespace FunP
         }
     
         public void SetData(ITableLine tableLine)
-        { 
+        {
+            this.tableLine = tableLine;
             var colNames = tableLine.GetColumnNames();
             count = colNames.Count;
             tableName = tableLine.GetTableName();
@@ -42,14 +43,14 @@ namespace FunP
             textBoxes = new TextBox[count];
             labels = new Label[count];
 
-            for (int k = 0; k < count; k++)
+            for (int k = 1; k < count; k++)
             {
                 labels[k] = new Label();
                 labels[k].Text = colNames[k];
                 flowLayoutPanel.Controls.Add(labels[k]);
 
                 textBoxes[k] = new TextBox();
-                textBoxes[k].Text = tableLine.GetValue(colNames[k]);
+                textBoxes[k].Text = tableLine.GetValue(colNames[k]).ToString();
                 flowLayoutPanel.Controls.Add(textBoxes[k]);                
             }
         }
@@ -58,11 +59,11 @@ namespace FunP
         {
             ITableLine newLine;
 
-            if (tableName == "Student")
+            if (tableName == "Students")
             {
                 newLine = new StudentLine();
             }
-            else if (tableName == "Faculty")
+            else if (tableName == "Faculties")
             {
                 newLine = new FacultyLine();
             }
@@ -71,10 +72,26 @@ namespace FunP
                 newLine = new UniversityLine();
             }
 
-            for (int i=0; i < count; i++)
+            for (int i=1; i < count; i++)
             {
                 //TODO как-то проверять введенные значения?
-                newLine.SetValue(labels[i].Text, textBoxes[i].Text);
+                object value;
+                Type type = tableLine.GetValueType(labels[i].Text);
+
+                if (type == typeof(Int32) )
+                {
+                    value = Convert.ToInt32(textBoxes[i].Text);
+                }
+                else if(type == typeof(double))
+                {
+                    value = Convert.ToDouble(textBoxes[i].Text);
+                }
+                else //string
+                {
+                    value = Convert.ToString(textBoxes[i].Text);
+                }
+
+                newLine.SetValue(labels[i].Text, value);
             }
 
             return newLine;
