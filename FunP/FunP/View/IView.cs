@@ -18,5 +18,6 @@ namespace FunP
         void OnLineEdit(ITableLine lineToEdit, ITableLine newState);
 
         void OnLineDelete(ITableLine lineToDelete);
+        void OnError(string message);
     }
 }

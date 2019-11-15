@@ -15,7 +15,7 @@ namespace FunP
         private IView       view;
 
         List<ITableLine> currentRequestResult;
-
+        
         public Presenter(ISQLWork sqlRequests, ISQLTable sqlBasicTableFunc, IView view)
         {
             this.sqlRequests = sqlRequests;
@@ -28,14 +28,14 @@ namespace FunP
             return sqlRequests.GetRequestNames();
         }
 
-        public void         SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
+        public void SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
         {
             currentRequestResult = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, paramPairs);
 
             view.OnRequestResults(currentRequestResult);
         }
 
-        public ITableLine   GetRequestResultLine(int index)
+        public ITableLine GetRequestResultLine(int index)
         {
             return sqlRequests.GetDataLine(index);
         }
@@ -66,15 +66,16 @@ namespace FunP
 
         public void SaveAs(string filename)
         {
-            ISave saver;
+            ISave saver = null;
 
             FileInfo fi = new FileInfo(filename);
-            if (fi.Extension == "html")
-                saver = new PrintToPdfSaverImpl();
-            else
-                saver = new PdfSaverImpl();
+            if (fi.Extension == ".xml")
+                saver = new XMLSaverImpl();
 
-            saver.SaveAs(currentRequestResult, filename);
+            if (saver != null)
+                saver.SaveAs(currentRequestResult, filename);
+            else
+                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
         }
     }
 }

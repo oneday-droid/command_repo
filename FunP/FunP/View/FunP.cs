@@ -53,6 +53,11 @@ namespace FunP
             newLineTypeList.Items.Add("Student");
         }
 
+        public void OnError(string message)
+        {
+            MessageBox.Show(message, "Ошибка");
+        }
+
         public void OnRequestResults(List<ITableLine> table)
         {            
             if (table.Count != 0)
@@ -228,7 +233,7 @@ namespace FunP
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|HTML document (*.html)|*.html|All files (*.*)|*.*";
+            saveFileDialog.Filter = "XML document (*.xml)|*.xml|PDF files (*.pdf)|*.pdf|HTML document (*.html)|*.html|All files (*.*)|*.*";
             saveFileDialog.RestoreDirectory = true;
             saveFileDialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             if ( saveFileDialog.ShowDialog() == DialogResult.OK )
