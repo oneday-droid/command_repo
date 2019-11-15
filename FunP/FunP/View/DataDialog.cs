@@ -77,6 +77,7 @@ namespace FunP
                 object value;
                 Type type = tableLine.GetValueType(labels[i].Text);
 
+                //object value = (type)labels[i].Text
                 if (type == typeof(Int32) )
                 {
                     value = Convert.ToInt32(textBoxes[i].Text);
@@ -90,7 +91,7 @@ namespace FunP
                     value = Convert.ToString(textBoxes[i].Text);
                 }
 
-                newLine.SetValue(labels[i].Text, value);
+                newLine.SetValue(i, value);
             }
 
             return newLine;

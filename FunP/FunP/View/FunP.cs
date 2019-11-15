@@ -126,7 +126,7 @@ namespace FunP
                 lineToAdd = "";
                 for (int i = 0; i < colCount; i++)
                 {
-                    var value = line.GetValue(columnNames[i]).ToString();
+                    var value = line.GetValue(i).ToString();
                     var valueSpaces = maxColLen[i] - value.Length;
 
                     lineToAdd += value;

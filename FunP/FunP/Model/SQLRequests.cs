@@ -30,9 +30,26 @@ namespace FunP
 
                 if (reader.HasRows)
                 {
+                    //bool first = false;
+                    
+
                     while (reader.Read())
                     {
-                        var tableLine = new TableLine();
+                        // if(!first)
+                        //{
+                        var pairs = new List<Pair>();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            var type = reader[i].GetType();
+
+                            pairs.Add(new Pair(name, null, type));
+                        }
+                        //first = true;
+                        //}
+
+                        var tableLine = new TableLine(pairs);
                         if (reader.FieldCount != tableLine.GetSize())
                             continue;
 
@@ -40,7 +57,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            tableLine.SetValue(name, value);
+                            tableLine.SetValue(i, value);
                         }
 
                         result.Add(tableLine);
@@ -84,7 +101,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            studentLine.SetValue(name, value);
+                            studentLine.SetValue(i, value);
                         }
 
                         result.Add(studentLine);
@@ -128,7 +145,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            facultyLine.SetValue(name, value);
+                            facultyLine.SetValue(i, value);
                         }
 
                         result.Add(facultyLine);
@@ -161,7 +178,6 @@ namespace FunP
 
                 if (reader.HasRows)
                 {
-
                     while (reader.Read())
                     {
                         var universityLine = new UniversityLine();
@@ -172,7 +188,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            universityLine.SetValue(name, value);
+                            universityLine.SetValue(i, value);
                         }
 
                         result.Add(universityLine);
