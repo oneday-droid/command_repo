@@ -13,11 +13,9 @@ namespace FunP
 
     public interface ISaveToPdf : ISave
     {
-        bool SaveAs(List<ITableLine> table, string filename);
     }
 
     public interface ISaveToXls : ISave
     {
-        bool SaveAs(List<ITableLine> table, string filename);
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Model\ISQLRequest.cs" />
     <Compile Include="Model\ISQLTable.cs" />
     <Compile Include="Savers\PdfSaverImpl.cs" />
+    <Compile Include="Savers\XMLSaverImpl.cs" />
     <Compile Include="View\ITranslator.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="Presenter\Presenter.cs" />

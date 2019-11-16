@@ -69,8 +69,8 @@ namespace FunP
             ISave saver = null;
 
             FileInfo fi = new FileInfo(filename);
-            /*if (fi.Extension == ".xml")
-                saver = new XMLSaverImpl();*/
+            if (fi.Extension == ".xml")
+                saver = new XMLSaverImpl();
 
             if (saver != null)
                 saver.SaveAs(currentRequestResult, filename);

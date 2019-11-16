@@ -17,6 +17,8 @@ namespace FunP
         private IPresenter presenter;
         private ITranslator translator;
 
+        private LanguageType language;
+
         public FunP()
         {
             InitializeComponent();
@@ -46,9 +48,9 @@ namespace FunP
             langComboBox.DataSource = new BindingSource(langDict, null);
         }
 
-        private void TranslateView(LanguageType lang)
+        private void TranslateView()
         {
-            getDataButton.Text = translator.Translate(getDataButton.Text, lang);
+            getDataButton.Text = translator.Translate(getDataButton.Text, language);
         }
 
         private void SetRequestSheet()
@@ -74,7 +76,9 @@ namespace FunP
 
         public void OnError(string message)
         {
-            MessageBox.Show(message, "Ошибка");
+            string title = translator.Translate("Error", language);
+            message = translator.Translate(message, language);
+            MessageBox.Show(message, title);
         }
 
         public void OnRequestResults(List<ITableLine> table)
@@ -249,7 +253,6 @@ namespace FunP
             }
         }
 
-
         private void FunP_Load(object sender, EventArgs e)
         {
 
@@ -267,7 +270,8 @@ namespace FunP
 
         private void langComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TranslateView((LanguageType)langComboBox.SelectedValue);
+            language = ((KeyValuePair<string, LanguageType>)langComboBox.SelectedItem).Value;
+            TranslateView();
         }
     }
 }

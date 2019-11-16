@@ -21,7 +21,7 @@ namespace FunP.View
             {
                 string language = Translator.GetLangName(lang);
 
-                string stringRequest = String.Format("{0} ? key={1} & text={2} & lang={3} & format=plain",
+                string stringRequest = String.Format("{0}?key={1}&text={2}&lang={3}&format=plain",
                                                      Address, Key, text, language);
 
                 WebRequest request = WebRequest.Create(stringRequest);
