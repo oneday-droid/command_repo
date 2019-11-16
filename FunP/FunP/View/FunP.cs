@@ -8,15 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using FunP.View;
+
 namespace FunP
 {
     public partial class FunP : Form, IView
     {
         private IPresenter presenter;
+        private ITranslator translator;
 
         public FunP()
         {
             InitializeComponent();
+
+            translator = new YandexTranslator();
         }
                 
         public void SetPresenter(IPresenter presenter)
@@ -29,12 +34,21 @@ namespace FunP
             firstIndexText.Text = "0";
             lastIndexText.Text = "50";
             SetRequestSheet();
-            SetNewLineTypeSheet();
+            SetNewLineTypeSheet();          
+
+            Dictionary<string, LanguageType> langDict = new Dictionary<string, LanguageType>();
+            for (int k = 0; k < 2; k++)
+            {
+                LanguageType lang = (LanguageType)k;
+                langDict.Add(Translator.GetLangName(lang), lang);
+            }
+
+            langComboBox.DataSource = new BindingSource(langDict, null);
         }
 
-        private void TranslateView()
+        private void TranslateView(LanguageType lang)
         {
-
+            getDataButton.Text = translator.Translate(getDataButton.Text, lang);
         }
 
         private void SetRequestSheet()
@@ -249,6 +263,11 @@ namespace FunP
             saveFileDialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             if ( saveFileDialog.ShowDialog() == DialogResult.OK )
                 presenter.SaveAs(saveFileDialog.FileName);
+        }
+
+        private void langComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TranslateView((LanguageType)langComboBox.SelectedValue);
         }
     }
 }

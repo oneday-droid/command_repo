@@ -50,26 +50,35 @@ namespace FunP
 
         //public static ITableLine
 
-        public void     SetValue(string valueNameToSet, object value)
+        public bool     SetValue(int index, object value)
         {
-            bool exist = false;
+            //bool exist = false;
 
-            foreach (var dataPair in dataPairs)
+            bool result = false;
+            if (dataPairs[index].ValueType == value.GetType())
             {
-                if (dataPair.Name == valueNameToSet)
-                {
-                    if(dataPair.ValueType == value.GetType())
-                    {
-                        dataPair.Value = value;
-                        exist = true;
-                    }
-                    else
-                        throw new ArgumentException("Тип аргумента с именем {pair.Name} не совпадает с типом параметра value");
-                }
+                dataPairs[index].Value = value;
+                result = true;
             }
 
-            if (exist == false)
-                throw new ArgumentException("Аргумент с именем {pair.Name} не является членом таблицы");
+            return result;
+
+            //foreach (var dataPair in dataPairs)
+            //{
+            //    if (dataPair.Name == valueNameToSet)
+            //    {
+            //        if(dataPair.ValueType == value.GetType())
+            //        {
+            //            dataPair.Value = value;
+            //            exist = true;
+            //        }
+            //        else
+            //            throw new ArgumentException("Тип аргумента с именем {pair.Name} не совпадает с типом параметра value");
+            //    }
+            //}
+
+            //if (exist == false)
+            //    throw new ArgumentException("Аргумент с именем {pair.Name} не является членом таблицы");
         }
 
         public object   GetValue(string name)

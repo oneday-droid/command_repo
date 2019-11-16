@@ -26,6 +26,7 @@ namespace FunP
             sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
             sqlWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
             sqlWork.AddReqToSheet("ReqStudents", new ReqStudents());
+            sqlWork.AddReqToSheet("ReqStudByMark", new ReqStudByMark());
             //sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
             //инициализация базовых функций работы с БД
             var sqlBasicTableFunc = new SQLTable();

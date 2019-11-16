@@ -24,9 +24,46 @@ namespace FunP
 
                 var cmd = new SqlCommand();
                 
-                cmd.CommandText = "SELECT * FROM Students";
+                cmd.CommandText = "SELECT Students.Name, Faculties.Name FROM Students INNER JOIN Faculties ON Faculties.ID = Students.FacultyID AND Faculties.Name LIKE 'Aero'";
                 cmd.Connection = connection;
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    //bool first = false;
+                    
+
+                    while (reader.Read())
+                    {
+                        // if(!first)
+                        //{
+                        var pairs = new List<Pair>();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            var type = reader[i].GetType();
+
+                            pairs.Add(new Pair(name, null, type));
+                        }
+                        //first = true;
+                        //}
+
+                        var tableLine = new TableLine(pairs);
+                        if (reader.FieldCount != tableLine.GetSize())
+                            continue;
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            object value = reader.GetValue(i);
+                            tableLine.SetValue(i, value);
+                        }
+
+                        result.Add(tableLine);
+                    }
+                }
+
             }
 
             return result;
@@ -64,7 +101,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            studentLine.SetValue(name, value);
+                            studentLine.SetValue(i, value);
                         }
 
                         result.Add(studentLine);
@@ -108,7 +145,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            facultyLine.SetValue(name, value);
+                            facultyLine.SetValue(i, value);
                         }
 
                         result.Add(facultyLine);
@@ -141,7 +178,6 @@ namespace FunP
 
                 if (reader.HasRows)
                 {
-
                     while (reader.Read())
                     {
                         var universityLine = new UniversityLine();
@@ -152,7 +188,7 @@ namespace FunP
                         {
                             var name = reader.GetName(i);
                             object value = reader.GetValue(i);
-                            universityLine.SetValue(name, value);
+                            universityLine.SetValue(i, value);
                         }
 
                         result.Add(universityLine);
