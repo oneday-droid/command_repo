@@ -53,7 +53,7 @@ namespace FunP
             newLineTypeList.Items.Add("Student");
         }
 
-        public void OnRequestResults(List<ITableLine> table)
+        public void OnRequestResults(ITable table)
         {
             reqResultsList.Items.Clear();
 
@@ -145,17 +145,17 @@ namespace FunP
             }
         }
 
-        public void OnLineAdd(ITableLine lineToAdd)
+        public void OnLineAdd(TableValuesLine lineToAdd)
         {
             //TODO добавлять строку в listBox??
         }
 
-        public void OnLineEdit(ITableLine lineToEdit, ITableLine newState)
+        public void OnLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
         {
             //TODO редактировать строку в listBox??
         }
 
-        public void OnLineDelete(ITableLine lineToDelete)
+        public void OnLineDelete(TableValuesLine lineToDelete)
         {
             //TODO удалять строку в listBox??
         }
@@ -171,17 +171,17 @@ namespace FunP
             var firstIndex = Convert.ToInt32(firstIndexText.Text);
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
 
-            var pairs = new List<Pair>();
+            var reqParams = new List<object>();
 
             int age = 26;
             double avgGrade = 4.5;
 
-            pairs.Add(new Pair("Age", age, age.GetType()));
-            pairs.Add(new Pair("AvgGrade", avgGrade, avgGrade.GetType()));
+            reqParams.Add(age);
+            reqParams.Add(avgGrade);
 
             var request = (string)requestSheetList.SelectedItem;
 
-            presenter.SendRequest(request, firstIndex, lastIndex, pairs);
+            presenter.SendRequest(request, firstIndex, lastIndex, reqParams);
         }
 
         private void editButton_Click(object sender, EventArgs e)

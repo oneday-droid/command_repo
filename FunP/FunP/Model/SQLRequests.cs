@@ -11,9 +11,9 @@ namespace FunP
 
     public class ReqStudByMark : ISQLRequest
     {
-        public List<ITableLine> SendRequest(List<Pair> paramPairs)
+        public ITable SendRequest(List<object> reqParams)
         {
-            var result = new List<ITableLine>();
+            Table result = null;
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -30,37 +30,32 @@ namespace FunP
 
                 if (reader.HasRows)
                 {
-                    //bool first = false;
-                    
-
                     while (reader.Read())
                     {
-                        // if(!first)
-                        //{
-                        var pairs = new List<Pair>();
+                        if (result == null)
+                        {
+                            var tableDesc = new TableDesc("Default");
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+
+                                var name = reader.GetName(i);
+                                var type = reader[i].GetType();
+
+                                tableDesc.Add(name, type);
+                            }
+
+                            result = new Table(tableDesc);
+                        }
+
+                        var valuesLine = new TableValuesLine();
 
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            var name = reader.GetName(i);
-                            var type = reader[i].GetType();
-
-                            pairs.Add(new Pair(name, null, type));
+                            valuesLine.Add(reader[i]);
                         }
-                        //first = true;
-                        //}
-
-                        var tableLine = new TableLine(pairs);
-                        if (reader.FieldCount != tableLine.GetSize())
-                            continue;
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            object value = reader.GetValue(i);
-                            tableLine.SetValue(i, value);
-                        }
-
-                        result.Add(tableLine);
+                       
+                        result.AddLine(valuesLine);
                     }
                 }
 
@@ -72,9 +67,9 @@ namespace FunP
 
     public class ReqStudents : ISQLRequest                //имплементирует интерфейс запроса
     {
-        public List<ITableLine> SendRequest(List<Pair> paramPairs)
+        public ITable SendRequest(List<object> reqParams)
         {
-            var result = new List<ITableLine>();
+            ITable result = null;
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -90,35 +85,31 @@ namespace FunP
 
                 if (reader.HasRows)
                 {
-                    
                     while(reader.Read())
                     {
-                        var studentLine = new StudentLine();
-                        if (reader.FieldCount != studentLine.GetSize())
-                            continue;
+                        if(result == null)
+                            result = new Table(new StudentTableDesc());
 
-                        for(int i=0; i< reader.FieldCount; i++)
+                        var valuesLine = new TableValuesLine();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            var name = reader.GetName(i);
-                            object value = reader.GetValue(i);
-                            studentLine.SetValue(i, value);
+                            valuesLine.Add(reader[i]);
                         }
 
-                        result.Add(studentLine);
+                        result.AddLine(valuesLine);
                     }
                 }
-        
             }
-
             return result;
         }
     }
 
     public class ReqFaculties : ISQLRequest                //имплементирует интерфейс запроса
     {
-        public List<ITableLine> SendRequest(List<Pair> paramPairs)
+        public ITable SendRequest(List<object> reqParams)
         {
-            var result = new List<ITableLine>();
+            ITable result = null;
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -137,18 +128,17 @@ namespace FunP
 
                     while (reader.Read())
                     {
-                        var facultyLine = new FacultyLine();
-                        if (reader.FieldCount != facultyLine.GetSize())
-                            continue;
+                        if (result == null)
+                            result = new Table(new FacultyTableDesc());
+
+                        var valuesLine = new TableValuesLine();
 
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            var name = reader.GetName(i);
-                            object value = reader.GetValue(i);
-                            facultyLine.SetValue(i, value);
+                            valuesLine.Add(reader[i]);
                         }
 
-                        result.Add(facultyLine);
+                        result.AddLine(valuesLine);
                     }
                 }
 
@@ -160,9 +150,9 @@ namespace FunP
 
     public class ReqUniversities : ISQLRequest                //имплементирует интерфейс запроса
     {
-        public List<ITableLine> SendRequest(List<Pair> paramPairs)
+        public ITable SendRequest(List<object> reqParams)
         {
-            var result = new List<ITableLine>();
+            ITable result = null;
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -180,18 +170,17 @@ namespace FunP
                 {
                     while (reader.Read())
                     {
-                        var universityLine = new UniversityLine();
-                        if (reader.FieldCount != universityLine.GetSize())
-                            continue;
+                        if (result == null)
+                            result = new Table(new UniversityTableDesc());
+
+                        var valuesLine = new TableValuesLine();
 
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            var name = reader.GetName(i);
-                            object value = reader.GetValue(i);
-                            universityLine.SetValue(i, value);
+                            valuesLine.Add(reader[i]);
                         }
 
-                        result.Add(universityLine);
+                        result.AddLine(valuesLine);
                     }
                 }
 

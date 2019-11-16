@@ -20,16 +20,23 @@ namespace FunP
 
             //создание диалога программы
             var basicDialog = new FunP();
-            
+
+            //создания описаний таблиц БД
+            var sqlTableInfo = new SqlTableInfo();
+            sqlTableInfo.AddTableDesc(new StudentTableDesc());
+            sqlTableInfo.AddTableDesc(new FacultyTableDesc());
+            sqlTableInfo.AddTableDesc(new UniversityTableDesc());
+
+            //инициализация базовых функций работы с БД
+            var sqlBasicTableFunc = new SQLTable(sqlTableInfo);
+
             //инициализация запросов к БД
             var sqlWork = new SQLWork();
             sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
             sqlWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
             sqlWork.AddReqToSheet("ReqStudents", new ReqStudents());
             sqlWork.AddReqToSheet("ReqStudByMark", new ReqStudByMark());
-            //sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
-            //инициализация базовых функций работы с БД
-            var sqlBasicTableFunc = new SQLTable();
+            
             //создание презентера
             var presenter = new Presenter(sqlWork, sqlBasicTableFunc, basicDialog);
             //передача презентера во view

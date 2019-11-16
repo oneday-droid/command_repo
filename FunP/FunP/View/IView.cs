@@ -12,11 +12,11 @@ namespace FunP
         void InitializeFields();                                //инициалирует начальные значения элементов формы
 
         //callback
-        void OnRequestResults(List<ITableLine> table);           //выводит результат запроса в ListBox
-        void OnLineAdd(ITableLine lineToAdd);                   //добавление новой строки в таблицу результатов, если таковая выведена
+        void OnRequestResults(ITable table);           //выводит результат запроса в ListBox
+        void OnLineAdd(TableValuesLine lineToAdd);                   //добавление новой строки в таблицу результатов, если таковая выведена
 
-        void OnLineEdit(ITableLine lineToEdit, ITableLine newState);
+        void OnLineEdit(TableValuesLine lineToEdit, TableValuesLine newState);
 
-        void OnLineDelete(ITableLine lineToDelete);
+        void OnLineDelete(TableValuesLine lineToDelete);
     }
 }
