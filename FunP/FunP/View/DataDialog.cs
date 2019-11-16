@@ -64,6 +64,15 @@ namespace FunP
 
             var count = tableDesc.GetColsCount();
 
+            int ID = -1;
+
+            if (tableLine != null)
+                ID = (int)tableLine[0];
+
+         
+            newLine.Add(ID);
+            
+
             for (int i=1; i < count; i++)
             {
                 

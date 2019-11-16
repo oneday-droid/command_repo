@@ -72,15 +72,17 @@ namespace FunP
                 }
             }
 
+            var rows = table.GetRowsCount();
+            var cols = table.GetColsCount();
             //поиск максимальной длины из значений по каждой колонке 
-            for(int i=0; i<table.GetRowsCount(); i++)
+            for (int i=0; i<table.GetRowsCount(); i++)
             {
-                for(int j=0;j>table.GetColsCount(); i++)
+                for(int j=0;j<table.GetColsCount(); j++)
                 {
                     var valueLen = table[i][j].ToString().Length;
-                    if (valueLen > maxColLen[i])
+                    if (valueLen > maxColLen[j])
                     {
-                        maxColLen[i] = valueLen;
+                        maxColLen[j] = valueLen;
                     }
                 }
             }
@@ -123,14 +125,15 @@ namespace FunP
             //добавление строк значений
             for (int i = 0; i < table.GetRowsCount(); i++)
             {
-                for (int j = 0; j < table.GetColsCount(); i++)
+                lineToAdd = "";
+                for (int j = 0; j < table.GetColsCount(); j++)
                 {
                     var value = table[i][j].ToString();
                     var valueSpaces = maxColLen[j] - value.Length;
 
                     lineToAdd += value;
 
-                    for(var k=0; k< valueSpaces; k++)
+                    for (var k = 0; k < valueSpaces; k++)
                     {
                         lineToAdd += " ";
                     }
@@ -209,7 +212,7 @@ namespace FunP
             {
                 tableDesc = new FacultyTableDesc();
             }
-            else if (tableName == "Students")
+            else if (tableName == "Universities")
             {
                 tableDesc = new UniversityTableDesc();
             }

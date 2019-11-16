@@ -252,7 +252,7 @@ namespace FunP
                     }
                 }
 
-                cmd.CommandText += string.Format(" WHERE ID={1}", lineToEdit[0]);
+                cmd.CommandText += string.Format(" WHERE ID={0}", lineToEdit[0]);
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;
