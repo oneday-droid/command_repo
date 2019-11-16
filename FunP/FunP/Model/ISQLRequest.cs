@@ -8,6 +8,6 @@ namespace FunP
 {
     public interface ISQLRequest      //описывает шаблон сложного запроса к таблице с набором пар Pair параметров и возвращающую list элементов типа ITableLine
     {
-        List<ITableLine> SendRequest(List<Pair> paramPairs);
+        ITable SendRequest(List<object> reqParams);
     }
 }

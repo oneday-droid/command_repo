@@ -24,19 +24,29 @@ namespace FunP
             return sqlRequests.GetRequestNames();
         }
 
-        public void         SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
+        public void         SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
         {
-            var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, paramPairs);
+            var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
 
             view.OnRequestResults(result);
         }
 
-        public ITableLine   GetRequestResultLine(int index)
+        public TableValuesLine GetRequestResultLine(int index)
         {
             return sqlRequests.GetDataLine(index);
         }
 
-        public void SQLLineAdd(ITableLine lineToAdd)
+        public List<string> GetRequestResultColNames()
+        {
+            return sqlRequests.GetRequestResultColNames();
+        }
+
+        public string GetRequestResultTableName()
+        {
+            return sqlRequests.GetRequestResultTableName();
+        }
+
+        public void SQLLineAdd(TableValuesLine lineToAdd)
         {
             if (true == sqlBasicTableFunc.SQLLineAdd(lineToAdd) )
             {
@@ -44,7 +54,7 @@ namespace FunP
             }          
         }
 
-        public void SQLLineEdit(ITableLine lineToEdit, ITableLine newState)
+        public void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
         {
             if (true == sqlBasicTableFunc.SQLLineEdit(lineToEdit, newState) )
             {
@@ -52,7 +62,7 @@ namespace FunP
             }
         }
 
-        public void SQLLineDelete(ITableLine lineToDelete)
+        public void SQLLineDelete(TableValuesLine lineToDelete)
         {
             if( true == sqlBasicTableFunc.SQLLineDelete(lineToDelete) )
             {

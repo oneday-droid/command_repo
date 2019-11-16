@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public interface ISaveToPdf
-    {
-        bool SaveToPdf(List<ITableLine> table);
-    }
+    //public interface ISaveToPdf
+    //{
+    //    bool SaveToPdf(List<ITableLine> table);
+    //}
 
-    public interface ISaveToXls
-    {
-        bool SaveToXls(List<ITableLine> table);
-    }
+    //public interface ISaveToXls
+    //{
+    //    bool SaveToXls(List<ITableLine> table);
+    //}
 }
