@@ -8,11 +8,11 @@ namespace FunP
 {
     public class Presenter : IPresenter
     {
-        private ISQLWork    sqlRequests;
-        private ISQLTable   sqlBasicTableFunc;
+        private IDBWork sqlRequests;
+        private IDBTable sqlBasicTableFunc;
         private IView       view;
 
-        public Presenter(ISQLWork sqlRequests, ISQLTable sqlBasicTableFunc, IView view)
+        public Presenter(IDBWork sqlRequests, IDBTable sqlBasicTableFunc, IView view)
         {
             this.sqlRequests = sqlRequests;
             this.sqlBasicTableFunc = sqlBasicTableFunc;
@@ -48,7 +48,7 @@ namespace FunP
 
         public void SQLLineAdd(TableValuesLine lineToAdd)
         {
-            if (true == sqlBasicTableFunc.SQLLineAdd(lineToAdd) )
+            if (true == sqlBasicTableFunc.LineAdd(lineToAdd) )
             {
                 view.OnLineAdd(lineToAdd);
             }          
@@ -56,7 +56,7 @@ namespace FunP
 
         public void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            if (true == sqlBasicTableFunc.SQLLineEdit(lineToEdit, newState) )
+            if (true == sqlBasicTableFunc.LineEdit(lineToEdit, newState) )
             {
                 view.OnLineEdit(lineToEdit, newState);
             }
@@ -64,7 +64,7 @@ namespace FunP
 
         public void SQLLineDelete(TableValuesLine lineToDelete)
         {
-            if( true == sqlBasicTableFunc.SQLLineDelete(lineToDelete) )
+            if( true == sqlBasicTableFunc.LineDelete(lineToDelete) )
             {
                 view.OnLineDelete(lineToDelete);
             }

@@ -22,23 +22,23 @@ namespace FunP
             var basicDialog = new FunP();
 
             //создания описаний таблиц БД
-            var sqlTableInfo = new SqlTableInfo();
-            sqlTableInfo.AddTableDesc(new StudentTableDesc());
-            sqlTableInfo.AddTableDesc(new FacultyTableDesc());
-            sqlTableInfo.AddTableDesc(new UniversityTableDesc());
+            var dbTableInfo = new DBTableInfo();
+            dbTableInfo.AddTableDesc(new StudentTableDesc());
+            dbTableInfo.AddTableDesc(new FacultyTableDesc());
+            dbTableInfo.AddTableDesc(new UniversityTableDesc());
 
             //инициализация базовых функций работы с БД
-            var sqlBasicTableFunc = new SQLTable(sqlTableInfo);
+            var sqlBasicTableFunc = new SQLTable(dbTableInfo);
 
             //инициализация запросов к БД
-            var sqlWork = new SQLWork();
-            sqlWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
-            sqlWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
-            sqlWork.AddReqToSheet("ReqStudents", new ReqStudents());
-            sqlWork.AddReqToSheet("ReqStudByMark", new ReqStudByMark());
+            var dbWork = new DBWork();
+            dbWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
+            dbWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
+            dbWork.AddReqToSheet("ReqStudents", new ReqStudents());
+            dbWork.AddReqToSheet("ReqStudByMark", new ReqStudByMark());
             
             //создание презентера
-            var presenter = new Presenter(sqlWork, sqlBasicTableFunc, basicDialog);
+            var presenter = new Presenter(dbWork, sqlBasicTableFunc, basicDialog);
             //передача презентера во view
             basicDialog.SetPresenter(presenter);
             //инициализация элементов формы
