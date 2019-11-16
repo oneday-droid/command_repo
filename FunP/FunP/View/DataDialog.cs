@@ -14,9 +14,8 @@ namespace FunP
     {
         private TextBox[] textBoxes;
         private Label[] labels;
-        private int count;
-        private string tableName;
-        private ITableLine tableLine;
+        private TableValuesLine tableLine;
+        private ITableDesc tableDesc;
         public DataDialog()
         {
             InitializeComponent();
@@ -32,12 +31,13 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(ITableLine tableLine)
+        public void SetDataLabels(TableValuesLine tableLine, ITableDesc tableDesc)
         {
             this.tableLine = tableLine;
-            var colNames = tableLine.GetColumnNames();
-            count = colNames.Count;
-            tableName = tableLine.GetTableName();
+            this.tableDesc = tableDesc;
+
+            var colNames = tableDesc.GetColNames(); //.GetColumnNames();
+            var count = tableDesc.GetColsCount();
 
             textBoxes = new TextBox[count];
             labels = new Label[count];
@@ -49,35 +49,27 @@ namespace FunP
                 flowLayoutPanel.Controls.Add(labels[k]);
 
                 textBoxes[k] = new TextBox();
-                textBoxes[k].Text = tableLine.GetValue(colNames[k]).ToString();
+                if(tableLine != null)
+                {
+                    textBoxes[k].Text = tableLine[k].ToString(); 
+                }
+                
                 flowLayoutPanel.Controls.Add(textBoxes[k]);                
             }
         }
 
-        public ITableLine GetDataLabels()
+        public TableValuesLine GetDataLabels()
         {
-            ITableLine newLine;
+            TableValuesLine newLine = new TableValuesLine();
 
-            if (tableName == "Students")
-            {
-                newLine = new StudentLine();
-            }
-            else if (tableName == "Faculties")
-            {
-                newLine = new FacultyLine();
-            }
-            else //(tableName == "University")
-            {
-                newLine = new UniversityLine();
-            }
+            var count = tableDesc.GetColsCount();
 
             for (int i=1; i < count; i++)
             {
-                //TODO как-то проверять введенные значения?
+                
                 object value;
-                Type type = tableLine.GetValueType(labels[i].Text);
+                Type type = tableDesc.GetColType(i);
 
-                //object value = (type)labels[i].Text
                 if (type == typeof(Int32) )
                 {
                     value = Convert.ToInt32(textBoxes[i].Text);
@@ -91,7 +83,7 @@ namespace FunP
                     value = Convert.ToString(textBoxes[i].Text);
                 }
 
-                newLine.SetValue(i, value);
+                newLine.Add(value);
             }
 
             return newLine;

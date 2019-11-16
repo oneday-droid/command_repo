@@ -11,8 +11,8 @@ namespace FunP
         private Dictionary<string, ISQLRequest> requests = new Dictionary<string, ISQLRequest>();
 
         private string          lastRequestName;                                //ключ запроса
-        private ITable          lastRequest;                                    //хранит данные последнего запроса
-        private List<object>    lastRequestParams;                                      //хранит параметры последнего запроса
+        private ITable          lastRequestResult;                                    //хранит данные последнего запроса
+        private List<object>    lastRequestParams;                              //хранит параметры последнего запроса
 
         public List<string> GetRequestNames()
         {
@@ -34,7 +34,7 @@ namespace FunP
             if (reqParams != lastRequestParams || lastRequestName != requestName)                                        
             {
                 //если запрос не совпадает, выполняется новый запрос
-                lastRequest = requests[requestName].SendRequest(reqParams);    //выполнить новый запрос
+                lastRequestResult = requests[requestName].SendRequest(reqParams);    //выполнить новый запрос
                 lastRequestParams = reqParams;                                       //сохранить параметры запроса
                 lastRequestName = requestName;
             }
@@ -56,11 +56,19 @@ namespace FunP
             //    result.Add(lastRequest[i]);
             //}
 
-            return lastRequest;
+            return lastRequestResult;
         }
         public TableValuesLine GetDataLine(int index)
         {
-            return lastRequest[index];
+            return lastRequestResult[index];
+        }
+        public string GetRequestResultTableName()
+        {
+            return lastRequestResult.GetTableName();
+        }
+        public List<string> GetRequestResultColNames()
+        {
+            return lastRequestResult.GetColNames();
         }
         public void AddReqToSheet(string name, ISQLRequest request)
         {

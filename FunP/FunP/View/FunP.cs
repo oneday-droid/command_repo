@@ -57,7 +57,7 @@ namespace FunP
         {
             reqResultsList.Items.Clear();
 
-            var columnNames = table[0].GetColumnNames();
+            var columnNames = table.GetColNames();
             var colCount = columnNames.Count;
             var maxColLen = new List<int>();
 
@@ -73,18 +73,18 @@ namespace FunP
             }
 
             //поиск максимальной длины из значений по каждой колонке 
-            foreach (var line in table)
+            for(int i=0; i<table.GetRowsCount(); i++)
             {
-                for (int i = 0; i < colCount; i++)
+                for(int j=0;j>table.GetColsCount(); i++)
                 {
-                    var value = Convert.ToInt32(line.GetValue(columnNames[i]).ToString().Length);
-                    if (value > maxColLen[i])
+                    var valueLen = table[i][j].ToString().Length;
+                    if (valueLen > maxColLen[i])
                     {
-                        maxColLen[i] = value;
+                        maxColLen[i] = valueLen;
                     }
                 }
             }
-
+            
             //добавление заголовка
             var edge = " | ";
             string lineToAdd = "";
@@ -121,21 +121,21 @@ namespace FunP
             reqResultsList.Items.Add(lineToAdd);
 
             //добавление строк значений
-            foreach (var line in table)
+            for (int i = 0; i < table.GetRowsCount(); i++)
             {
-                lineToAdd = "";
-                for (int i = 0; i < colCount; i++)
+                for (int j = 0; j < table.GetColsCount(); i++)
                 {
-                    var value = line.GetValue(i).ToString();
-                    var valueSpaces = maxColLen[i] - value.Length;
+                    var value = table[i][j].ToString();
+                    var valueSpaces = maxColLen[j] - value.Length;
 
                     lineToAdd += value;
-                    for (int j = 0; j < valueSpaces; j++)
+
+                    for(var k=0; k< valueSpaces; k++)
                     {
                         lineToAdd += " ";
                     }
 
-                    if (i != colCount - 1)
+                    if (j != colCount - 1)
                     {
                         lineToAdd += edge;
                     }
@@ -195,9 +195,25 @@ namespace FunP
                 return;
             }
 
+            var tableName = presenter.GetRequestResultTableName();
             var line = presenter.GetRequestResultLine(index);
+            TableDesc tableDesc;
 
-            if (line.GetTableName() == "CustomTable")
+            
+            
+            if(tableName == "Students")
+            {
+                tableDesc = new StudentTableDesc();
+            }
+            else if (tableName == "Faculties")
+            {
+                tableDesc = new FacultyTableDesc();
+            }
+            else if (tableName == "Students")
+            {
+                tableDesc = new UniversityTableDesc();
+            }
+            else
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
                 return;
@@ -205,7 +221,7 @@ namespace FunP
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Edit data";
-            dialog.SetDataLabels(line);
+            dialog.SetDataLabels(line, tableDesc);
             var dialRes = dialog.ShowDialog();
             if(dialRes == DialogResult.OK)
             {
@@ -225,9 +241,10 @@ namespace FunP
                 return;
             }
 
+            var tableName = presenter.GetRequestResultTableName();
             var line = presenter.GetRequestResultLine(index);
 
-            if (line.GetTableName() == "CustomTable")
+            if (tableName == "Default")
             {
                 //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
                 return;
@@ -244,20 +261,20 @@ namespace FunP
                 return;
             }
 
-            var line = (string)newLineTypeList.SelectedItem;
-            ITableLine tableLine;
+            var tableName = (string)newLineTypeList.SelectedItem;
+            ITableDesc tableDesc;
 
-            if(line == "Student")
+            if(tableName == "Student")
             {
-                tableLine = new StudentLine();
+                tableDesc = new StudentTableDesc();
             }
-            else if(line == "Faculty")
+            else if(tableName == "Faculty")
             {
-                tableLine = new FacultyLine();
+                tableDesc = new FacultyTableDesc();
             }
-            else if(line == "University")
+            else if(tableName == "University")
             {
-                tableLine = new UniversityLine();
+                tableDesc = new UniversityTableDesc();
             }
             else
             {
@@ -267,7 +284,7 @@ namespace FunP
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Add data";
-            dialog.SetDataLabels(tableLine);
+            dialog.SetDataLabels(null, tableDesc);
             var dialRes = dialog.ShowDialog();
             if (dialRes == DialogResult.OK)
             {

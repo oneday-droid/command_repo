@@ -36,6 +36,16 @@ namespace FunP
             return sqlRequests.GetDataLine(index);
         }
 
+        public List<string> GetRequestResultColNames()
+        {
+            return sqlRequests.GetRequestResultColNames();
+        }
+
+        public string GetRequestResultTableName()
+        {
+            return sqlRequests.GetRequestResultTableName();
+        }
+
         public void SQLLineAdd(TableValuesLine lineToAdd)
         {
             if (true == sqlBasicTableFunc.SQLLineAdd(lineToAdd) )
