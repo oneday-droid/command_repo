@@ -14,8 +14,8 @@ namespace FunP.View
 
             switch (type)
             {
-                case LanguageType.English: language = "English"; break;
-                case LanguageType.Russian: language = "Russian"; break;
+                case LanguageType.English: language = "en"; break;
+                case LanguageType.Russian: language = "ru"; break;
             }
 
             return language;

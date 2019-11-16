@@ -17,4 +17,10 @@ namespace FunP
 
         void SaveAs(string filename);
     }
+
+    abstract class BasePresenter
+    {
+        protected abstract void SendRequest();
+
+    }
 }
