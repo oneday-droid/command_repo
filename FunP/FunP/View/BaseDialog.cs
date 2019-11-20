@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FunP
 {
@@ -165,6 +167,68 @@ namespace FunP
 
         private void getDataButton_Click(object sender, EventArgs e)
         {
+            var byteLines = new List<byte[]>();
+            var byteLinesReaden = new List<byte[]>();
+
+            string path = @".\students.txt";
+            var formatter = new BinaryFormatter();
+            var students = new List<TableValuesLine>();
+            var studentsReaden = new List<TableValuesLine>();
+
+            students.Add(new TableValuesLine(1, 2, "s1", "n1", "p1", 24, 2008, 4.7));
+            students.Add(new TableValuesLine(2, 3, "s2", "n2", "p2", 25, 2009, 4.8));
+
+            foreach (var student in students)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    formatter.Serialize(ms, student);
+                    byteLines.Add(ms.GetBuffer()); //.ToArray()); 
+                }
+            }
+
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+            }
+
+            foreach (var line in byteLines)
+            {
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    fs.Seek(0, SeekOrigin.End);
+
+                    var lineLen = line.Length;
+                    var lineLenInByteFormat = BitConverter.GetBytes(lineLen);
+                    fs.Write(lineLenInByteFormat, 0, lineLenInByteFormat.Length);
+                    fs.Write(line, 0, lineLen);
+                }
+            }
+
+            var dataLenInByteFormat = new byte[sizeof(int)];
+
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                while( fs.Read(dataLenInByteFormat, 0, sizeof(int)) != 0)
+                {
+                    var dataLen = BitConverter.ToInt32(dataLenInByteFormat, 0);
+                    var data = new byte[dataLen];
+                    if( dataLen == fs.Read(data, 0, dataLen))
+                    {
+                        byteLinesReaden.Add(data);
+                    }
+                }
+            }
+
+            foreach(var line in byteLinesReaden)
+            {
+                using (MemoryStream ms = new MemoryStream(line))
+                {
+                    studentsReaden.Add((TableValuesLine)formatter.Deserialize(ms));
+                }
+            }
+
+            return;
+
             if (requestSheetList.SelectedIndex == -1)
             {
                 //TODO сообщение "не выбран запрос"

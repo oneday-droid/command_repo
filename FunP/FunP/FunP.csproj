@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DBTableInfo.cs" />
+    <Compile Include="Model\DBTypes\File\StudentFileLine.cs" />
+    <Compile Include="Model\DBTypes\File\FileTable.cs" />
     <Compile Include="Model\Interfaces\IDBTableInfo.cs" />
     <Compile Include="Model\DBTypes\SQL\RequestImpl\AllUniversities.cs" />
     <Compile Include="Model\DBTypes\SQL\RequestImpl\AllFaculties.cs" />
@@ -118,7 +120,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\DBTypes\File\" />
     <Folder Include="Model\Savers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
