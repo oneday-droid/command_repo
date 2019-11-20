@@ -21,6 +21,23 @@ namespace FunP
 
         private LanguageType language;
 
+        private const string GetButtonDefaultText = "Get data";
+        private const string EditButtonDefaultText = "Edit row";
+        private const string RemoveButtonDefaultText = "Remove row";
+        private const string AddButtonDefaultText = "Add row";
+        private const string SaveButtonDefaultText = "Save as";
+        private const string EditGroupDefaultText = "Edit";
+        private const string AddGroupDefaultText = "Add";
+        private const string RequestGroupDefaultText = "Request results";
+        private const string FirstLineLabelDefaultText = "From";
+        private const string LastLineLabelDefaultText = "to";
+        private const string LanguageLabelDefaultText = "Choose language";
+
+        private const string ErrorText = "Error";
+        private const string UniversityText = "University";
+        private const string FacultyText = "Faculty";
+        private const string StudentText = "Student";
+
         public FunP()
         {
             InitializeComponent();
@@ -52,7 +69,19 @@ namespace FunP
 
         private void TranslateView()
         {
-            getDataButton.Text = translator.Translate(getDataButton.Text, language);
+            getDataButton.Text = translator.Translate(GetButtonDefaultText, language);
+            editButton.Text = translator.Translate(EditButtonDefaultText, language);
+            removeButton.Text = translator.Translate(RemoveButtonDefaultText, language);
+            addButton.Text = translator.Translate(AddButtonDefaultText , language);
+            saveAsButton.Text = translator.Translate(SaveButtonDefaultText, language);
+            GetGroup.Text = translator.Translate(EditGroupDefaultText, language);
+            AddGroup.Text = translator.Translate(AddGroupDefaultText, language);
+            RequestGroup.Text = translator.Translate(RequestGroupDefaultText, language);
+            label1.Text = translator.Translate(FirstLineLabelDefaultText, language);
+            label2.Text = translator.Translate(LastLineLabelDefaultText, language);
+            label3.Text = translator.Translate(LanguageLabelDefaultText, language);
+
+            SetNewLineTypeSheet();
         }
 
         private void SetRequestSheet()
@@ -71,14 +100,14 @@ namespace FunP
         {
             newLineTypeList.Items.Clear();
 
-            newLineTypeList.Items.Add("University");
-            newLineTypeList.Items.Add("Faculty");
-            newLineTypeList.Items.Add("Student");
+            newLineTypeList.Items.Add(translator.Translate(UniversityText, language));
+            newLineTypeList.Items.Add(translator.Translate(FacultyText, language));
+            newLineTypeList.Items.Add(translator.Translate(StudentText, language));
         }
 
         public void OnError(string message)
         {
-            string title = translator.Translate("Error", language);
+            string title = translator.Translate(ErrorText, language);
             message = translator.Translate(message, language);
             MessageBox.Show(message, title);
         }
@@ -215,19 +244,6 @@ namespace FunP
             return labels;
         }
 
-        /*private TableLine SelectedRowToTableLine(DataGridViewCellCollection row)
-        {
-            List<string> labels = GetColumnsName();
-            List<Pair> list = new List<Pair>();
-            
-            for (int k = 0; k < row.Count; k++)
-                list.Add(new Pair(labels[k], row[k].Value.ToString()));
-
-            TableLine line = new TableLine(list);
-
-            return line;
-        }*/
-
         private void editButton_Click(object sender, EventArgs e)
         {
             var rows = dataGridView.SelectedRows;
@@ -240,7 +256,7 @@ namespace FunP
 
             var tableName = presenter.GetRequestResultTableName();
             var line = presenter.GetRequestResultLine(dataGridView.CurrentCell.RowIndex);
-            ITableDesc tableDesc = new BaseTableDesc("custom");            
+            ITableDesc tableDesc = new BaseTableDesc("Custom");            
             
             if(tableName == "Students")
             {
@@ -261,7 +277,7 @@ namespace FunP
             }
 
             DataDialog dialog = new DataDialog();
-            dialog.Text = "Edit data";
+            dialog.Text = translator.Translate(EditGroupDefaultText, language);
             dialog.SetData(line, tableDesc);
              
             if(dialog.ShowDialog() == DialogResult.OK)
@@ -323,7 +339,7 @@ namespace FunP
             }
 
             DataDialog dialog = new DataDialog();
-            dialog.Text = "Add data";
+            dialog.Text = translator.Translate(AddGroupDefaultText, language);
            // dialog.SetData(tableDesc);
             
             if (dialog.ShowDialog() == DialogResult.OK)

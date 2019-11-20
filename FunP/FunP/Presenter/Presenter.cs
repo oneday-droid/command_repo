@@ -12,7 +12,7 @@ namespace FunP
     {
         private IDBWork sqlRequests;
         private IDBTable sqlBasicTableFunc;
-        private IView       view;
+        private IView view;
 
         public Presenter(IDBWork sqlRequests, IDBTable sqlBasicTableFunc, IView view)
         {
@@ -74,16 +74,16 @@ namespace FunP
 
         public void SaveAs(string filename)
         {
-            /*ISave saver = null;
+            //ISave saver = null;
 
             FileInfo fi = new FileInfo(filename);
-            if (fi.Extension == ".xml")
+            /*if (fi.Extension == ".xml")
                 saver = new XMLSaverImpl();
 
             if (saver != null)
                 saver.SaveAs(currentRequestResult, filename);
-            else
-                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));*/
+            else*/
+                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
         }
     }
 }

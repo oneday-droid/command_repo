@@ -123,12 +123,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(339, 471);
+            this.label1.Location = new System.Drawing.Point(453, 469);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "First line to show";
+            this.label1.Text = "From";
             // 
             // GetGroup
             // 
@@ -157,16 +157,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(503, 469);
+            this.label2.Location = new System.Drawing.Point(567, 469);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 13);
+            this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Last line to show";
+            this.label2.Text = "till";
             // 
             // lastIndexText
             // 
-            this.lastIndexText.Location = new System.Drawing.Point(601, 464);
+            this.lastIndexText.Location = new System.Drawing.Point(595, 466);
             this.lastIndexText.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.lastIndexText.Name = "lastIndexText";
             this.lastIndexText.Size = new System.Drawing.Size(60, 20);
@@ -174,7 +174,7 @@
             // 
             // firstIndexText
             // 
-            this.firstIndexText.Location = new System.Drawing.Point(436, 466);
+            this.firstIndexText.Location = new System.Drawing.Point(495, 466);
             this.firstIndexText.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.firstIndexText.Name = "firstIndexText";
             this.firstIndexText.Size = new System.Drawing.Size(60, 20);
@@ -224,7 +224,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(480, 517);
+            this.label3.Location = new System.Drawing.Point(441, 512);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 10;
