@@ -31,12 +31,12 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(TableValuesLine tableLine, ITableDesc tableDesc)
+        public void SetData(TableValuesLine tableLine, ITableDesc tableDesc)
         {
             this.tableLine = tableLine;
             this.tableDesc = tableDesc;
 
-            var colNames = tableDesc.GetColNames(); //.GetColumnNames();
+            var colNames = tableDesc.GetColNames();
             var count = tableDesc.GetColsCount();
 
             textBoxes = new TextBox[count];
@@ -58,7 +58,7 @@ namespace FunP
             }
         }
 
-        public TableValuesLine GetDataLabels()
+        public TableValuesLine GetData()
         {
             TableValuesLine newLine = new TableValuesLine();
 
@@ -68,10 +68,8 @@ namespace FunP
 
             if (tableLine != null)
                 ID = (int)tableLine[0];
-
          
-            newLine.Add(ID);
-            
+            newLine.Add(ID);            
 
             for (int i=1; i < count; i++)
             {

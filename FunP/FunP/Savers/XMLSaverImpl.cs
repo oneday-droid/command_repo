@@ -7,7 +7,7 @@ using System.IO;
 
 namespace FunP.Savers
 {
-    class XMLSaverImpl : ISave
+    /*class XMLSaverImpl : ISave
     {
         public bool SaveAs(List<ITableLine> table, string filename)
         {
@@ -58,5 +58,5 @@ namespace FunP.Savers
 
             return outputText;
         }
-    }
+    }*/
 }

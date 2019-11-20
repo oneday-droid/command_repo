@@ -26,11 +26,11 @@ namespace FunP
             return sqlRequests.GetRequestNames();
         }
 
-        public void         SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
+        public void SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
         {
             var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
 
-            view.OnRequestResults(currentRequestResult);
+            view.OnRequestResults(result);
         }
 
         public TableValuesLine GetRequestResultLine(int index)
@@ -74,7 +74,7 @@ namespace FunP
 
         public void SaveAs(string filename)
         {
-            ISave saver = null;
+            /*ISave saver = null;
 
             FileInfo fi = new FileInfo(filename);
             if (fi.Extension == ".xml")
@@ -83,7 +83,7 @@ namespace FunP
             if (saver != null)
                 saver.SaveAs(currentRequestResult, filename);
             else
-                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
+                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));*/
         }
     }
 }

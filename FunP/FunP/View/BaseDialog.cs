@@ -76,84 +76,34 @@ namespace FunP
             newLineTypeList.Items.Add("Student");
         }
 
-        public void OnRequestResults(ITable table)
+        public void OnError(string message)
         {
             string title = translator.Translate("Error", language);
             message = translator.Translate(message, language);
             MessageBox.Show(message, title);
         }
 
+        public void OnRequestResults(ITable table)
+        {
             var columnNames = table.GetColNames();
             var colCount = columnNames.Count;
-            var maxColLen = new List<int>();
 
-            //базовая длина = длине заголовка колонки
-            for (int i = 0; i < colCount; i++)
-            {
-                List<string> labels = table[0].GetColumnNames();
-                dataGridView.ColumnCount = labels.Count;
-                for (int k = 0; k < labels.Count; k++)
-                    dataGridView.Columns[k].Name = labels[k];
+            dataGridView.ColumnCount = colCount;
+            for (int k = 0; k < colCount; k++)
+                dataGridView.Columns[k].Name = columnNames[k];
 
             var rows = table.GetRowsCount();
             var cols = table.GetColsCount();
-            //поиск максимальной длины из значений по каждой колонке 
-            for (int i=0; i<table.GetRowsCount(); i++)
-            {
-                for(int j=0;j<table.GetColsCount(); j++)
-                {
-                    var valueLen = table[i][j].ToString().Length;
-                    if (valueLen > maxColLen[j])
-                    {
-                        maxColLen[j] = valueLen;
-                    }
-                }
-            }
             
-                    dataGridView.Rows.Add(row);
-                }
-            }
-            reqResultsList.Items.Add(lineToAdd);
-
-            //подсчет максимальной длины строки и добавление разделителя заголовка
-            int lineSize = 0;
-            foreach (var value in maxColLen)
+            for (int i = 0; i < rows; i++)
             {
-                lineSize += value;
-            }
-            lineSize += (colCount - 1) * edge.Length;
-
-            lineToAdd = "";
-            for (int i = 0; i < lineSize; i++)
-            {
-                lineToAdd += "-";
-            }
-            reqResultsList.Items.Add(lineToAdd);
-
-            //добавление строк значений
-            for (int i = 0; i < table.GetRowsCount(); i++)
-            {
-                lineToAdd = "";
-                for (int j = 0; j < table.GetColsCount(); j++)
+                string[] row = new string[cols];
+                for(int j=0;j<cols; j++)
                 {
-                    var value = table[i][j].ToString();
-                    var valueSpaces = maxColLen[j] - value.Length;
-
-                    lineToAdd += value;
-
-                    for (var k = 0; k < valueSpaces; k++)
-                    {
-                        lineToAdd += " ";
-                    }
-
-                    if (j != colCount - 1)
-                    {
-                        lineToAdd += edge;
-                    }
+                    row[j] = table.GetData(i, j).ToString();
                 }
-
-                reqResultsList.Items.Add(lineToAdd);
-            }
+                dataGridView.Rows.Add(row);
+            }            
         }
 
         public void OnLineAdd(TableValuesLine lineToAdd)
@@ -189,7 +139,7 @@ namespace FunP
                 using (MemoryStream ms = new MemoryStream())
                 {
                     formatter.Serialize(ms, student);
-                    byteLines.Add(ms.GetBuffer()); //.ToArray()); 
+                    byteLines.Add(ms.GetBuffer()); 
                 }
             }
 
@@ -265,18 +215,18 @@ namespace FunP
             return labels;
         }
 
-        private TableLine SelectedRowToTableLine(DataGridViewCellCollection row)
+        /*private TableLine SelectedRowToTableLine(DataGridViewCellCollection row)
         {
             List<string> labels = GetColumnsName();
             List<Pair> list = new List<Pair>();
             
-            /*for (int k = 0; k < row.Count; k++)
-                list.Add(new Pair(labels[k], row[k].Value.ToString()));*/
+            for (int k = 0; k < row.Count; k++)
+                list.Add(new Pair(labels[k], row[k].Value.ToString()));
 
             TableLine line = new TableLine(list);
 
             return line;
-        }
+        }*/
 
         private void editButton_Click(object sender, EventArgs e)
         {
@@ -289,10 +239,8 @@ namespace FunP
             }
 
             var tableName = presenter.GetRequestResultTableName();
-            var line = presenter.GetRequestResultLine(index);
-            BaseTableDesc tableDesc;
-
-            
+            var line = presenter.GetRequestResultLine(dataGridView.CurrentCell.RowIndex);
+            ITableDesc tableDesc = new BaseTableDesc("custom");            
             
             if(tableName == "Students")
             {
@@ -314,7 +262,7 @@ namespace FunP
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Edit data";
-            dialog.SetData(line);
+            dialog.SetData(line, tableDesc);
              
             if(dialog.ShowDialog() == DialogResult.OK)
             {
@@ -334,7 +282,7 @@ namespace FunP
             }
 
             var tableName = presenter.GetRequestResultTableName();
-            var line = presenter.GetRequestResultLine(index);
+            var line = presenter.GetRequestResultLine(dataGridView.CurrentCell.RowIndex);
 
             if (tableName == "Default")
             {
@@ -353,7 +301,7 @@ namespace FunP
                 return;
             }
 
-            var tableName = (string)newLineTypeList.SelectedItem;
+            var tableName = newLineTypeList.SelectedItem.ToString();
             ITableDesc tableDesc;
 
             if(tableName == "Student")
@@ -376,7 +324,7 @@ namespace FunP
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Add data";
-            dialog.SetData(tableLine);
+           // dialog.SetData(tableDesc);
             
             if (dialog.ShowDialog() == DialogResult.OK)
             {

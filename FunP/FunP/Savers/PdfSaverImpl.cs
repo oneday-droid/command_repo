@@ -8,7 +8,7 @@ using System.IO;
 
 namespace FunP.Savers
 {
-    class PdfSaverImpl : ISaveToPdf
+    /*class PdfSaverImpl : ISaveToPdf
     {
         public bool SaveAs(List<ITableLine> table, string filename)
         {
@@ -24,5 +24,5 @@ namespace FunP.Savers
 
             return outputText;
         }
-    }
+    }*/
 }

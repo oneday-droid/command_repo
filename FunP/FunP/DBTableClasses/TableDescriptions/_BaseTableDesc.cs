@@ -23,10 +23,12 @@ namespace FunP
         {
             return tableName;
         }
+
         public virtual void Add(string name, Type type)
         {
             colNames.Add(new ColDescPair(name, type));
         }
+
         public Type GetColType(int index)
         {
             return colNames[index].Type;

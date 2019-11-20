@@ -87,8 +87,8 @@
     </Compile>
     <Compile Include="View\Dialogs\DataDialog.Designer.cs">
       <DependentUpon>DataDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DBTableClasses\Interfaces\ITable.cs" />
+    </Compile>    
+	<Compile Include="DBTableClasses\Interfaces\ITable.cs" />
     <Compile Include="View\Interfaces\IDialogView.cs" />
     <Compile Include="Model\Interfaces\ISave.cs" />
     <Compile Include="View\BaseDialog.cs">
@@ -99,9 +99,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="View\Dialogs\DataDialog.resx">
-    <Compile Include="View\Translator.cs" />
+	<Compile Include="View\Translator.cs" />
     <Compile Include="View\YandexTranslator.cs" />
+    <EmbeddedResource Include="View\Dialogs\DataDialog.resx">    
       <DependentUpon>DataDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\BaseDialog.resx">
