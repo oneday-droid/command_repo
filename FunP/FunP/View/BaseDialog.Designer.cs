@@ -45,6 +45,7 @@
             this.saveAsButton = new System.Windows.Forms.Button();
             this.langComboBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.weatherButton = new System.Windows.Forms.Button();
             this.RequestGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.GetGroup.SuspendLayout();
@@ -204,7 +205,7 @@
             // 
             // saveAsButton
             // 
-            this.saveAsButton.Location = new System.Drawing.Point(20, 507);
+            this.saveAsButton.Location = new System.Drawing.Point(15, 469);
             this.saveAsButton.Name = "saveAsButton";
             this.saveAsButton.Size = new System.Drawing.Size(75, 23);
             this.saveAsButton.TabIndex = 8;
@@ -230,11 +231,22 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Language";
             // 
+            // weatherButton
+            // 
+            this.weatherButton.Location = new System.Drawing.Point(15, 519);
+            this.weatherButton.Name = "weatherButton";
+            this.weatherButton.Size = new System.Drawing.Size(75, 23);
+            this.weatherButton.TabIndex = 11;
+            this.weatherButton.Text = "Weather";
+            this.weatherButton.UseVisualStyleBackColor = true;
+            this.weatherButton.Click += new System.EventHandler(this.weatherButton_Click);
+            // 
             // FunP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(681, 554);
+            this.Controls.Add(this.weatherButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.langComboBox);
             this.Controls.Add(this.label2);
@@ -278,6 +290,7 @@
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.ComboBox langComboBox;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button weatherButton;
     }
 }
 

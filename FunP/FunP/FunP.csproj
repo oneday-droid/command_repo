@@ -101,6 +101,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Translator.cs" />
     <Compile Include="View\YandexTranslator.cs" />
+    <Compile Include="WeatherWidget\IWeather.cs" />
+    <Compile Include="WeatherWidget\OpenMapWeather.cs" />
+    <Compile Include="WeatherWidget\WeatherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WeatherWidget\WeatherForm.Designer.cs">
+      <DependentUpon>WeatherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherWidget\WeatherModel.cs" />
+    <Compile Include="WeatherWidget\WeatherPresenter.cs" />
     <EmbeddedResource Include="View\Dialogs\DataDialog.resx">
       <DependentUpon>DataDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,6 +127,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="WeatherWidget\WeatherForm.resx">
+      <DependentUpon>WeatherForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

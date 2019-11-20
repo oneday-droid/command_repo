@@ -32,6 +32,7 @@ namespace FunP
         private const string FirstLineLabelDefaultText = "From";
         private const string LastLineLabelDefaultText = "to";
         private const string LanguageLabelDefaultText = "Choose language";
+        private const string WeatherButtonDefaultText = "Weather";
 
         private const string ErrorText = "Error";
         private const string UniversityText = "University";
@@ -82,6 +83,8 @@ namespace FunP
             label3.Text = translator.Translate(LanguageLabelDefaultText, language);
 
             SetNewLineTypeSheet();
+
+            weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
         }
 
         private void SetRequestSheet()
@@ -368,6 +371,12 @@ namespace FunP
         {
             language = ((KeyValuePair<string, LanguageType>)langComboBox.SelectedItem).Value;
             TranslateView();
+        }
+
+        private void weatherButton_Click(object sender, EventArgs e)
+        {
+            WeatherForm form = new WeatherForm();
+            form.ShowDialog();
         }
     }
 }
