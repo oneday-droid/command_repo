@@ -55,45 +55,57 @@
     <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DBTableInfo.cs" />
+    <Compile Include="Model\DBTypes\File\StudentFileLine.cs" />
+    <Compile Include="Model\DBTypes\File\FileTable.cs" />
+    <Compile Include="Model\Interfaces\IDBTableInfo.cs" />
+    <Compile Include="Model\DBTypes\SQL\RequestImpl\AllUniversities.cs" />
+    <Compile Include="Model\DBTypes\SQL\RequestImpl\AllFaculties.cs" />
+    <Compile Include="Model\DBTypes\SQL\RequestImpl\AllStudents.cs" />
+    <Compile Include="Model\DBTypes\SQL\RequestImpl\ReqStudByMark.cs" />
+    <Compile Include="DBTableClasses\PrimaryClasses\ColDescPair.cs" />
+    <Compile Include="DBTableClasses\Interfaces\ITableDesc.cs" />
+    <Compile Include="DBTableClasses\Table.cs" />
+    <Compile Include="DBTableClasses\TableDescriptions\Student.cs" />
+    <Compile Include="DBTableClasses\TableDescriptions\Faculty.cs" />
+    <Compile Include="DBTableClasses\TableDescriptions\University.cs" />
+    <Compile Include="DBTableClasses\TableDescriptions\_BaseTableDesc.cs" />
     <Compile Include="Presenter\IPresenter.cs" />
-    <Compile Include="Model\ISQLWork.cs" />
-    <Compile Include="Model\ISQLRequest.cs" />
-    <Compile Include="Model\ISQLTable.cs" />
+    <Compile Include="Model\Interfaces\IDBWork.cs" />
+    <Compile Include="Model\Interfaces\IDBRequest.cs" />
+    <Compile Include="Model\Interfaces\IDBTable.cs" />
+    <Compile Include="View\Interfaces\IView.cs" />
     <Compile Include="Savers\PdfSaverImpl.cs" />
     <Compile Include="Savers\XMLSaverImpl.cs" />
     <Compile Include="View\ITranslator.cs" />
-    <Compile Include="View\IView.cs" />
     <Compile Include="Presenter\Presenter.cs" />
-    <Compile Include="Model\SQLTable.cs" />
-    <Compile Include="Model\SQLWork.cs" />
-    <Compile Include="basicClasses\TableLine.cs" />
-    <Compile Include="View\DataDialog.cs">
+    <Compile Include="Model\DBTypes\SQL\SQLTable.cs" />
+    <Compile Include="Model\DBWork.cs" />
+    <Compile Include="DBTableClasses\PrimaryClasses\TableValuesLine.cs" />
+    <Compile Include="View\Dialogs\DataDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\DataDialog.Designer.cs">
+    <Compile Include="View\Dialogs\DataDialog.Designer.cs">
       <DependentUpon>DataDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="basicClasses\ITableLine.cs" />
-    <Compile Include="View\IDialogView.cs" />
-    <Compile Include="basicClasses\Pair.cs" />
-    <Compile Include="Savers\ISave.cs" />
-    <Compile Include="Model\SQLRequests.cs" />
-    <Compile Include="View\FunP.cs">
+    <Compile Include="DBTableClasses\Interfaces\ITable.cs" />
+    <Compile Include="View\Interfaces\IDialogView.cs" />
+    <Compile Include="Model\Interfaces\ISave.cs" />
+    <Compile Include="View\BaseDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FunP.Designer.cs">
-      <DependentUpon>FunP.cs</DependentUpon>
+    <Compile Include="View\BaseDialog.Designer.cs">
+      <DependentUpon>BaseDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="basicClasses\TableLineClasses.cs" />
+    <EmbeddedResource Include="View\Dialogs\DataDialog.resx">
     <Compile Include="View\Translator.cs" />
     <Compile Include="View\YandexTranslator.cs" />
-    <EmbeddedResource Include="View\DataDialog.resx">
       <DependentUpon>DataDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\FunP.resx">
-      <DependentUpon>FunP.cs</DependentUpon>
+    <EmbeddedResource Include="View\BaseDialog.resx">
+      <DependentUpon>BaseDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -119,7 +131,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Savers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

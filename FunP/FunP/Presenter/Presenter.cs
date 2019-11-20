@@ -10,13 +10,11 @@ namespace FunP
 {
     public class Presenter : IPresenter
     {
-        private ISQLWork    sqlRequests;
-        private ISQLTable   sqlBasicTableFunc;
+        private IDBWork sqlRequests;
+        private IDBTable sqlBasicTableFunc;
         private IView       view;
 
-        List<ITableLine> currentRequestResult;
-        
-        public Presenter(ISQLWork sqlRequests, ISQLTable sqlBasicTableFunc, IView view)
+        public Presenter(IDBWork sqlRequests, IDBTable sqlBasicTableFunc, IView view)
         {
             this.sqlRequests = sqlRequests;
             this.sqlBasicTableFunc = sqlBasicTableFunc;
@@ -28,37 +26,47 @@ namespace FunP
             return sqlRequests.GetRequestNames();
         }
 
-        public void SendRequest(string requestName, int startIndex, int endIndex, List<Pair> paramPairs)
+        public void         SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
         {
-            currentRequestResult = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, paramPairs);
+            var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
 
             view.OnRequestResults(currentRequestResult);
         }
 
-        public ITableLine GetRequestResultLine(int index)
+        public TableValuesLine GetRequestResultLine(int index)
         {
             return sqlRequests.GetDataLine(index);
         }
 
-        public void SQLLineAdd(ITableLine lineToAdd)
+        public List<string> GetRequestResultColNames()
         {
-            if (true == sqlBasicTableFunc.SQLLineAdd(lineToAdd) )
+            return sqlRequests.GetRequestResultColNames();
+        }
+
+        public string GetRequestResultTableName()
+        {
+            return sqlRequests.GetRequestResultTableName();
+        }
+
+        public void SQLLineAdd(TableValuesLine lineToAdd)
+        {
+            if (true == sqlBasicTableFunc.LineAdd(lineToAdd) )
             {
                 view.OnLineAdd(lineToAdd);
             }          
         }
 
-        public void SQLLineEdit(ITableLine lineToEdit, ITableLine newState)
+        public void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            if (true == sqlBasicTableFunc.SQLLineEdit(lineToEdit, newState) )
+            if (true == sqlBasicTableFunc.LineEdit(lineToEdit, newState) )
             {
                 view.OnLineEdit(lineToEdit, newState);
             }
         }
 
-        public void SQLLineDelete(ITableLine lineToDelete)
+        public void SQLLineDelete(TableValuesLine lineToDelete)
         {
-            if( true == sqlBasicTableFunc.SQLLineDelete(lineToDelete) )
+            if( true == sqlBasicTableFunc.LineDelete(lineToDelete) )
             {
                 view.OnLineDelete(lineToDelete);
             }
