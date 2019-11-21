@@ -83,6 +83,7 @@ namespace FunP
             label3.Text = translator.Translate(LanguageLabelDefaultText, language);
 
             SetNewLineTypeSheet();
+            SetRequestSheet();
 
             weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
         }

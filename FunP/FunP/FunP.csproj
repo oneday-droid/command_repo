@@ -101,6 +101,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Translator.cs" />
     <Compile Include="View\YandexTranslator.cs" />
+    <Compile Include="WeatherWidget\DarkSkyWeather.cs" />
+    <Compile Include="WeatherWidget\DarkSkyWeatherResponse.cs" />
     <Compile Include="WeatherWidget\IWeather.cs" />
     <Compile Include="WeatherWidget\OpenMapWeather.cs" />
     <Compile Include="WeatherWidget\WeatherForm.cs">

@@ -8,7 +8,7 @@ namespace FunP
 {
     interface IWeather
     {
-        string GetWeather(string city);
+        AbstractWeatherResponse GetWeather(string city);
     }
 
     abstract class AbstractWeatherResponse

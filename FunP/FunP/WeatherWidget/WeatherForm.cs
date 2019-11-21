@@ -12,10 +12,13 @@ namespace FunP
 {
     public partial class WeatherForm : Form
     {
-        
-    
+        BasePresenter presenter;
+
         public WeatherForm()
         {
+            presenter = new WeatherPresenter();
+            //presenter.AttachView(this);
+
             InitializeComponent();
 
             cityComboBox.Items.Add("Perm");
@@ -23,8 +26,12 @@ namespace FunP
 
         private void getButton_Click(object sender, EventArgs e)
         {
-            IWeather weather = new OpenMapWeather();
-            resultTextBox.Text= weather.GetWeather("Perm");
-        }        
+            presenter.SendRequest((string)cityComboBox.SelectedItem);
+        }     
+   
+        public void OnRequest(string message)
+        {
+            resultTextBox.Text = message;
+        }
     }
 }

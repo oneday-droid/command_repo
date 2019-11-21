@@ -23,7 +23,12 @@ namespace FunP
 
     abstract class BasePresenter
     {
-        protected abstract void SendRequest();
+        IView view;
 
+        public abstract void SendRequest(params string reqParams);
+        public void AttachView(IView view)
+        {
+            this.view = view;
+        }
     }
 }

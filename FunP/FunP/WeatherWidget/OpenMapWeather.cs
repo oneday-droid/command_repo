@@ -14,8 +14,9 @@ namespace FunP
     {
         private string Address = "api.openweathermap.org/data/2.5/weather?q=";
 
-        public string GetWeather(string city)
+        public AbstractWeatherResponse GetWeather(string city)
         {
+            OpenMapWeatherResponse responseString = null;
             string result = "";
             if (city.Length != 0)
             {
@@ -30,14 +31,14 @@ namespace FunP
 
                     if ((line = stream.ReadLine()) != null)
                     {
-                        OpenMapWeatherResponse responseString = JsonConvert.DeserializeObject<OpenMapWeatherResponse>(line);
+                        responseString = JsonConvert.DeserializeObject<OpenMapWeatherResponse>(line);
 
                         result = responseString.Main;
                     }
                 }
             }
 
-            return result;
+            return responseString;
         }
     }
 
