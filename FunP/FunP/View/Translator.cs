@@ -21,11 +21,4 @@ namespace FunP.View
             return language;
         }
     }
-
-    class ResponseString
-    {
-        public string code { get; set; }
-        public string lang { get; set; }
-        public string[] text { get; set; }
-    }
 }

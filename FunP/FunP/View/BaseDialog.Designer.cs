@@ -215,6 +215,7 @@
             // 
             // langComboBox
             // 
+            this.langComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.langComboBox.FormattingEnabled = true;
             this.langComboBox.Location = new System.Drawing.Point(548, 509);
             this.langComboBox.Name = "langComboBox";

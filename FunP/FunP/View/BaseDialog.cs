@@ -95,7 +95,7 @@ namespace FunP
 
             foreach(var value in sheet)
             {
-                requestSheetList.Items.Add(value);
+                requestSheetList.Items.Add(translator.Translate(value, language));
             }
         }
 
@@ -117,12 +117,15 @@ namespace FunP
 
         public void OnRequestResults(ITable table)
         {
+            dataGridView.Rows.Clear();
+            dataGridView.Refresh();
+
             var columnNames = table.GetColNames();
             var colCount = columnNames.Count;
 
             dataGridView.ColumnCount = colCount;
             for (int k = 0; k < colCount; k++)
-                dataGridView.Columns[k].Name = columnNames[k];
+                dataGridView.Columns[k].Name = translator.Translate(columnNames[k], language);
 
             var rows = table.GetRowsCount();
             var cols = table.GetColsCount();

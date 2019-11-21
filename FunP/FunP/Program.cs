@@ -32,10 +32,10 @@ namespace FunP
 
             //инициализация запросов к БД
             var dbWork = new DBWork();
-            dbWork.AddReqToSheet("ReqUniversities", new ReqUniversities());
-            dbWork.AddReqToSheet("ReqFaculties", new ReqFaculties());
-            dbWork.AddReqToSheet("ReqStudents", new ReqStudents());
-            dbWork.AddReqToSheet("ReqStudByMark", new ReqStudByMark());
+            dbWork.AddReqToSheet("Universities", new ReqUniversities());
+            dbWork.AddReqToSheet("Faculties", new ReqFaculties());
+            dbWork.AddReqToSheet("Students", new ReqStudents());
+            dbWork.AddReqToSheet("Students by mark", new ReqStudByMark());
             
             //создание презентера
             var presenter = new Presenter(dbWork, sqlBasicTableFunc, basicDialog);

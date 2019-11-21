@@ -81,9 +81,9 @@ namespace FunP
                 saver = new XMLSaverImpl();
 
             if (saver != null)
-                saver.SaveAs(currentRequestResult, filename);
+                saver.SaveAs(currentTable, filename);
             else*/
-                view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
+            view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
         }
     }
 }
