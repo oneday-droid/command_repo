@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace FunP
 {
-    public class ReqFaculties : IDBRequest                //имплементирует интерфейс запроса
+    public class SqlReqFaculties : IDBRequest                //имплементирует интерфейс запроса
     {
         public ITable SendRequest(List<object> reqParams)
         {
@@ -32,7 +32,7 @@ namespace FunP
                     while (reader.Read())
                     {
                         if (result == null)
-                            result = new Table(new FacultyTableDesc());
+                            result = new Table(new FacultyTableStruct());
 
                         var valuesLine = new TableValuesLine();
 

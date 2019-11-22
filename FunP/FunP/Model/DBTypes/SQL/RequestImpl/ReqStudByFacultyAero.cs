@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 namespace FunP
 {
 
-    public class ReqStudByMark : IDBRequest
+    public class SqlReqStudByFacultyAero : IDBRequest
     {
         public ITable SendRequest(List<object> reqParams)
         {
@@ -24,7 +24,7 @@ namespace FunP
 
                 var cmd = new SqlCommand();
 
-                cmd.CommandText = "SELECT Students.Name, Faculties.Name FROM Students INNER JOIN Faculties ON Faculties.ID = Students.FacultyID AND Faculties.Name LIKE 'Aero'";
+                cmd.CommandText = "SELECT Students.Name, Faculties.Name FROM Students INNER JOIN Faculties ON Faculties.ID = Students.FacultyID AND Faculties.Faculty name LIKE 'Aero'";
                 cmd.Connection = connection;
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -34,18 +34,17 @@ namespace FunP
                     {
                         if (result == null)
                         {
-                            var tableDesc = new BaseTableDesc("Default");
+                            var tableStruct = new BaseTableStruct("Default");
 
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
-
                                 var name = reader.GetName(i);
                                 var type = reader[i].GetType();
 
-                                tableDesc.Add(name, type);
+                                tableStruct.AddCol(name, type);
                             }
 
-                            result = new Table(tableDesc);
+                            result = new Table(tableStruct);
                         }
 
                         var valuesLine = new TableValuesLine();

@@ -50,29 +50,29 @@
     <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DBTableInfo.cs" />
-    <Compile Include="Model\DBTypes\File\StudentFileLine.cs" />
-    <Compile Include="Model\DBTypes\File\FileTable.cs" />
-    <Compile Include="Model\Interfaces\IDBTableInfo.cs" />
+    <Compile Include="DBTableClasses\DBStruct.cs" />
+    <Compile Include="Model\DBTypes\File\DBFileReaderWriter.cs" />
+    <Compile Include="Model\DBTypes\File\RequestImpl\AllStudents.cs" />
+    <Compile Include="Model\DBTypes\File\RequestImpl\AllFaculties.cs" />
+    <Compile Include="Model\DBTypes\File\RequestImpl\AllUniversities.cs" />
+    <Compile Include="Model\DBTypes\File\FileBasicFunc.cs" />
+    <Compile Include="DBTableClasses\Interfaces\IDBStruct.cs" />
     <Compile Include="Model\DBTypes\SQL\RequestImpl\AllUniversities.cs" />
     <Compile Include="Model\DBTypes\SQL\RequestImpl\AllFaculties.cs" />
     <Compile Include="Model\DBTypes\SQL\RequestImpl\AllStudents.cs" />
-    <Compile Include="Model\DBTypes\SQL\RequestImpl\ReqStudByMark.cs" />
-    <Compile Include="DBTableClasses\PrimaryClasses\ColDescPair.cs" />
-    <Compile Include="DBTableClasses\Interfaces\ITableDesc.cs" />
+    <Compile Include="Model\DBTypes\SQL\RequestImpl\ReqStudByFacultyAero.cs" />
     <Compile Include="DBTableClasses\Table.cs" />
-    <Compile Include="DBTableClasses\TableDescriptions\Student.cs" />
-    <Compile Include="DBTableClasses\TableDescriptions\Faculty.cs" />
-    <Compile Include="DBTableClasses\TableDescriptions\University.cs" />
-    <Compile Include="DBTableClasses\TableDescriptions\_BaseTableDesc.cs" />
-    <Compile Include="Presenter\IPresenter.cs" />
-    <Compile Include="Model\Interfaces\IDBWork.cs" />
+    <Compile Include="DBTableClasses\TableStructures\Student.cs" />
+    <Compile Include="DBTableClasses\TableStructures\Faculty.cs" />
+    <Compile Include="DBTableClasses\TableStructures\University.cs" />
+    <Compile Include="DBTableClasses\TableStructures\_BaseTableStruct.cs" />
+    <Compile Include="Model\Interfaces\IDBRequestRepository.cs" />
     <Compile Include="Model\Interfaces\IDBRequest.cs" />
-    <Compile Include="Model\Interfaces\IDBTable.cs" />
+    <Compile Include="Model\Interfaces\IDBBasicFunc.cs" />
     <Compile Include="View\Interfaces\IView.cs" />
     <Compile Include="Presenter\Presenter.cs" />
-    <Compile Include="Model\DBTypes\SQL\SQLTable.cs" />
-    <Compile Include="Model\DBWork.cs" />
+    <Compile Include="Model\DBTypes\SQL\SQLBasicFunc.cs" />
+    <Compile Include="Model\DBRequestRepository.cs" />
     <Compile Include="DBTableClasses\PrimaryClasses\TableValuesLine.cs" />
     <Compile Include="View\Dialogs\DataDialog.cs">
       <SubType>Form</SubType>

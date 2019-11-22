@@ -8,57 +8,37 @@ namespace FunP
 {
     class Table : ITable
     {
-        private ITableDesc tableDesc;
-        private List<TableValuesLine> data = new List<TableValuesLine>();
-        
-        public Table(ITableDesc colsDesc)     
-        {
-            this.tableDesc = colsDesc;
-        }
-      
-        public bool AddLine(TableValuesLine line)
-        {
-            if (line.GetColCount() != tableDesc.GetColsCount())
-                return false;
+        private List<TableValuesLine> data;
+        public BaseTableStruct TableStruct { get; }
 
-            data.Add(line);
-
-            return true;
+        //конструктор задает стуктуру таблицы для создаваемого экземпляра
+        public Table(BaseTableStruct tableStruct)     
+        {
+            data = new List<TableValuesLine>();
+            TableStruct = tableStruct;
         }
 
+        //возвращает поле таблицы по индексам строки и столбца
         public TableValuesLine this[int index]
         {
             get { return data[index]; }
         }
 
-        public string GetTableName()
-        {
-            return tableDesc.GetTableName();
-        }
-
-        public object GetData(int row, int col)
-        {
-            return data[row][col];
-        }
-
-        public int GetRowsCount()
+        //возвращает число строк данных в таблице
+        public int GetRowCount()
         {
             return data.Count;
         }
 
-        public int GetColsCount()
+        //добавляет строку в таблицу. возвращает false, если line не соответствует стуктуре таблицы
+        public bool AddLine(TableValuesLine line)
         {
-            return tableDesc.GetColsCount();
-        }
+            if (line.GetColCount() != TableStruct.GetColCount())
+                return false;
 
-        public List<string> GetColNames()
-        {
-            return tableDesc.GetColNames();
-        }
+            data.Add(line);
 
-        public string GetColNameByIndex(int index)
-        {
-            return tableDesc.GetColNameByIndex(index);
+            return true;
         }
     }
 }

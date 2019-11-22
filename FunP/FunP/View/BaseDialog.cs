@@ -14,14 +14,14 @@ namespace FunP
 {
     public partial class FunP : Form, IView
     {
-        private IPresenter presenter;
+        private Presenter presenter;
 
         public FunP()
         {
             InitializeComponent();
         }
 
-        public void SetPresenter(IPresenter presenter)
+        public void SetPresenter(Presenter presenter)
         {
             this.presenter = presenter;
         }
@@ -31,7 +31,7 @@ namespace FunP
             firstIndexText.Text = "0";
             lastIndexText.Text = "50";
             SetRequestSheet();
-            SetNewLineTypeSheet();
+            SetNewLineSheet();
         }
 
         private void SetRequestSheet()
@@ -46,21 +46,31 @@ namespace FunP
             }
         }
 
-        private void SetNewLineTypeSheet()
+        private void SetNewLineSheet()
         {
             newLineTypeList.Items.Clear();
 
-            newLineTypeList.Items.Add("University");
-            newLineTypeList.Items.Add("Faculty");
-            newLineTypeList.Items.Add("Student");
+            var sheet = presenter.GetDBTableNames();
+
+            foreach (var value in sheet)
+            {
+                newLineTypeList.Items.Add(value);
+            }
         }
 
         public void OnRequestResults(ITable table)
         {
             reqResultsList.Items.Clear();
 
-            var columnNames = table.GetColNames();
-            var colCount = columnNames.Count;
+            if (table == null)
+            {
+                reqResultsList.Items.Add("Запрос не вернул результатов.");
+                return;
+            }
+
+            var columnNames = table.TableStruct.GetColNamesList();
+            var rowCount = table.GetRowCount();
+            var colCount = table.TableStruct.GetColCount();
             var maxColLen = new List<int>();
 
             //базовая длина = длине заголовка колонки
@@ -74,12 +84,10 @@ namespace FunP
                 }
             }
 
-            var rows = table.GetRowsCount();
-            var cols = table.GetColsCount();
             //поиск максимальной длины из значений по каждой колонке 
-            for (int i=0; i<table.GetRowsCount(); i++)
+            for (int i = 0; i < rowCount; i++)
             {
-                for(int j=0;j<table.GetColsCount(); j++)
+                for (int j = 0; j < colCount; j++)
                 {
                     var valueLen = table[i][j].ToString().Length;
                     if (valueLen > maxColLen[j])
@@ -88,7 +96,7 @@ namespace FunP
                     }
                 }
             }
-            
+
             //добавление заголовка
             var edge = " | ";
             string lineToAdd = "";
@@ -125,10 +133,10 @@ namespace FunP
             reqResultsList.Items.Add(lineToAdd);
 
             //добавление строк значений
-            for (int i = 0; i < table.GetRowsCount(); i++)
+            for (int i = 0; i < rowCount; i++)
             {
                 lineToAdd = "";
-                for (int j = 0; j < table.GetColsCount(); j++)
+                for (int j = 0; j < colCount; j++)
                 {
                     var value = table[i][j].ToString();
                     var valueSpaces = maxColLen[j] - value.Length;
@@ -167,67 +175,67 @@ namespace FunP
 
         private void getDataButton_Click(object sender, EventArgs e)
         {
-            var byteLines = new List<byte[]>();
-            var byteLinesReaden = new List<byte[]>();
+            //var byteLines = new List<byte[]>();
+            //var byteLinesReaden = new List<byte[]>();
 
-            string path = @".\students.txt";
-            var formatter = new BinaryFormatter();
-            var students = new List<TableValuesLine>();
-            var studentsReaden = new List<TableValuesLine>();
+            //string path = @".\students.txt";
+            //var formatter = new BinaryFormatter();
+            //var students = new List<TableValuesLine>();
+            //var studentsReaden = new List<TableValuesLine>();
 
-            students.Add(new TableValuesLine(1, 2, "s1", "n1", "p1", 24, 2008, 4.7));
-            students.Add(new TableValuesLine(2, 3, "s2", "n2", "p2", 25, 2009, 4.8));
+            //students.Add(new TableValuesLine(1, 2, "s1", "n1", "p1", 24, 2008, 4.7));
+            //students.Add(new TableValuesLine(2, 3, "s2", "n2", "p2", 25, 2009, 4.8));
 
-            foreach (var student in students)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    formatter.Serialize(ms, student);
-                    byteLines.Add(ms.GetBuffer()); //.ToArray()); 
-                }
-            }
+            //foreach (var student in students)
+            //{
+            //    using (MemoryStream ms = new MemoryStream())
+            //    {
+            //        formatter.Serialize(ms, student);
+            //        byteLines.Add(ms.GetBuffer()); //.ToArray()); 
+            //    }
+            //}
 
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-            }
+            //using (FileStream fs = new FileStream(path, FileMode.Create))
+            //{
+            //}
 
-            foreach (var line in byteLines)
-            {
-                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    fs.Seek(0, SeekOrigin.End);
+            //foreach (var line in byteLines)
+            //{
+            //    using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            //    {
+            //        fs.Seek(0, SeekOrigin.End);
 
-                    var lineLen = line.Length;
-                    var lineLenInByteFormat = BitConverter.GetBytes(lineLen);
-                    fs.Write(lineLenInByteFormat, 0, lineLenInByteFormat.Length);
-                    fs.Write(line, 0, lineLen);
-                }
-            }
+            //        var lineLen = line.Length;
+            //        var lineLenInByteFormat = BitConverter.GetBytes(lineLen);
+            //        fs.Write(lineLenInByteFormat, 0, lineLenInByteFormat.Length);
+            //        fs.Write(line, 0, lineLen);
+            //    }
+            //}
 
-            var dataLenInByteFormat = new byte[sizeof(int)];
+            //var dataLenInByteFormat = new byte[sizeof(int)];
 
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                while( fs.Read(dataLenInByteFormat, 0, sizeof(int)) != 0)
-                {
-                    var dataLen = BitConverter.ToInt32(dataLenInByteFormat, 0);
-                    var data = new byte[dataLen];
-                    if( dataLen == fs.Read(data, 0, dataLen))
-                    {
-                        byteLinesReaden.Add(data);
-                    }
-                }
-            }
+            //using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            //{
+            //    while( fs.Read(dataLenInByteFormat, 0, sizeof(int)) != 0)
+            //    {
+            //        var dataLen = BitConverter.ToInt32(dataLenInByteFormat, 0);
+            //        var data = new byte[dataLen];
+            //        if( dataLen == fs.Read(data, 0, dataLen))
+            //        {
+            //            byteLinesReaden.Add(data);
+            //        }
+            //    }
+            //}
 
-            foreach(var line in byteLinesReaden)
-            {
-                using (MemoryStream ms = new MemoryStream(line))
-                {
-                    studentsReaden.Add((TableValuesLine)formatter.Deserialize(ms));
-                }
-            }
+            //foreach(var line in byteLinesReaden)
+            //{
+            //    using (MemoryStream ms = new MemoryStream(line))
+            //    {
+            //        studentsReaden.Add((TableValuesLine)formatter.Deserialize(ms));
+            //    }
+            //}
 
-            return;
+            //return;
 
             if (requestSheetList.SelectedIndex == -1)
             {
@@ -238,17 +246,9 @@ namespace FunP
             var firstIndex = Convert.ToInt32(firstIndexText.Text);
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
 
-            var reqParams = new List<object>();
-
-            int age = 26;
-            double avgGrade = 4.5;
-
-            reqParams.Add(age);
-            reqParams.Add(avgGrade);
-
             var request = (string)requestSheetList.SelectedItem;
 
-            presenter.SendRequest(request, firstIndex, lastIndex, reqParams);
+            presenter.SendRequest(request, firstIndex, lastIndex, null);
         }
 
         private void editButton_Click(object sender, EventArgs e)
@@ -263,37 +263,21 @@ namespace FunP
             }
 
             var tableName = presenter.GetRequestResultTableName();
+            var tableStruct = presenter.GetTableStructByName(tableName);
             var line = presenter.GetRequestResultLine(index);
-            BaseTableDesc tableDesc;
 
-            
-            
-            if(tableName == "Students")
-            {
-                tableDesc = new StudentTableDesc();
-            }
-            else if (tableName == "Faculties")
-            {
-                tableDesc = new FacultyTableDesc();
-            }
-            else if (tableName == "Universities")
-            {
-                tableDesc = new UniversityTableDesc();
-            }
-            else
-            {
-                //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            if (tableName == "Default")
                 return;
-            }
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Edit data";
-            dialog.SetDataLabels(line, tableDesc);
+            dialog.SetDataLabels(line, tableStruct);
             var dialRes = dialog.ShowDialog();
             if(dialRes == DialogResult.OK)
             {
                 var newLine = dialog.GetDataLabels();
-                presenter.SQLLineEdit(line, newLine);
+                presenter.DBLineEdit(tableStruct, line, newLine);
             }
         }
 
@@ -309,54 +293,40 @@ namespace FunP
             }
 
             var tableName = presenter.GetRequestResultTableName();
+            var tableStruct = presenter.GetTableStructByName(tableName);
             var line = presenter.GetRequestResultLine(index);
 
-            if (tableName == "Default")
-            {
-                //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            if (tableName == "Default")   
                 return;
-            }
 
-            presenter.SQLLineDelete(line);
+            presenter.DBLineDelete(tableStruct, line);
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            if(newLineTypeList.SelectedIndex < 0)
+            var index = newLineTypeList.SelectedIndex;
+            if (index < 0)
             {
                 //TODO сообщение "выберите строку значений для редактирования"
                 return;
             }
 
-            var tableName = (string)newLineTypeList.SelectedItem;
-            ITableDesc tableDesc;
-
-            if(tableName == "Student")
-            {
-                tableDesc = new StudentTableDesc();
-            }
-            else if(tableName == "Faculty")
-            {
-                tableDesc = new FacultyTableDesc();
-            }
-            else if(tableName == "University")
-            {
-                tableDesc = new UniversityTableDesc();
-            }
-            else
-            {
-                //TODO не то пальто. Вообще, enum был запилить в TableLine, но tableName - string.
-                return;
-            }
+            //повторно получает список (считается по-умолчанию, что вью не удаляет и не изменяет порядок в списке), но может изменить текст
+            var dbTableNames = presenter.GetDBTableNames();
+            //извлекает нужное имя по индексу
+            var tableName = dbTableNames[index];
+            //получает структуру строки для добавления
+            var tableStruct = presenter.GetTableStructByName(tableName);    
 
             DataDialog dialog = new DataDialog();
             dialog.Text = "Add data";
-            dialog.SetDataLabels(null, tableDesc);
+            dialog.SetDataLabels(null, tableStruct);
             var dialRes = dialog.ShowDialog();
             if (dialRes == DialogResult.OK)
             {
                 var lineToAdd = dialog.GetDataLabels();
-                presenter.SQLLineAdd(lineToAdd);
+                presenter.DBLineAdd(tableStruct, lineToAdd);
             }
         }
 

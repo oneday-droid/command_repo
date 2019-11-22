@@ -15,7 +15,7 @@ namespace FunP
         private TextBox[] textBoxes;
         private Label[] labels;
         private TableValuesLine tableLine;
-        private ITableDesc tableDesc;
+        private BaseTableStruct tableStruct;
         public DataDialog()
         {
             InitializeComponent();
@@ -31,21 +31,20 @@ namespace FunP
 
         }
     
-        public void SetDataLabels(TableValuesLine tableLine, ITableDesc tableDesc)
+        public void SetDataLabels(TableValuesLine tableLine, BaseTableStruct tableStruct)
         {
             this.tableLine = tableLine;
-            this.tableDesc = tableDesc;
+            this.tableStruct = tableStruct;
 
-            var colNames = tableDesc.GetColNames(); //.GetColumnNames();
-            var count = tableDesc.GetColsCount();
+            var colCount = tableStruct.GetColCount();
 
-            textBoxes = new TextBox[count];
-            labels = new Label[count];
+            textBoxes = new TextBox[colCount];
+            labels = new Label[colCount];
 
-            for (int k = 1; k < count; k++)
+            for (int k = 1; k < colCount; k++)
             {
                 labels[k] = new Label();
-                labels[k].Text = colNames[k];
+                labels[k].Text = tableStruct.GetColName(k);
                 flowLayoutPanel.Controls.Add(labels[k]);
 
                 textBoxes[k] = new TextBox();
@@ -62,22 +61,22 @@ namespace FunP
         {
             TableValuesLine newLine = new TableValuesLine();
 
-            var count = tableDesc.GetColsCount();
+            var colCount = tableStruct.GetColCount();
 
             int ID = -1;
 
+            //TODO то есть, после new может быть null?
             if (tableLine != null)
                 ID = (int)tableLine[0];
 
-         
+            //TODO а если ID не нулевой столбец?
             newLine.Add(ID);
             
-
-            for (int i=1; i < count; i++)
+            //заполнение тоже переделать
+            for (int i=1; i < colCount; i++)
             {
-                
                 object value;
-                Type type = tableDesc.GetColType(i);
+                Type type = tableStruct.GetColType(i);
 
                 if (type == typeof(Int32) )
                 {
