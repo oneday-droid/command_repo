@@ -12,9 +12,9 @@ namespace FunP
     {
         private IDBWork sqlRequests;
         private IDBTable sqlBasicTableFunc;
-        private IView view;
+        private ITableView view;
 
-        public Presenter(IDBWork sqlRequests, IDBTable sqlBasicTableFunc, IView view)
+        public Presenter(IDBWork sqlRequests, IDBTable sqlBasicTableFunc, ITableView view)
         {
             this.sqlRequests = sqlRequests;
             this.sqlBasicTableFunc = sqlBasicTableFunc;

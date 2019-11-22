@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace FunP
 {
     static class Program
@@ -35,7 +34,7 @@ namespace FunP
             dbWork.AddReqToSheet("Universities", new ReqUniversities());
             dbWork.AddReqToSheet("Faculties", new ReqFaculties());
             dbWork.AddReqToSheet("Students", new ReqStudents());
-            dbWork.AddReqToSheet("Students by mark", new ReqStudByMark());
+            dbWork.AddReqToSheet("Take students by mark", new ReqStudByMark());
             
             //создание презентера
             var presenter = new Presenter(dbWork, sqlBasicTableFunc, basicDialog);

@@ -21,7 +21,9 @@ namespace FunP.WeatherWidget
         public DarkSkyWeather()
         {
             cityToCoordinates = new Dictionary<string, string>();
-            cityToCoordinates.Add("Perm", "58;56");
+            cityToCoordinates.Add("Perm", "58.99;56.27");
+            cityToCoordinates.Add("Moscow", "55.75;37.62");
+            cityToCoordinates.Add("Novosibirsk", "55.04;82.93");
         }
 
         bool CityToCoordinates(string city, out string latitude, out string longitude)
@@ -70,43 +72,12 @@ namespace FunP.WeatherWidget
                     reader.Close();
                     result = JsonConvert.DeserializeObject<DarkSkyWeatherResponse>(jsonOut);
                 }
-                                                
-                return result;
             }
             catch (Exception ex)
             {
-                StringBuilder sb = new StringBuilder(500);
-                sb.AppendLine("Error while requesting weather from source!");
-
-                WebException wex = ex as WebException;
-                if (wex != null)
-                {
-                    HttpWebResponse httpResponse = wex.Response as HttpWebResponse;
-                    if (httpResponse != null)
-                    {
-                        int statusCode = (int)httpResponse.StatusCode;
-                        string statusDesc = httpResponse.StatusDescription;
-
-                        sb.AppendLine(string.Format("Http Status Code: {0}", statusCode));
-                        sb.AppendLine(string.Format("Http Status Desc: {0}", statusDesc));
-
-                        if (httpResponse.Headers != null)
-                        {
-                            sb.AppendLine("All response header values:");
-                            foreach (var key in httpResponse.Headers.AllKeys)
-                            {
-                                string value = httpResponse.Headers[key];
-                                sb.AppendLine(string.Format("{0}: {1}", key, value));
-                            }
-                        }
-                        else
-                        {
-                            sb.AppendLine("Unable to get response headers!");
-                        }
-                    }
-                }
-                //throw new ForecastIOException(sb.ToString(), ex);
+                throw new Exception(ex.Message);
             }
+
             return result;
         }
     }

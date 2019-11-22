@@ -262,7 +262,6 @@
             this.Name = "FunP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";
-            this.Load += new System.EventHandler(this.FunP_Load);
             this.RequestGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.GetGroup.ResumeLayout(false);

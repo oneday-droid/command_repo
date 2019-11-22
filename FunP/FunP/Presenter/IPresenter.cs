@@ -15,7 +15,7 @@ namespace FunP
         List<string> GetRequestResultColNames();
         TableValuesLine GetRequestResultLine(int index);                                                         //реализует получение строки результата по индексу
         void SQLLineAdd(TableValuesLine lineToAdd);                                                              //реализует добавление строки в бд
-        void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState);                                       //реализует изменение строки в бд
+        void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState);                                  //реализует изменение строки в бд
         void SQLLineDelete(TableValuesLine lineToDelete);                                                        //реализует удаление строки из бд
 
         void SaveAs(string filename);
@@ -23,9 +23,8 @@ namespace FunP
 
     abstract class BasePresenter
     {
-        IView view;
+        protected IView view;
 
-        public abstract void SendRequest(params string reqParams);
         public void AttachView(IView view)
         {
             this.view = view;

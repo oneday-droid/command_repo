@@ -3,24 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FunP
 {
     class WeatherPresenter : BasePresenter
     {
         IWeather weather;
-        IView view;
+        string city;
+        
+        const string forecastString = "Current forecast for {0}\nTemperature {1}\nWind speed {2}\nHumidity {3}\nSummary {4}";
 
         public WeatherPresenter()
         {
-            IWeather weather = new WeatherWidget.DarkSkyWeather();
+            weather = new WeatherWidget.DarkSkyWeather();
         }
 
+        public void GetForecastForCity(string cityName)
+        {
+            city = cityName;
+            new Thread(SendRequest).Start();
+        }
         
-        override public void SendRequest(string request)
-        {            
-            WeatherWidget.DarkSkyWeatherResponse resp = (WeatherWidget.DarkSkyWeatherResponse)weather.GetWeather(request);
-            
+        void SendRequest()
+        {
+            try
+            {
+                WeatherWidget.DarkSkyWeatherResponse resp = (WeatherWidget.DarkSkyWeatherResponse)weather.GetWeather(city);
+                string result = String.Format(forecastString, city, Convert.ToString(resp.currently.temperature), Convert.ToString(resp.currently.windSpeed),
+                                              Convert.ToString(resp.currently.humidity), resp.currently.summary);
+                view.OnRequestResults(result);
+            }
+            catch (Exception ex)
+            {
+                view.OnError(ex.Message);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace FunP.View
     {
         const string Key = "trnsl.1.1.20191103T222643Z.0c6fd91e8e01b50f.6876629e7b9f9f6d19e27a232137641f5391a747";
         const string Address = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+        const string Request = "{0}?key={1}&text={2}&lang={3}&format=plain";
 
         public string Translate(string text, LanguageType lang)
         {
@@ -21,8 +22,7 @@ namespace FunP.View
             {
                 string language = Translator.GetLangName(lang);
 
-                string stringRequest = String.Format("{0}?key={1}&text={2}&lang={3}&format=plain",
-                                                     Address, Key, text, language);
+                string stringRequest = String.Format(Request, Address, Key, text, language);
 
                 WebRequest request = WebRequest.Create(stringRequest);
                 WebResponse response = request.GetResponse();

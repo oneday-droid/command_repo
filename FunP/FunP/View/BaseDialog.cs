@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 using FunP.View;
 
 namespace FunP
 {
-    public partial class FunP : Form, IView
+    public partial class FunP : Form, ITableView
     {
         private IPresenter presenter;
         private ITranslator translator;
@@ -116,10 +117,12 @@ namespace FunP
             MessageBox.Show(message, title);
         }
 
-        public void OnRequestResults(ITable table)
+        public void OnRequestResults(object results)
         {
             dataGridView.Rows.Clear();
             dataGridView.Refresh();
+
+            ITable table = (ITable)results;
 
             var columnNames = table.GetColNames();
             var colCount = columnNames.Count;
@@ -354,11 +357,6 @@ namespace FunP
                 var lineToAdd = dialog.GetData();
                 presenter.SQLLineAdd(lineToAdd);
             }
-        }
-
-        private void FunP_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void saveAsButton_Click(object sender, EventArgs e)

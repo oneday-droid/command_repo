@@ -10,28 +10,41 @@ using System.Windows.Forms;
 
 namespace FunP
 {
-    public partial class WeatherForm : Form
+    public partial class WeatherForm : Form, IView
     {
-        BasePresenter presenter;
+        WeatherPresenter presenter;
 
         public WeatherForm()
         {
             presenter = new WeatherPresenter();
-            //presenter.AttachView(this);
+            presenter.AttachView(this);
 
             InitializeComponent();
-
-            cityComboBox.Items.Add("Perm");
+            InitializeFields();
         }
 
-        private void getButton_Click(object sender, EventArgs e)
+        public void InitializeFields()
         {
-            presenter.SendRequest((string)cityComboBox.SelectedItem);
-        }     
-   
-        public void OnRequest(string message)
+            cityComboBox.Items.Clear();
+
+            cityComboBox.Items.Add("Perm");
+            cityComboBox.Items.Add("Moscow");
+            cityComboBox.Items.Add("Novisibirsk");            
+        }
+
+        public void OnError(string message)
         {
-            resultTextBox.Text = message;
+            MessageBox.Show(message, "Error");
+        }
+
+        public void OnRequestResults(object message)
+        {
+            resultTextBox.Text = (string)message;
+        }
+
+        void getButton_Click(object sender, EventArgs e)
+        {
+            presenter.GetForecastForCity((string)cityComboBox.SelectedItem);
         }
     }
 }
