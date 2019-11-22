@@ -26,10 +26,8 @@ namespace FunP
         public void InitializeFields()
         {
             cityComboBox.Items.Clear();
-
-            cityComboBox.Items.Add("Perm");
-            cityComboBox.Items.Add("Moscow");
-            cityComboBox.Items.Add("Novisibirsk");            
+            List<string> list = presenter.GetValues();
+            cityComboBox.Items.AddRange(list.ToArray());
         }
 
         public void OnError(string message)

@@ -104,7 +104,6 @@
     <Compile Include="WeatherWidget\DarkSkyWeather.cs" />
     <Compile Include="WeatherWidget\DarkSkyWeatherResponse.cs" />
     <Compile Include="WeatherWidget\IWeather.cs" />
-    <Compile Include="WeatherWidget\OpenMapWeather.cs" />
     <Compile Include="WeatherWidget\WeatherForm.cs">
       <SubType>Form</SubType>
     </Compile>

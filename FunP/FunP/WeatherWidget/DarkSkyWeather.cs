@@ -44,6 +44,14 @@ namespace FunP.WeatherWidget
             return res;
         }
 
+        public List<string> GetAvailableCity()
+        {
+            List<string> keys = new List<string>();
+            foreach (string key in cityToCoordinates.Keys)
+                keys.Add(key);
+            return keys;
+        }
+
         public AbstractWeatherResponse GetWeather(string city)
         {
             DarkSkyWeatherResponse result = null;
@@ -55,7 +63,6 @@ namespace FunP.WeatherWidget
 
                 CityToCoordinates(city, out latitude, out longitude);
                 var uri = string.Format(CurrentForecastUrl, ApiKey, latitude, longitude);
-
 
                 var request = (HttpWebRequest)WebRequest.Create(uri);
                 request.Method = "GET";

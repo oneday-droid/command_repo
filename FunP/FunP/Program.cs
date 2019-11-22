@@ -34,7 +34,7 @@ namespace FunP
             dbWork.AddReqToSheet("Universities", new ReqUniversities());
             dbWork.AddReqToSheet("Faculties", new ReqFaculties());
             dbWork.AddReqToSheet("Students", new ReqStudents());
-            dbWork.AddReqToSheet("Take students by mark", new ReqStudByMark());
+            dbWork.AddReqToSheet("Students by mark", new ReqStudByMark());
             
             //создание презентера
             var presenter = new Presenter(dbWork, sqlBasicTableFunc, basicDialog);

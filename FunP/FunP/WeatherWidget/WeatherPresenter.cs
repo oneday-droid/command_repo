@@ -19,10 +19,15 @@ namespace FunP
             weather = new WeatherWidget.DarkSkyWeather();
         }
 
+        public List<string> GetValues()
+        {
+            return weather.GetAvailableCity();
+        }
+
         public void GetForecastForCity(string cityName)
         {
             city = cityName;
-            new Thread(SendRequest).Start();
+            SendRequest();
         }
         
         void SendRequest()
