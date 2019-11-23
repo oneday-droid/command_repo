@@ -18,30 +18,34 @@ namespace FunP.View
 
         public string Translate(string text, LanguageType lang)
         {
-            if (text.Length != 0)
+            try
             {
-                string language = Translator.GetLangName(lang);
-
-                string stringRequest = String.Format(Request, Address, Key, text, language);
-
-                WebRequest request = WebRequest.Create(stringRequest);
-                WebResponse response = request.GetResponse();
-
-                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                if (text.Length != 0)
                 {
-                    string line = stream.ReadLine();
+                    string language = Translator.GetLangName(lang);
 
-                    if (line != null)
+                    string stringRequest = String.Format(Request, Address, Key, text, language);
+
+                    WebRequest request = WebRequest.Create(stringRequest);
+                    WebResponse response = request.GetResponse();
+
+                    using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                     {
-                        YandexTranslateResponseString responseString = JsonConvert.DeserializeObject<YandexTranslateResponseString>(line);                        
-                        text = "";
-                        foreach (string str in responseString.Text)
+                        string line = stream.ReadLine();
+
+                        if (line != null)
                         {
-                            text += str;
+                            YandexTranslateResponseString responseString = JsonConvert.DeserializeObject<YandexTranslateResponseString>(line);
+
+                            if (responseString.Text.Length != 0)
+                                text = responseString.Text[0];
                         }
                     }
                 }
-
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
             return text;
