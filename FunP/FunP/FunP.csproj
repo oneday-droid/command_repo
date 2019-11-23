@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBTableClasses\DBStruct.cs" />
+    <Compile Include="DBTableClasses\TableStructures\DBLineValidator.cs" />
     <Compile Include="Model\DBTypes\File\DBFileReaderWriter.cs" />
     <Compile Include="Model\DBTypes\File\RequestImpl\AllStudents.cs" />
     <Compile Include="Model\DBTypes\File\RequestImpl\AllFaculties.cs" />

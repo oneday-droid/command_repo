@@ -10,6 +10,7 @@ namespace FunP
     {
         public const string IDColName = "ID";
         public static string DefaultTableName = "Default";
+
         protected string tableName;
         private List<string> colNames;
         private List<Type> colTypes;
@@ -88,22 +89,6 @@ namespace FunP
             return colTypes;
         }
 
-        //проверяет строку значений на соответствие структуре таблицы
-        public bool CheckLineIsCorrectTableStruct(TableValuesLine line)
-        {
-            var lineColCount = line.GetColCount();
-            var tableColCount = colTypes.Count;
-
-            if (lineColCount != tableColCount)
-                return false;
-
-            for(int i=0; i<lineColCount; i++)
-            {
-                if (line[i].GetType() != colTypes[i])
-                    return false;
-            }
-
-            return true;
-        }
+        
     }
 }

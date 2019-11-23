@@ -34,16 +34,16 @@ namespace FunP
 
             //инициализация запросов к БД
             var dbRequestRepository = new DBRequestRepository();
-            dbRequestRepository.AddReqToSheet("Request all universities", new FileReqUniversities());
-            dbRequestRepository.AddReqToSheet("Request all faculties", new FileReqFaculties());
-            dbRequestRepository.AddReqToSheet("Request all students", new FileReqStudents());
-            //dbRequestRepository.AddReqToSheet("Request all universities", new SqlReqUniversities());
-            //dbRequestRepository.AddReqToSheet("Request all faculties", new SqlReqFaculties());
-            //dbRequestRepository.AddReqToSheet("Request all students", new SqlReqStudents());
+            //dbRequestRepository.AddReqToSheet("Request all universities", new FileReqUniversities());
+            //dbRequestRepository.AddReqToSheet("Request all faculties", new FileReqFaculties());
+            //dbRequestRepository.AddReqToSheet("Request all students", new FileReqStudents());
+            dbRequestRepository.AddReqToSheet("1Request all universities", new SqlReqUniversities());
+            dbRequestRepository.AddReqToSheet("1Request all faculties", new SqlReqFaculties());
+            dbRequestRepository.AddReqToSheet("1Request all students", new SqlReqStudents());
             //dbRequestRepository.AddReqToSheet("Request students in faculty \"Aero\"", new SqlReqStudByFacultyAero());
 
             //var table = dbRequestRepository.GetDataFromBase("1Request all students", 0, 0, null);
-            //for(int i=0; i< table.GetRowCount(); i++)
+            //for (int i = 0; i < table.GetRowCount(); i++)
             //{
             //    fileBasicFunc.LineAdd(new StudentTableStruct(), table[i]);
             //}
@@ -61,10 +61,10 @@ namespace FunP
             //}
 
 
-            
+
 
             //создание презентера
-            var presenter = new Presenter(basicDialog, dbStruct, fileBasicFunc, dbRequestRepository);
+            var presenter = new Presenter(basicDialog, dbStruct, sqlBasicFunc, dbRequestRepository);
             //передача презентера во view
             basicDialog.SetPresenter(presenter);
             //инициализация элементов формы

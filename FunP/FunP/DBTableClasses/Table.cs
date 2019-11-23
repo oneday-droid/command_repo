@@ -12,7 +12,7 @@ namespace FunP
         public BaseTableStruct TableStruct { get; }
 
         //конструктор задает стуктуру таблицы для создаваемого экземпляра
-        public Table(BaseTableStruct tableStruct)     
+        public Table(BaseTableStruct tableStruct)
         {
             data = new List<TableValuesLine>();
             TableStruct = tableStruct;

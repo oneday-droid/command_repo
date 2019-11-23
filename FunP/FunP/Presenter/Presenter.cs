@@ -59,10 +59,21 @@ namespace FunP
 
         public void DBLineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            if (true == dbBasicFunc.LineAdd(tableStruct, line) )
+            if(true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, line))
             {
-                view.OnLineAdd(line);
-            }          
+                if (true == dbBasicFunc.LineAdd(tableStruct, line))
+                {
+                    view.OnLineAdd(line);
+                }
+                else { //report error
+                }
+            }
+            else
+            {
+                //report error
+            }
+
+                      
         }
 
         public void DBLineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
