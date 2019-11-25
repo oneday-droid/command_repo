@@ -16,7 +16,7 @@ namespace FunP
         private Label[] labels;
 
         private TableValuesLine tableLine;
-        private ITableDesc tableDesc;
+        private BaseTableStruct tableStruct;
 
         public DataDialog()
         {
@@ -57,21 +57,20 @@ namespace FunP
             }
         }
     
-        public void SetData(TableValuesLine tableLine, ITableDesc tableDesc)
+        public void SetData(TableValuesLine tableLine, BaseTableStruct tableStruct)
         {
             this.tableLine = tableLine;
-            this.tableDesc = tableDesc;
+            this.tableStruct = tableStruct;
 
-            var colNames = tableDesc.GetColNames();
-            var count = tableDesc.GetColsCount();
+            var colCount = tableStruct.GetColCount();
 
-            textBoxes = new TextBox[count];
-            labels = new Label[count];
+            textBoxes = new TextBox[colCount];
+            labels = new Label[colCount];
 
-            for (int k = 1; k < count; k++)
+            for (int k = 1; k < colCount; k++)
             {
                 labels[k] = new Label();
-                labels[k].Text = colNames[k];
+                labels[k].Text = tableStruct.GetColName(k);
                 flowLayoutPanel.Controls.Add(labels[k]);
 
                 textBoxes[k] = new TextBox();
@@ -86,6 +85,40 @@ namespace FunP
 
         public TableValuesLine GetData()
         {
+            TableValuesLine newLine = new TableValuesLine();
+
+            var colCount = tableStruct.GetColCount();
+
+            int ID = -1;
+
+            //TODO то есть, после new может быть null?
+            if (tableLine != null)
+                ID = (int)tableLine[0];
+
+            //TODO а если ID не нулевой столбец?
+            newLine.Add(ID);
+            
+            //заполнение тоже переделать
+            for (int i=1; i < colCount; i++)
+            {
+                object value;
+                Type type = tableStruct.GetColType(i);
+
+                if (type == typeof(Int32) )
+                {
+                    value = Convert.ToInt32(textBoxes[i].Text);
+                }
+                else if(type == typeof(double))
+                {
+                    value = Convert.ToDouble(textBoxes[i].Text);
+                }
+                else //string
+                {
+                    value = Convert.ToString(textBoxes[i].Text);
+                }
+
+                newLine.Add(value);
+            }
             return tableLine;
         }
     }

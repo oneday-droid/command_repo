@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    class DBWork : IDBWork                                                    //модель работы со сложными запросами
+    class DBRequestRepository : IDBRequestRepository                                                  //модель работы со сложными запросами
     {
         private Dictionary<string, IDBRequest> requests = new Dictionary<string, IDBRequest>();
 
@@ -64,11 +64,11 @@ namespace FunP
         }
         public string GetRequestResultTableName()
         {
-            return lastRequestResult.GetTableName();
+            return lastRequestResult.TableStruct.GetTableName();
         }
         public List<string> GetRequestResultColNames()
         {
-            return lastRequestResult.GetColNames();
+            return lastRequestResult.TableStruct.GetColNamesList();
         }
         public void AddReqToSheet(string name, IDBRequest request)
         {

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public interface IDBWork                      //описывает интерфейс модели работы с запросами
+    public interface IDBRequestRepository                      //описывает интерфейс модели работы с запросами
     {
         List<string> GetRequestNames();                             //возвращает список имен запросов
-        ITable         GetDataFromBase(string requestName, int startIndex, int endIndex, List<object> reqParams);        //реализует сложный запрос request с параметрами paramPairs и возвращает строки от beginLineNum до endLineNum включительно
+        ITable GetDataFromBase(string requestName, int startIndex, int endIndex, List<object> reqParams);        //реализует сложный запрос request с параметрами paramPairs и возвращает строки от beginLineNum до endLineNum включительно
         List<string> GetRequestResultColNames();
         string GetRequestResultTableName();
         TableValuesLine GetDataLine(int index);                          //возвращает строку номер index из результатов последнего запроса

@@ -12,12 +12,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 using FunP.View;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace FunP
 {
     public partial class FunP : Form, ITableView
     {
-        private IPresenter presenter;
+        private Presenter presenter;
         private ITranslator translator;
 
         private LanguageType language;
@@ -47,7 +49,7 @@ namespace FunP
             translator = new YandexTranslator();
         }
                 
-        public void SetPresenter(IPresenter presenter)
+        public void SetPresenter(Presenter presenter)
         {
             this.presenter = presenter;
         }
@@ -57,7 +59,7 @@ namespace FunP
             firstIndexText.Text = "0";
             lastIndexText.Text = "50";
             SetRequestSheet();
-            SetNewLineTypeSheet();          
+            SetNewLineSheet();          
 
             Dictionary<string, LanguageType> langDict = new Dictionary<string, LanguageType>();
             for (int k = 0; k < 2; k++)
@@ -83,7 +85,7 @@ namespace FunP
             label2.Text = translator.Translate(LastLineLabelDefaultText, language);
             label3.Text = translator.Translate(LanguageLabelDefaultText, language);
 
-            SetNewLineTypeSheet();
+            SetNewLineSheet();
             SetRequestSheet();
 
             weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
@@ -101,13 +103,16 @@ namespace FunP
             }
         }
 
-        private void SetNewLineTypeSheet()
+        private void SetNewLineSheet()
         {
             newLineTypeList.Items.Clear();
 
-            newLineTypeList.Items.Add(translator.Translate(UniversityText, language));
-            newLineTypeList.Items.Add(translator.Translate(FacultyText, language));
-            newLineTypeList.Items.Add(translator.Translate(StudentText, language));
+            var sheet = presenter.GetDBTableNames();
+
+            foreach (var value in sheet)
+            {
+                newLineTypeList.Items.Add(translator.Translate(value, language));
+            }
         }
 
         public void OnError(string message)
@@ -118,28 +123,31 @@ namespace FunP
         }
 
         public void OnRequestResults(object results)
-        {
+		{
+            if (results == null)
+            {
+                OnError("Request returns empty list.");
+                return;
+            }
+        
             dataGridView.Rows.Clear();
             dataGridView.Refresh();
 
             ITable table = (ITable)results;
-
-            var columnNames = table.GetColNames();
-            var colCount = columnNames.Count;
+            var columnNames = table.TableStruct.GetColNamesList();
+            var rowCount = table.GetRowCount();
+            var colCount = table.TableStruct.GetColCount();
 
             dataGridView.ColumnCount = colCount;
             for (int k = 0; k < colCount; k++)
                 dataGridView.Columns[k].Name = translator.Translate(columnNames[k], language);
 
-            var rows = table.GetRowsCount();
-            var cols = table.GetColsCount();
-            
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < rowCount; i++)
             {
-                string[] row = new string[cols];
-                for(int j=0;j<cols; j++)
+                string[] row = new string[colCount];
+                for (int j = 0; j < colCount; j++)
                 {
-                    row[j] = table.GetData(i, j).ToString();
+                    row[j] = table[i][j].ToString();
                 }
                 dataGridView.Rows.Add(row);
             }            
@@ -162,67 +170,40 @@ namespace FunP
 
         private void getDataButton_Click(object sender, EventArgs e)
         {
-            var byteLines = new List<byte[]>();
-            var byteLinesReaden = new List<byte[]>();
+            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            string path = @".\students.txt";
-            var formatter = new BinaryFormatter();
-            var students = new List<TableValuesLine>();
-            var studentsReaden = new List<TableValuesLine>();
+            //using (var connection = new SqlConnection(connectionString))
+            //{
+            //    connection.Open();
 
-            students.Add(new TableValuesLine(1, 2, "s1", "n1", "p1", 24, 2008, 4.7));
-            students.Add(new TableValuesLine(2, 3, "s2", "n2", "p2", 25, 2009, 4.8));
+            //    var cmd = new SqlCommand();
+            //    cmd.Connection = connection;
+            //    cmd.CommandText = $"UPDATE Universities SET @Nam=@Value1 WHERE ID=8"; //, @Name2=@Value2, [@Name3]=@Value3
 
-            foreach (var student in students)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    formatter.Serialize(ms, student);
-                    byteLines.Add(ms.GetBuffer()); 
-                }
-            }
+            //    var sqlParameter = new SqlParameter("@Value1", "qqq");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Value2", "www");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Value3", "235436");
+            //    cmd.Parameters.Add(sqlParameter);
 
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-            }
+            //    sqlParameter = new SqlParameter("@Name1", "University name");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Name2", "City");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Name3", "[Year of foundation]");
+            //    cmd.Parameters.Add(sqlParameter);
 
-            foreach (var line in byteLines)
-            {
-                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    fs.Seek(0, SeekOrigin.End);
+            //    if (cmd.ExecuteNonQuery() > 0)
+            //    {
+            //        string streg = "";
+            //    }
 
-                    var lineLen = line.Length;
-                    var lineLenInByteFormat = BitConverter.GetBytes(lineLen);
-                    fs.Write(lineLenInByteFormat, 0, lineLenInByteFormat.Length);
-                    fs.Write(line, 0, lineLen);
-                }
-            }
+            //}
 
-            var dataLenInByteFormat = new byte[sizeof(int)];
+            //return;
 
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                while( fs.Read(dataLenInByteFormat, 0, sizeof(int)) != 0)
-                {
-                    var dataLen = BitConverter.ToInt32(dataLenInByteFormat, 0);
-                    var data = new byte[dataLen];
-                    if( dataLen == fs.Read(data, 0, dataLen))
-                    {
-                        byteLinesReaden.Add(data);
-                    }
-                }
-            }
 
-            foreach(var line in byteLinesReaden)
-            {
-                using (MemoryStream ms = new MemoryStream(line))
-                {
-                    studentsReaden.Add((TableValuesLine)formatter.Deserialize(ms));
-                }
-            }
-
-            return;
 
             if (requestSheetList.SelectedIndex == -1)
             {
@@ -233,17 +214,9 @@ namespace FunP
             var firstIndex = Convert.ToInt32(firstIndexText.Text);
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
 
-            var reqParams = new List<object>();
-
-            int age = 26;
-            double avgGrade = 4.5;
-
-            reqParams.Add(age);
-            reqParams.Add(avgGrade);
-
             var request = (string)requestSheetList.SelectedItem;
 
-            presenter.SendRequest(request, firstIndex, lastIndex, reqParams);
+            presenter.SendRequest(request, firstIndex, lastIndex, null);
         }
 
         private List<string> GetColumnsName()
@@ -264,36 +237,24 @@ namespace FunP
                 return;
             }
 
-            var tableName = presenter.GetRequestResultTableName();
-            var line = presenter.GetRequestResultLine(dataGridView.CurrentCell.RowIndex);
-            ITableDesc tableDesc = new BaseTableDesc("Custom");            
-            
-            if(tableName == "Students")
-            {
-                tableDesc = new StudentTableDesc();
-            }
-            else if (tableName == "Faculties")
-            {
-                tableDesc = new FacultyTableDesc();
-            }
-            else if (tableName == "Universities")
-            {
-                tableDesc = new UniversityTableDesc();
-            }
-            else
-            {
-                //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
-               // return;
-            }
+            var tableName = presenter.GetRequestResultTableName();            
+
+            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            if (tableName == "Default")
+                return;
+
+            var tableStruct = presenter.GetTableStructByName(tableName);
+            var index = dataGridView.CurrentCell.RowIndex;
+            var line = presenter.GetRequestResultLine(index);
 
             DataDialog dialog = new DataDialog();
             dialog.Text = translator.Translate(EditGroupDefaultText, language);
-            dialog.SetData(line, tableDesc);
+            dialog.SetData(line, tableStruct);
              
             if(dialog.ShowDialog() == DialogResult.OK)
             {
                 var newLine = dialog.GetData();
-                presenter.SQLLineEdit(line, newLine);
+                presenter.DBLineEdit(tableStruct, line, newLine);
             }
         }
 
@@ -308,54 +269,41 @@ namespace FunP
             }
 
             var tableName = presenter.GetRequestResultTableName();
-            var line = presenter.GetRequestResultLine(dataGridView.CurrentCell.RowIndex);
+            var tableStruct = presenter.GetTableStructByName(tableName);
+            var index = dataGridView.CurrentCell.RowIndex;
+            var line = presenter.GetRequestResultLine(index);
 
-            if (tableName == "Default")
-            {
-                //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
+            if (tableName == "Default")   
                 // return;
-            }
 
-            presenter.SQLLineDelete(line);
+            presenter.DBLineDelete(tableStruct, line);
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            if(newLineTypeList.SelectedIndex < 0)
+            var index = newLineTypeList.SelectedIndex;
+            if (index < 0)
             {
                 //TODO сообщение "выберите строку значений для редактирования"
                 return;
             }
 
-            var tableName = newLineTypeList.SelectedItem.ToString();
-            ITableDesc tableDesc;
-
-            if(tableName == "Student")
-            {
-                tableDesc = new StudentTableDesc();
-            }
-            else if(tableName == "Faculty")
-            {
-                tableDesc = new FacultyTableDesc();
-            }
-            else if(tableName == "University")
-            {
-                tableDesc = new UniversityTableDesc();
-            }
-            else
-            {
-                //TODO не то пальто. Вообще, enum был запилить в TableLine, но tableName - string.
-                return;
-            }
+            //повторно получает список (считается по-умолчанию, что вью не удаляет и не изменяет порядок в списке), но может изменить текст
+            var dbTableNames = presenter.GetDBTableNames();
+            //извлекает нужное имя по индексу
+            var tableName = dbTableNames[index];
+            //получает структуру строки для добавления
+            var tableStruct = presenter.GetTableStructByName(tableName);    
 
             DataDialog dialog = new DataDialog();
             dialog.Text = translator.Translate(AddGroupDefaultText, language);
-           // dialog.SetData(tableDesc);
+            dialog.SetData(null, tableStruct);
             
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var lineToAdd = dialog.GetData();
-                presenter.SQLLineAdd(lineToAdd);
+                presenter.DBLineAdd(tableStruct, lineToAdd);
             }
         }
 
