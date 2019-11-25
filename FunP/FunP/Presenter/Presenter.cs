@@ -6,67 +6,108 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    public class Presenter : IPresenter
+    public class Presenter
     {
-        private ISQLWork    sqlRequests;
-        private ISQLTable   sqlBasicTableFunc;
-        private IView       view;
+        private IDBStruct dbStruct;
+        private IDBRequestRepository dbRequestRepository;
+        private IDBBasicFunc dbBasicFunc;
+        private IView view;
 
-        public Presenter(ISQLWork sqlRequests, ISQLTable sqlBasicTableFunc, IView view)
+        public Presenter(IView view, IDBStruct dbStruct, IDBBasicFunc dbBasicFunc, IDBRequestRepository dbRequestRepository)
         {
-            this.sqlRequests = sqlRequests;
-            this.sqlBasicTableFunc = sqlBasicTableFunc;
             this.view = view;
+            this.dbStruct = dbStruct;
+            this.dbBasicFunc = dbBasicFunc;
+            this.dbRequestRepository = dbRequestRepository;
+        }
+        public List<string> GetDBTableNames()
+        {
+            return dbStruct.GetDBTableNamesList();
         }
 
         public List<string> GetRequestSheet()
         {
-            return sqlRequests.GetRequestNames();
+            return dbRequestRepository.GetRequestNames();
         }
 
-        public void         SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
+        public BaseTableStruct GetTableStructByName(string tableName)
         {
-            var result = sqlRequests.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
+            return dbStruct[tableName];
+        }
+
+        public void SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
+        {
+            var result = dbRequestRepository.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
 
             view.OnRequestResults(result);
         }
 
         public TableValuesLine GetRequestResultLine(int index)
         {
-            return sqlRequests.GetDataLine(index);
+            return dbRequestRepository.GetDataLine(index);
         }
 
         public List<string> GetRequestResultColNames()
         {
-            return sqlRequests.GetRequestResultColNames();
+            return dbRequestRepository.GetRequestResultColNames();
         }
 
         public string GetRequestResultTableName()
         {
-            return sqlRequests.GetRequestResultTableName();
+            return dbRequestRepository.GetRequestResultTableName();
         }
 
-        public void SQLLineAdd(TableValuesLine lineToAdd)
+        public void DBLineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            if (true == sqlBasicTableFunc.SQLLineAdd(lineToAdd) )
+            if(true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, line))
             {
-                view.OnLineAdd(lineToAdd);
-            }          
+                if (true == dbBasicFunc.LineAdd(tableStruct, line))
+                {
+                    view.OnLineAdd(line);
+                }
+                else { //report error
+                }
+            }
+            else
+            {
+                //report error
+            }     
         }
 
-        public void SQLLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
+        public void DBLineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            if (true == sqlBasicTableFunc.SQLLineEdit(lineToEdit, newState) )
+            if (true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, lineToEdit) &&
+                true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, newState) )
             {
-                view.OnLineEdit(lineToEdit, newState);
+                if (true == dbBasicFunc.LineEdit(tableStruct, lineToEdit, newState))
+                {
+                    view.OnLineEdit(lineToEdit, newState);
+                }
+                else
+                { //report error
+                }
+            }
+            else
+            {
+                //report error
             }
         }
 
-        public void SQLLineDelete(TableValuesLine lineToDelete)
+        public void DBLineDelete(BaseTableStruct tableStruct, TableValuesLine lineToDelete)
         {
-            if( true == sqlBasicTableFunc.SQLLineDelete(lineToDelete) )
+            if (true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, lineToDelete))
             {
-                view.OnLineDelete(lineToDelete);
+                if (true == dbBasicFunc.LineDelete(tableStruct, lineToDelete))
+                {
+                    view.OnLineDelete(lineToDelete);
+                }
+                else
+                { //report error
+                }
+            }
+            else
+            {
+                //report error
             }
         }
     }
