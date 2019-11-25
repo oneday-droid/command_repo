@@ -19,7 +19,7 @@ namespace FunP
             weather = new WeatherWidget.DarkSkyWeather();
         }
 
-        public List<string> GetValues()
+        public IList<string> GetValues()
         {
             return weather.GetAvailableCity();
         }
@@ -35,8 +35,9 @@ namespace FunP
             try
             {
                 WeatherWidget.DarkSkyWeatherResponse resp = (WeatherWidget.DarkSkyWeatherResponse)weather.GetWeather(city);
-                string result = String.Format(forecastString, city, Convert.ToString(resp.currently.temperature), Convert.ToString(resp.currently.windSpeed),
-                                              Convert.ToString(resp.currently.humidity), resp.currently.summary);
+                string result = String.Format(forecastString, city, Convert.ToString(resp.currently.temperature), 
+                                              Convert.ToString(resp.currently.windSpeed), Convert.ToString(resp.currently.humidity),
+                                              resp.currently.summary);
                 view.OnRequestResults(result);
             }
             catch (Exception ex)

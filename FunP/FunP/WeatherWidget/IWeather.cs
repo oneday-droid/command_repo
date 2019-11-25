@@ -9,7 +9,7 @@ namespace FunP
     interface IWeather
     {
         AbstractWeatherResponse GetWeather(string city);
-        List<string> GetAvailableCity();
+        IList<string> GetAvailableCity();
     }
 
     abstract class AbstractWeatherResponse

@@ -8,7 +8,6 @@ using System.IO;
 
 using Newtonsoft.Json;
 
-
 namespace FunP.WeatherWidget
 {
     class DarkSkyWeather : IWeather
@@ -16,7 +15,7 @@ namespace FunP.WeatherWidget
         private const string CurrentForecastUrl = "https://api.darksky.net/forecast/{0}/{1},{2}?units=si";
         private const string ApiKey = "11a91bd56266b5c0f8391eff62e42d00";
 
-        Dictionary<string, string> cityToCoordinates;
+        IDictionary<string, string> cityToCoordinates;
 
         public DarkSkyWeather()
         {
@@ -44,7 +43,7 @@ namespace FunP.WeatherWidget
             return res;
         }
 
-        public List<string> GetAvailableCity()
+        public IList<string> GetAvailableCity()
         {
             List<string> keys = new List<string>();
             foreach (string key in cityToCoordinates.Keys)
