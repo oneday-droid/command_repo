@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace FunP
 {
@@ -16,9 +17,12 @@ namespace FunP
         private Label[] labels;
         private TableValuesLine tableLine;
         private BaseTableStruct tableStruct;
+        private int idColIndex;
         public DataDialog()
         {
             InitializeComponent();
+
+            idColIndex = 0;
         }
 
         private void applyButton_Click(object sender, EventArgs e)
@@ -41,8 +45,14 @@ namespace FunP
             textBoxes = new TextBox[colCount];
             labels = new Label[colCount];
 
-            for (int k = 1; k < colCount; k++)
+            for (int k = 0; k < colCount; k++)
             {
+                if (tableStruct.GetColName(k) == BaseTableStruct.IDColName)
+                {
+                    idColIndex = k;
+                    continue;
+                }
+                    
                 labels[k] = new Label();
                 labels[k].Text = tableStruct.GetColName(k);
                 flowLayoutPanel.Controls.Add(labels[k]);
@@ -60,37 +70,26 @@ namespace FunP
         public TableValuesLine GetDataLabels()
         {
             TableValuesLine newLine = new TableValuesLine();
+            if(tableLine == null)
+            {
+                //exception
+                throw new ArgumentException();
+            }
 
             var colCount = tableStruct.GetColCount();
 
-            int ID = -1;
-
-            //TODO то есть, после new может быть null?
-            if (tableLine != null)
-                ID = (int)tableLine[0];
-
-            //TODO а если ID не нулевой столбец?
+            int ID = (int)tableLine[idColIndex];
             newLine.Add(ID);
             
-            //заполнение тоже переделать
-            for (int i=1; i < colCount; i++)
+            for (int i=0; i < colCount; i++)
             {
-                object value;
-                Type type = tableStruct.GetColType(i);
+                if (i == idColIndex)
+                    continue;
 
-                if (type == typeof(Int32) )
-                {
-                    value = Convert.ToInt32(textBoxes[i].Text);
-                }
-                else if(type == typeof(double))
-                {
-                    value = Convert.ToDouble(textBoxes[i].Text);
-                }
-                else //string
-                {
-                    value = Convert.ToString(textBoxes[i].Text);
-                }
-
+                var type = tableStruct.GetColType(i);
+                var converter = TypeDescriptor.GetConverter(type);
+                object value = converter.ConvertFromString(null, CultureInfo.CurrentCulture, textBoxes[i].Text);
+                
                 newLine.Add(value);
             }
 

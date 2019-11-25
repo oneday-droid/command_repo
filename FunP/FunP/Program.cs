@@ -22,6 +22,8 @@ namespace FunP
             //создание диалога программы
             var basicDialog = new FunP();
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
             //создания описаний таблиц БД
             var dbStruct = new DBStruct();
             dbStruct.AddTableStruct(new StudentTableStruct());
