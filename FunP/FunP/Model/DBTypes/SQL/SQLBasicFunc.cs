@@ -12,10 +12,6 @@ namespace FunP
     {
         public bool LineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            // если строка не соответствует по структуре, то безусловный выход из метода
-            if (false == tableStruct.CheckLineIsCorrectTableStruct(line))
-                return false;
-
             bool result = false;
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             IFormatProvider format = System.Globalization.CultureInfo.GetCultureInfo("en-US");
@@ -29,45 +25,32 @@ namespace FunP
 
                 var cmd = new SqlCommand();
                 cmd.Connection = connection;
-                cmd.CommandText = string.Format("INSERT INTO {0} VALUES (", tableName);
+                cmd.CommandText = $"INSERT INTO {tableName} VALUES ";
+                cmd.CommandText += "(";
 
+                string paramsToAdd = "";
                 bool firstParam = true;
-                int tableIDIndex = -1;
 
-                for (var i = 0; i < colCount; i++)     
+                for (int i=0; i< colCount; i++)
                 {
-                    if ("ID" == tableStruct.GetColName(i))  //ID - автоинкрементное поле, заполняется автоматически базой
-                    {
-                        tableIDIndex = i;
+                    var colName = tableStruct.GetColName(i);
+
+                    if (colName == "ID")
                         continue;
-                    }
+
+                    var sqlParameterName = $"@Value{i}";        //var sqlParameterValue = $"[{colName}]";
+                    var sqlParameter = new SqlParameter(sqlParameterName, line[i]);
+                    cmd.Parameters.Add(sqlParameter);
 
                     if (firstParam)
                         firstParam = false;
                     else
-                        cmd.CommandText += ", ";
+                        paramsToAdd += ", ";
 
-                    object colValue = line[i];
-                    var colType = tableStruct.GetColType(i);
-                    string stringValue;
-
-                    if (colType == typeof(double))
-                    {
-                        stringValue = ((double)colValue).ToString(format);
-                        cmd.CommandText += string.Format("{0}", stringValue);
-                    }
-                    else if (colType == typeof(string))
-                    {
-                        stringValue = colValue.ToString();
-                        cmd.CommandText += string.Format("'{0}'", stringValue);
-                    }
-                    else
-                    {
-                        stringValue = colValue.ToString();
-                        cmd.CommandText += string.Format("{0}", stringValue);
-                    }
+                    paramsToAdd += sqlParameterName;
                 }
 
+                cmd.CommandText += paramsToAdd;
                 cmd.CommandText += ")";
 
                 if (cmd.ExecuteNonQuery() > 0)
@@ -78,15 +61,8 @@ namespace FunP
         }
         public bool LineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            var isEditCorrect = tableStruct.CheckLineIsCorrectTableStruct(lineToEdit);
-            var isNewStateCorrect = tableStruct.CheckLineIsCorrectTableStruct(newState);
-
-            if (!isEditCorrect || !isNewStateCorrect)      //если структура строк не совпадает, не редактировать (некорректный параметр)
-                return false;
-
             bool result = false;
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            IFormatProvider format = System.Globalization.CultureInfo.GetCultureInfo("en-US");
 
             var tableName = tableStruct.GetTableName();
             var colCount = tableStruct.GetColCount();
@@ -98,49 +74,38 @@ namespace FunP
 
                 var cmd = new SqlCommand();
                 cmd.Connection = connection;
-                cmd.CommandText = string.Format("UPDATE {0} SET ", tableName);
+                cmd.CommandText = $"UPDATE {tableName} SET ";
 
                 bool firstParam = true;
-                int tableIDIndex = -1;
+                string idParam = "";
+                string paramsToEdit = "";
 
-                for (var i = 1; i < colCount; i++)     
+                for (var i = 0; i < colCount; i++)     
                 {
                     var colName = tableStruct.GetColName(i);
 
-                    if ("ID" == colName)        //ID - автоинкрементное поле, заполняется автоматически базой
+                    var sqlParameterName = $"@Value{i}";
+                    var sqlParameter = new SqlParameter(sqlParameterName, newState[i]);
+                    cmd.Parameters.Add(sqlParameter);
+                    var pair = $"[{colName}]={sqlParameterName}";
+
+                    if("ID" == colName)
                     {
-                        tableIDIndex = i;
+                        idParam = pair;
                         continue;
                     }
 
                     if (firstParam)
                         firstParam = false;
                     else
-                        cmd.CommandText += ", ";
+                        paramsToEdit += ", ";
 
-                    object colValue = newState[i];
-                    var colType = tableStruct.GetColType(i);
-                    string stringValue;
-
-                    if (colType == typeof(double))
-                    {
-                        stringValue = ((double)colValue).ToString(format);
-                        cmd.CommandText += string.Format("{0}={1}", colName, stringValue);
-                    }
-                    else if (colType == typeof(string))
-                    {
-                        stringValue = colValue.ToString();
-                        cmd.CommandText += string.Format("{0}='{1}'", colName, stringValue);
-                    }
-                    else
-                    {
-                        stringValue = colValue.ToString();
-                        cmd.CommandText += string.Format("{0}={1}", colName, stringValue);
-                    }
+                    paramsToEdit += pair;
                 }
 
+                cmd.CommandText += paramsToEdit;
                 //TODO делать ли проверку на индекс, если в базовом baseTableStruct по-умолчанию колонка ID добавляется? если в BaseTableStruct не будет "ID", то этот код упадет
-                cmd.CommandText += string.Format(" WHERE ID={0}", lineToEdit[tableIDIndex]);
+                cmd.CommandText += $" WHERE {idParam}";
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;
@@ -150,10 +115,6 @@ namespace FunP
         }
         public bool LineDelete(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            // если строка не соответствует по структуре, то безусловный выход из метода
-            if (false == tableStruct.CheckLineIsCorrectTableStruct(line))
-                return false;
-
             bool result = false;
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -168,7 +129,7 @@ namespace FunP
                 cmd.Connection = connection;
 
                 //TODO id по-умолчанию находится в 0 колонке, а если изменится структура BaseTableStruct, то код отработает неправильно
-                cmd.CommandText = string.Format("DELETE FROM {0} WHERE ID={1}", tableName, line[0]);
+                cmd.CommandText = $"DELETE FROM {tableName} WHERE ID={line[0]}";
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;

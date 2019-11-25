@@ -71,24 +71,43 @@ namespace FunP
             else
             {
                 //report error
-            }
-
-                      
+            }     
         }
 
         public void DBLineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            if (true == dbBasicFunc.LineEdit(tableStruct, lineToEdit, newState) )
+            if (true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, lineToEdit) &&
+                true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, newState) )
             {
-                view.OnLineEdit(lineToEdit, newState);
+                if (true == dbBasicFunc.LineEdit(tableStruct, lineToEdit, newState))
+                {
+                    view.OnLineEdit(lineToEdit, newState);
+                }
+                else
+                { //report error
+                }
+            }
+            else
+            {
+                //report error
             }
         }
 
         public void DBLineDelete(BaseTableStruct tableStruct, TableValuesLine lineToDelete)
         {
-            if( true == dbBasicFunc.LineDelete(tableStruct, lineToDelete) )
+            if (true == DBLineValidator.CheckLineIsCorrectTableStruct(tableStruct, lineToDelete))
             {
-                view.OnLineDelete(lineToDelete);
+                if (true == dbBasicFunc.LineDelete(tableStruct, lineToDelete))
+                {
+                    view.OnLineDelete(lineToDelete);
+                }
+                else
+                { //report error
+                }
+            }
+            else
+            {
+                //report error
             }
         }
     }

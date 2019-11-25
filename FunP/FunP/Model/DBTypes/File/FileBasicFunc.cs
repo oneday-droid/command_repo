@@ -16,10 +16,6 @@ namespace FunP
     {
         public bool LineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            // если строка не соответствует по структуре, то безусловный выход из метода
-            if (false == tableStruct.CheckLineIsCorrectTableStruct(line))
-                return false;
-
             var tableName = tableStruct.GetTableName();
             var filename = $".\\{tableName}.fdb";
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
@@ -49,12 +45,6 @@ namespace FunP
 
         public bool LineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
-            var isEditCorrect = tableStruct.CheckLineIsCorrectTableStruct(lineToEdit);
-            var isNewStateCorrect = tableStruct.CheckLineIsCorrectTableStruct(newState);
-
-            if (!isEditCorrect || !isNewStateCorrect)      //если структура строк не совпадает, не редактировать (некорректный параметр)
-                return false;
-
             var tableName = tableStruct.GetTableName();
             var filename = $".\\{tableName}.fdb";
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
@@ -86,10 +76,6 @@ namespace FunP
 
         public bool LineDelete(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            // если строка не соответствует по структуре, то безусловный выход из метода
-            if (false == tableStruct.CheckLineIsCorrectTableStruct(line))
-                return false;
-
             var tableName = tableStruct.GetTableName();
             var filename = $".\\{tableName}.fdb";
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);

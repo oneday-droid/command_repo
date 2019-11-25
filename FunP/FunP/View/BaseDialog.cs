@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+using System.Configuration;
+using System.Data.SqlClient;
+
 namespace FunP
 {
     public partial class FunP : Form, IView
@@ -175,67 +178,40 @@ namespace FunP
 
         private void getDataButton_Click(object sender, EventArgs e)
         {
-            //var byteLines = new List<byte[]>();
-            //var byteLinesReaden = new List<byte[]>();
+            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            //string path = @".\students.txt";
-            //var formatter = new BinaryFormatter();
-            //var students = new List<TableValuesLine>();
-            //var studentsReaden = new List<TableValuesLine>();
-
-            //students.Add(new TableValuesLine(1, 2, "s1", "n1", "p1", 24, 2008, 4.7));
-            //students.Add(new TableValuesLine(2, 3, "s2", "n2", "p2", 25, 2009, 4.8));
-
-            //foreach (var student in students)
+            //using (var connection = new SqlConnection(connectionString))
             //{
-            //    using (MemoryStream ms = new MemoryStream())
+            //    connection.Open();
+
+            //    var cmd = new SqlCommand();
+            //    cmd.Connection = connection;
+            //    cmd.CommandText = $"UPDATE Universities SET @Nam=@Value1 WHERE ID=8"; //, @Name2=@Value2, [@Name3]=@Value3
+
+            //    var sqlParameter = new SqlParameter("@Value1", "qqq");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Value2", "www");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Value3", "235436");
+            //    cmd.Parameters.Add(sqlParameter);
+
+            //    sqlParameter = new SqlParameter("@Name1", "University name");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Name2", "City");
+            //    cmd.Parameters.Add(sqlParameter);
+            //    sqlParameter = new SqlParameter("@Name3", "[Year of foundation]");
+            //    cmd.Parameters.Add(sqlParameter);
+
+            //    if (cmd.ExecuteNonQuery() > 0)
             //    {
-            //        formatter.Serialize(ms, student);
-            //        byteLines.Add(ms.GetBuffer()); //.ToArray()); 
+            //        string streg = "";
             //    }
-            //}
 
-            //using (FileStream fs = new FileStream(path, FileMode.Create))
-            //{
-            //}
-
-            //foreach (var line in byteLines)
-            //{
-            //    using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-            //    {
-            //        fs.Seek(0, SeekOrigin.End);
-
-            //        var lineLen = line.Length;
-            //        var lineLenInByteFormat = BitConverter.GetBytes(lineLen);
-            //        fs.Write(lineLenInByteFormat, 0, lineLenInByteFormat.Length);
-            //        fs.Write(line, 0, lineLen);
-            //    }
-            //}
-
-            //var dataLenInByteFormat = new byte[sizeof(int)];
-
-            //using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            //{
-            //    while( fs.Read(dataLenInByteFormat, 0, sizeof(int)) != 0)
-            //    {
-            //        var dataLen = BitConverter.ToInt32(dataLenInByteFormat, 0);
-            //        var data = new byte[dataLen];
-            //        if( dataLen == fs.Read(data, 0, dataLen))
-            //        {
-            //            byteLinesReaden.Add(data);
-            //        }
-            //    }
-            //}
-
-            //foreach(var line in byteLinesReaden)
-            //{
-            //    using (MemoryStream ms = new MemoryStream(line))
-            //    {
-            //        studentsReaden.Add((TableValuesLine)formatter.Deserialize(ms));
-            //    }
             //}
 
             //return;
+
+
 
             if (requestSheetList.SelectedIndex == -1)
             {
