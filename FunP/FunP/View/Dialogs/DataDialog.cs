@@ -34,11 +34,11 @@ namespace FunP
             tableLine = new TableValuesLine();
             tableLine.Add(ID);
 
-            var count = tableDesc.GetColsCount();
+            var count = tableStruct.GetColCount();
             for (int i = 1; i < count; i++)
             {
                 object value;
-                Type type = tableDesc.GetColType(i);
+                Type type = tableStruct.GetColType(i);
 
                 if (type == typeof(Int32))
                 {
@@ -84,41 +84,7 @@ namespace FunP
         }
 
         public TableValuesLine GetData()
-        {
-            TableValuesLine newLine = new TableValuesLine();
-
-            var colCount = tableStruct.GetColCount();
-
-            int ID = -1;
-
-            //TODO то есть, после new может быть null?
-            if (tableLine != null)
-                ID = (int)tableLine[0];
-
-            //TODO а если ID не нулевой столбец?
-            newLine.Add(ID);
-            
-            //заполнение тоже переделать
-            for (int i=1; i < colCount; i++)
-            {
-                object value;
-                Type type = tableStruct.GetColType(i);
-
-                if (type == typeof(Int32) )
-                {
-                    value = Convert.ToInt32(textBoxes[i].Text);
-                }
-                else if(type == typeof(double))
-                {
-                    value = Convert.ToDouble(textBoxes[i].Text);
-                }
-                else //string
-                {
-                    value = Convert.ToString(textBoxes[i].Text);
-                }
-
-                newLine.Add(value);
-            }
+        {            
             return tableLine;
         }
     }

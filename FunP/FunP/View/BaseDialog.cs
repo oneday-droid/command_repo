@@ -73,22 +73,33 @@ namespace FunP
 
         private void TranslateView()
         {
-            getDataButton.Text = translator.Translate(GetButtonDefaultText, language);
-            editButton.Text = translator.Translate(EditButtonDefaultText, language);
-            removeButton.Text = translator.Translate(RemoveButtonDefaultText, language);
-            addButton.Text = translator.Translate(AddButtonDefaultText , language);
-            saveAsButton.Text = translator.Translate(SaveButtonDefaultText, language);
-            GetGroup.Text = translator.Translate(EditGroupDefaultText, language);
-            AddGroup.Text = translator.Translate(AddGroupDefaultText, language);
-            RequestGroup.Text = translator.Translate(RequestGroupDefaultText, language);
-            label1.Text = translator.Translate(FirstLineLabelDefaultText, language);
-            label2.Text = translator.Translate(LastLineLabelDefaultText, language);
-            label3.Text = translator.Translate(LanguageLabelDefaultText, language);
+            try
+            {
+                getDataButton.Text = translator.Translate(GetButtonDefaultText, language);
+                editButton.Text = translator.Translate(EditButtonDefaultText, language);
+                removeButton.Text = translator.Translate(RemoveButtonDefaultText, language);
+                addButton.Text = translator.Translate(AddButtonDefaultText, language);
+                saveAsButton.Text = translator.Translate(SaveButtonDefaultText, language);
+                GetGroup.Text = translator.Translate(EditGroupDefaultText, language);
+                AddGroup.Text = translator.Translate(AddGroupDefaultText, language);
+                RequestGroup.Text = translator.Translate(RequestGroupDefaultText, language);
+                label1.Text = translator.Translate(FirstLineLabelDefaultText, language);
+                label2.Text = translator.Translate(LastLineLabelDefaultText, language);
+                label3.Text = translator.Translate(LanguageLabelDefaultText, language);
 
-            SetNewLineSheet();
-            SetRequestSheet();
+                SetNewLineSheet();
+                SetRequestSheet();
 
-            weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
+                int colCount = dataGridView.ColumnCount;
+                for (int k = 0; k < colCount; k++)
+                    dataGridView.Columns[k].Name = translator.Translate(dataGridView.Columns[k].Name, language);
+
+                weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
+            }
+            catch (Exception ex)
+            {
+                OnError(ex.Message);
+            }
         }
 
         private void SetRequestSheet()
