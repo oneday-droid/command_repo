@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using FunP.Savers;
 
 namespace FunP
 {
@@ -109,6 +111,20 @@ namespace FunP
             {
                 //report error
             }
+        }
+
+        public void SaveAs(string filename)
+        {
+            //ISave saver = null;
+
+            FileInfo fi = new FileInfo(filename);
+            /*if (fi.Extension == ".xml")
+                saver = new XMLSaverImpl();
+
+            if (saver != null)
+                saver.SaveAs(currentTable, filename);
+            else*/
+            view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
         }
     }
 }

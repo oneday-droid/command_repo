@@ -14,8 +14,10 @@ namespace FunP
     {
         private TextBox[] textBoxes;
         private Label[] labels;
+
         private TableValuesLine tableLine;
         private BaseTableStruct tableStruct;
+
         public DataDialog()
         {
             InitializeComponent();
@@ -23,15 +25,39 @@ namespace FunP
 
         private void applyButton_Click(object sender, EventArgs e)
         {
+            int ID = -1;
+            if (tableLine != null)
+                ID = (int)tableLine[0];
 
-        }
+            //set new values to tableLine if user clicked accept
+            //otherwise GetData() returns not changed tableLine
+            tableLine = new TableValuesLine();
+            tableLine.Add(ID);
 
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
+            var count = tableDesc.GetColsCount();
+            for (int i = 1; i < count; i++)
+            {
+                object value;
+                Type type = tableDesc.GetColType(i);
 
+                if (type == typeof(Int32))
+                {
+                    value = Convert.ToInt32(textBoxes[i].Text);
+                }
+                else if (type == typeof(double))
+                {
+                    value = Convert.ToDouble(textBoxes[i].Text);
+                }
+                else //string
+                {
+                    value = Convert.ToString(textBoxes[i].Text);
+                }
+
+                tableLine.Add(value);
+            }
         }
     
-        public void SetDataLabels(TableValuesLine tableLine, BaseTableStruct tableStruct)
+        public void SetData(TableValuesLine tableLine, BaseTableStruct tableStruct)
         {
             this.tableLine = tableLine;
             this.tableStruct = tableStruct;
@@ -57,7 +83,7 @@ namespace FunP
             }
         }
 
-        public TableValuesLine GetDataLabels()
+        public TableValuesLine GetData()
         {
             TableValuesLine newLine = new TableValuesLine();
 
@@ -93,8 +119,7 @@ namespace FunP
 
                 newLine.Add(value);
             }
-
-            return newLine;
+            return tableLine;
         }
     }
 }

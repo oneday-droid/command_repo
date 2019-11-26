@@ -9,7 +9,7 @@ namespace FunP
     class Table : ITable
     {
         private List<TableValuesLine> data;
-        public BaseTableStruct TableStruct { get; }
+        BaseTableStruct TableStruct { public get; private set; }
 
         //конструктор задает стуктуру таблицы для создаваемого экземпляра
         public Table(BaseTableStruct tableStruct)
