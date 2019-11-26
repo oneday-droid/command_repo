@@ -26,7 +26,7 @@ namespace FunP
         public void InitializeFields()
         {
             cityComboBox.Items.Clear();
-            List<string> list = presenter.GetValues();
+            IList<string> list = presenter.GetValues();
             cityComboBox.Items.AddRange(list.ToArray());
         }
 

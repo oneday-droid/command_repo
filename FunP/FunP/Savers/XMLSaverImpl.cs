@@ -7,9 +7,9 @@ using System.IO;
 
 namespace FunP.Savers
 {
-    /*class XMLSaverImpl : ISave
+    class XMLSaverImpl : ISave
     {
-        public bool SaveAs(List<ITableLine> table, string filename)
+        public bool SaveAs(ITable table, string filename)
         {
             System.IO.Directory.CreateDirectory((new System.IO.FileInfo(filename)).DirectoryName);
 
@@ -22,41 +22,33 @@ namespace FunP.Savers
             return fi.Exists;
         }
 
-        string CreateXML(List<ITableLine> table)
+        string CreateXML(ITable table)
         {
             string outputText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 
-            string tableName = "";
-            List<string> labels = null;
-            for (int k = 0; k < table.Count; k++)
+            string tableName = table.TableStruct.GetTableName();
+            outputText += String.Format("<table name=\"{0}\">", tableName);
+
+            List<string> labels = table.TableStruct.GetColNamesList();
+
+            outputText += "<structure>\r\n";                     
+            foreach (string colName in labels)
+                outputText += String.Format("<column>\"{0}\"</column>\r\n", colName);
+            outputText += "</structure>\r\n";            
+
+            var rowCount = table.GetRowCount();
+            var colCount = table.TableStruct.GetColCount();
+            for (int i = 0; i < rowCount; i++)
             {
-                ITableLine line = table[k];
-                if (tableName != line.GetTableName())
-                {
-                    if (tableName != "")
-                        outputText += "</table>\r\n";
-
-                    tableName = line.GetTableName();
-                    outputText += String.Format("<table name=\"{0}\">", tableName);
-                    labels = line.GetColumnNames();
-                    outputText += "<row>\r\n";
-                    foreach (string name in labels)
-                        outputText += String.Format("<column>\"{0}\"</column>\r\n", name);
-                    outputText += "</row>\r\n";
-                }
-
-                if (labels != null)
-                {
-                    outputText += "<row>\r\n";
-                    foreach (string name in labels)
-                        outputText += String.Format("<column>\"{0}\"</column>\r\n", line.GetValue(name));
-                    outputText += "</row>\r\n";
-                }
+                outputText += "<row>\r\n";
+                for (int j = 0; j < colCount; j++)
+                    outputText += String.Format("<column>\"{0}\"</column>\r\n", table[i][j].ToString());
+                outputText += "</row>\r\n";
             }
 
             outputText += "</table>\r\n";
 
             return outputText;
         }
-    }*/
+    }
 }

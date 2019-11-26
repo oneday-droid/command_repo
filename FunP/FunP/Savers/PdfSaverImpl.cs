@@ -8,21 +8,20 @@ using System.IO;
 
 namespace FunP.Savers
 {
-    /*class PdfSaverImpl : ISaveToPdf
+    class PdfSaverImpl : ISaveToPdf
     {
-        public bool SaveAs(List<ITableLine> table, string filename)
+        public bool SaveAs(ITable table, string filename)
         {
             
             return false;
         }
 
-        string CreateText(List<ITableLine> table)
+        string CreateText(ITable table)
         {
             string outputText = "";
 
 
-
             return outputText;
         }
-    }*/
+    }
 }

@@ -75,6 +75,8 @@
     <Compile Include="Model\Interfaces\IDBRequestRepository.cs" />
     <Compile Include="Model\Interfaces\IDBRequest.cs" />
     <Compile Include="Model\Interfaces\IDBBasicFunc.cs" />
+    <Compile Include="Presenter\BasePresenter.cs" />
+    <Compile Include="Savers\ISave.cs" />
     <Compile Include="View\Interfaces\IView.cs" />
     <Compile Include="Savers\PdfSaverImpl.cs" />
     <Compile Include="Savers\XMLSaverImpl.cs" />
@@ -91,7 +93,6 @@
     </Compile>
     <Compile Include="DBTableClasses\Interfaces\ITable.cs" />
     <Compile Include="View\Interfaces\IDialogView.cs" />
-    <Compile Include="Model\Interfaces\ISave.cs" />
     <Compile Include="View\BaseDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,7 +112,6 @@
     <Compile Include="WeatherWidget\WeatherForm.Designer.cs">
       <DependentUpon>WeatherForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WeatherWidget\WeatherModel.cs" />
     <Compile Include="WeatherWidget\WeatherPresenter.cs" />
     <EmbeddedResource Include="View\Dialogs\DataDialog.resx">
       <DependentUpon>DataDialog.cs</DependentUpon>

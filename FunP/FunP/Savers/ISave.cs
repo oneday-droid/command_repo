@@ -8,7 +8,7 @@ namespace FunP
 {
     public interface ISave 
     {
-        bool SaveAs(List<ITableLine> table, string filename);
+        bool SaveAs(ITable table, string filename);
     }
 
     public interface ISaveToPdf : ISave

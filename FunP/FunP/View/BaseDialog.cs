@@ -135,8 +135,8 @@ namespace FunP
 
             ITable table = (ITable)results;
             var columnNames = table.TableStruct.GetColNamesList();
-            var rowCount = table.GetRowCount();
-            var colCount = table.TableStruct.GetColCount();
+            int rowCount = table.GetRowCount();
+            int colCount = table.TableStruct.GetColCount();
 
             dataGridView.ColumnCount = colCount;
             for (int k = 0; k < colCount; k++)
@@ -153,19 +153,38 @@ namespace FunP
             }            
         }
 
-        public void OnLineAdd(TableValuesLine lineToAdd)
+        public void OnLineAdd(TableValuesLine line)
         {
-            //TODO добавлять строку в listBox??
+            int colCount = dataGridView.ColumnCount;
+            string[] row = new string[colCount];
+            for (int k = 0; k < colCount; k++)
+            {
+                row[k] = line[k].ToString();
+            }
+            dataGridView.Rows.Add(row);
         }
 
-        public void OnLineEdit(TableValuesLine lineToEdit, TableValuesLine newState)
+        public void OnLineEdit(TableValuesLine lineToEdit, TableValuesLine newLine)
         {
-            //TODO редактировать строку в listBox??
+            //TODO Возможно стоит проверять эта ли строка заменяется
+            var index = dataGridView.CurrentCell.RowIndex;
+
+            int colCount = dataGridView.ColumnCount;
+            string[] row = new string[colCount];
+            for (int k = 0; k < colCount; k++)
+            {
+                row[k] = newLine[k].ToString();
+            }
+
+            dataGridView.Rows.RemoveAt(index);
+            dataGridView.Rows.Insert(index, row);
         }
 
         public void OnLineDelete(TableValuesLine lineToDelete)
         {
-            //TODO удалять строку в listBox??
+            //TODO Возможно стоит проверять эта ли строка удаляется
+            var index = dataGridView.CurrentCell.RowIndex;
+            dataGridView.Rows.RemoveAt(index);
         }
 
         private void getDataButton_Click(object sender, EventArgs e)
@@ -202,8 +221,6 @@ namespace FunP
             //}
 
             //return;
-
-
 
             if (requestSheetList.SelectedIndex == -1)
             {
@@ -272,11 +289,6 @@ namespace FunP
             var tableStruct = presenter.GetTableStructByName(tableName);
             var index = dataGridView.CurrentCell.RowIndex;
             var line = presenter.GetRequestResultLine(index);
-
-            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
-            if (tableName == "Default")   
-                // return;
-
             presenter.DBLineDelete(tableStruct, line);
         }
 
