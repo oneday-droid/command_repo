@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using FunP.Savers;
 
 namespace FunP
 {
@@ -11,9 +13,10 @@ namespace FunP
         private IDBStruct dbStruct;
         private IDBRequestRepository dbRequestRepository;
         private IDBBasicFunc dbBasicFunc;
-        private IView view;
+        private ITableView view;
+        private ITable currentTable;
 
-        public Presenter(IView view, IDBStruct dbStruct, IDBBasicFunc dbBasicFunc, IDBRequestRepository dbRequestRepository)
+        public Presenter(ITableView view, IDBStruct dbStruct, IDBBasicFunc dbBasicFunc, IDBRequestRepository dbRequestRepository)
         {
             this.view = view;
             this.dbStruct = dbStruct;
@@ -37,9 +40,9 @@ namespace FunP
 
         public void SendRequest(string requestName, int startIndex, int endIndex, List<object> reqParams)
         {
-            var result = dbRequestRepository.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
+            currentTable = dbRequestRepository.GetDataFromBase(requestName, startIndex, endIndex, reqParams);
 
-            view.OnRequestResults(result);
+            view.OnRequestResults(currentTable);
         }
 
         public TableValuesLine GetRequestResultLine(int index)
@@ -63,14 +66,18 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineAdd(tableStruct, line))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineAdd(tableStruct, line);
                     view.OnLineAdd(line);
                 }
-                else { //report error
+                else 
+                {
+                    view.OnError("Update table error");
                 }
             }
             else
             {
-                //report error
+                view.OnError("Incorrect vale at row");
             }     
         }
 
@@ -81,15 +88,18 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineEdit(tableStruct, lineToEdit, newState))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineEdit(tableStruct, lineToEdit, newState);
                     view.OnLineEdit(lineToEdit, newState);
                 }
                 else
-                { //report error
+                {
+                    view.OnError("Update table error");
                 }
             }
             else
             {
-                //report error
+                view.OnError("Incorrect vale at selected row");
             }
         }
 
@@ -99,16 +109,38 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineDelete(tableStruct, lineToDelete))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineDelete(tableStruct, lineToDelete);
                     view.OnLineDelete(lineToDelete);
                 }
                 else
-                { //report error
+                {
+                    view.OnError("Update table error");
                 }
             }
             else
             {
-                //report error
+                view.OnError("Incorrect vale at deleted row");
             }
+        }
+
+        public void SaveAs(string filename)
+        {
+            if (currentTable != null)
+            {
+                ISave saver = null;
+
+                FileInfo fi = new FileInfo(filename);
+                if (fi.Extension == ".xml")
+                    saver = new XMLSaverImpl();
+
+                if (saver != null)
+                    saver.SaveAs(currentTable, filename);
+                else
+                    view.OnError(String.Format("Saving to *{0} not released yet", fi.Extension));
+            }
+            else
+                view.OnError("No data to save");
         }
     }
 }

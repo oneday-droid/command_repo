@@ -22,6 +22,7 @@ namespace FunP
         public TableValuesLine this[int index]
         {
             get { return data[index]; }
+            set { data[index] = value; }
         }
 
         //возвращает число строк данных в таблице
@@ -39,6 +40,11 @@ namespace FunP
             data.Add(line);
 
             return true;
+        }
+
+        public bool DeleteLine(TableValuesLine item)
+        {
+            return data.Remove(item);
         }
     }
 }

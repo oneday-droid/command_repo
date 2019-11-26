@@ -60,7 +60,7 @@ namespace FunP
             {
                 var fileDataID = fileData[i][0];
                 
-                if (lineToEditID == fileDataID)
+                if (lineToEditID.Equals(fileDataID))
                 {
                     //переписывает строку
                     fileData[i] = newState;
@@ -90,7 +90,7 @@ namespace FunP
             {
                 var fileDataID = fileData[i][0];
 
-                if(lineToDeleteID == fileDataID)
+                if(lineToDeleteID.Equals(fileDataID))
                 {
                     //сдвиг значений
                     for (int j = i; j < lineCount - 1; j++)

@@ -4,9 +4,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace FunP
 {
+    public enum DBType { SQL = 0, File };
+
+    public static class SQLtoFileDBConverter
+    {
+        public static void Convert()
+        {
+            var dbRequestRepository = new DBRequestRepository();
+            var dbBasicFunc = new FileBasicFunc();
+            dbRequestRepository.AddReqToSheet("Request all universities", new SqlReqUniversities());
+            dbRequestRepository.AddReqToSheet("Request all faculties", new SqlReqFaculties());
+            dbRequestRepository.AddReqToSheet("Request all students", new SqlReqStudents());
+
+            var table = dbRequestRepository.GetDataFromBase("1Request all students", 0, 0, null);
+            for (int i = 0; i < table.GetRowCount(); i++)
+            {
+                dbBasicFunc.LineAdd(new StudentTableStruct(), table[i]);
+            }
+
+            table = dbRequestRepository.GetDataFromBase("1Request all faculties", 0, 0, null);
+            for (int i = 0; i < table.GetRowCount(); i++)
+            {
+                dbBasicFunc.LineAdd(new FacultyTableStruct(), table[i]);
+            }
+
+            table = dbRequestRepository.GetDataFromBase("1Request all universities", 0, 0, null);
+            for (int i = 0; i < table.GetRowCount(); i++)
+            {
+                dbBasicFunc.LineAdd(new UniversityTableStruct(), table[i]);
+            }
+        }
+    }
 
     static class Program
     {
@@ -24,49 +54,41 @@ namespace FunP
 
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
+            DBType dbType = DBType.File;
+
             //создания описаний таблиц БД
             var dbStruct = new DBStruct();
             dbStruct.AddTableStruct(new StudentTableStruct());
             dbStruct.AddTableStruct(new FacultyTableStruct());
             dbStruct.AddTableStruct(new UniversityTableStruct());
 
-            //инициализация базовых функций работы с БД
-            var sqlBasicFunc = new SQLBasicFunc();
-            var fileBasicFunc = new FileBasicFunc();
-
-            //инициализация запросов к БД
+            //инициализация репозитория запросов к БД
             var dbRequestRepository = new DBRequestRepository();
-            //dbRequestRepository.AddReqToSheet("Request all universities", new FileReqUniversities());
-            //dbRequestRepository.AddReqToSheet("Request all faculties", new FileReqFaculties());
-            //dbRequestRepository.AddReqToSheet("Request all students", new FileReqStudents());
-            dbRequestRepository.AddReqToSheet("1Request all universities", new SqlReqUniversities());
-            dbRequestRepository.AddReqToSheet("1Request all faculties", new SqlReqFaculties());
-            dbRequestRepository.AddReqToSheet("1Request all students", new SqlReqStudents());
-            //dbRequestRepository.AddReqToSheet("Request students in faculty \"Aero\"", new SqlReqStudByFacultyAero());
 
-            //var table = dbRequestRepository.GetDataFromBase("1Request all students", 0, 0, null);
-            //for (int i = 0; i < table.GetRowCount(); i++)
-            //{
-            //    fileBasicFunc.LineAdd(new StudentTableStruct(), table[i]);
-            //}
+            //инициализация базовых функций работы с БД
+            IDBBasicFunc dbBasicFunc;
 
-            //table = dbRequestRepository.GetDataFromBase("1Request all faculties", 0, 0, null);
-            //for (int i = 0; i < table.GetRowCount(); i++)
-            //{
-            //    fileBasicFunc.LineAdd(new FacultyTableStruct(), table[i]);
-            //}
+            switch(dbType)
+            {
+                case DBType.File:
+                    dbBasicFunc = new FileBasicFunc();
+                    dbRequestRepository.AddReqToSheet("Request all universities", new FileReqUniversities());
+                    dbRequestRepository.AddReqToSheet("Request all faculties", new FileReqFaculties());
+                    dbRequestRepository.AddReqToSheet("Request all students", new FileReqStudents());
+                    break;
 
-            //table = dbRequestRepository.GetDataFromBase("1Request all universities", 0, 0, null);
-            //for (int i = 0; i < table.GetRowCount(); i++)
-            //{
-            //    fileBasicFunc.LineAdd(new UniversityTableStruct(), table[i]);
-            //}
-
-
-
+                case DBType.SQL:
+                default:
+                    dbBasicFunc = new SQLBasicFunc();
+                    dbRequestRepository.AddReqToSheet("Request all universities", new SqlReqUniversities());
+                    dbRequestRepository.AddReqToSheet("Request all faculties", new SqlReqFaculties());
+                    dbRequestRepository.AddReqToSheet("Request all students", new SqlReqStudents());
+                    dbRequestRepository.AddReqToSheet("Request students in faculty \"Aero\"", new SqlReqStudByFacultyAero());
+                    break;
+            }
 
             //создание презентера
-            var presenter = new Presenter(basicDialog, dbStruct, sqlBasicFunc, dbRequestRepository);
+            var presenter = new Presenter(basicDialog, dbStruct, dbBasicFunc, dbRequestRepository);
             //передача презентера во view
             basicDialog.SetPresenter(presenter);
             //инициализация элементов формы
