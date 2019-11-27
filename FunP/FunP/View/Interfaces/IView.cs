@@ -8,7 +8,7 @@ namespace FunP
 {
     public interface IView
     {
-        void SetPresenter(Presenter presenter);                //устанавливает presenter
+        //void SetPresenter(Presenter presenter);                //устанавливает presenter
         void InitializeFields();                                //инициалирует начальные значения элементов формы
         void OnError(string message);
         void OnRequestResults(object table);

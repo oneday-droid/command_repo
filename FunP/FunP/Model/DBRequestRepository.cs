@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunP
 {
-    class DBRequestRepository : IDBRequestRepository                                                  //модель работы со сложными запросами
+    class DBRequestRepository : IDBRequestRepository, IDBBasicFunc                                            //модель работы со сложными запросами
     {
         private Dictionary<string, IDBRequest> requests = new Dictionary<string, IDBRequest>();
 
@@ -29,32 +29,67 @@ namespace FunP
 
             return result;
         }
-        public ITable GetDataFromBase(string requestName, int startIndex, int endIndex, List<object> reqParams)
+
+        public bool LineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
-            if (reqParams != lastRequestParams || lastRequestName != requestName)                                        
+            var reqTableStruct = lastRequestResult.TableStruct;
+
+            if (reqTableStruct.GetTableName() != tableStruct.GetTableName())
+                return false;
+
+            if( !DBLineValidator.CheckLineIsCorrectTableStruct(reqTableStruct, line) )
+                return false;
+
+            //simple add
+            lastRequestResult.AddLine(line);
+
+            return true;
+        }
+
+        public bool LineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
+        {
+            var reqTableStruct = lastRequestResult.TableStruct;
+
+            if (reqTableStruct.GetTableName() != tableStruct.GetTableName())
+                return false;
+
+            if (!DBLineValidator.CheckLineIsCorrectTableStruct(reqTableStruct, lineToEdit) ||
+                !DBLineValidator.CheckLineIsCorrectTableStruct(reqTableStruct, newState))
+                return false;
+
+            //поиск столбца ID и извлечение значения
+            int idIndex = 0;
+            for (int i = 0; i < tableStruct.GetColCount(); i++)
             {
-                //если запрос не совпадает, выполняется новый запрос
-                lastRequestResult = requests[requestName].SendRequest(reqParams);    //выполнить новый запрос
-                lastRequestParams = reqParams;                                       //сохранить параметры запроса
-                lastRequestName = requestName;
+                if (tableStruct.GetColName(i) == BaseTableStruct.IDColName)
+                {
+                    idIndex = i;
+                    break;
+                }
             }
 
-            ////проверка диапазонов на валидность индексов
-            //if (startIndex >= lastRequest.Count || endIndex >= lastRequest.Count ||
-            //    startIndex < 0 || endIndex < 0 || startIndex > endIndex)
-            //{
-            //    startIndex = 0;
-            //    endIndex = lastRequest.Count - 1;
-            //    //throw new ArgumentOutOfRangeException("Некорректные диапазоны строк запроса");
-            //}
+            //поиск строки в таблице с ID == lineToAddID
+            for (int i = 0; i < reqTableStruct.GetColCount(); i++)
+            {
+                if( lastRequestResult[i][idIndex] == lineToEdit[idIndex])
+                {
+                    lastRequestResult[i] = newState;
+                }
+            }
 
-            ////формирование результирующей таблицы
-            //var result = new List<ITableLine>();
+            return true;
+        }
 
-            //for (int i = startIndex; i<= endIndex; i++)
-            //{
-            //    result.Add(lastRequest[i]);
-            //}
+        public bool LineDelete(BaseTableStruct tableStruct, TableValuesLine line)
+        {
+            return lastRequestResult.DeleteLine(line);
+        }
+
+        public ITable GetDataFromBase(string requestName, int startIndex, int endIndex, List<object> reqParams)
+        {
+            lastRequestResult = requests[requestName].SendRequest(reqParams);    //выполнить новый запрос
+            lastRequestParams = reqParams;                                       //сохранить параметры запроса
+            lastRequestName = requestName;
 
             return lastRequestResult;
         }
@@ -84,5 +119,7 @@ namespace FunP
         {
             requests.Remove(name);
         }
+
+        
     }
 }

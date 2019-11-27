@@ -66,6 +66,8 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineAdd(tableStruct, line))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineAdd(tableStruct, line);
                     view.OnLineAdd(line);
                 }
                 else 
@@ -86,6 +88,8 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineEdit(tableStruct, lineToEdit, newState))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineEdit(tableStruct, lineToEdit, newState);
                     view.OnLineEdit(lineToEdit, newState);
                 }
                 else
@@ -105,6 +109,8 @@ namespace FunP
             {
                 if (true == dbBasicFunc.LineDelete(tableStruct, lineToDelete))
                 {
+                    var repositotyBasicFunc = (IDBBasicFunc)dbRequestRepository;
+                    repositotyBasicFunc.LineDelete(tableStruct, lineToDelete);
                     view.OnLineDelete(lineToDelete);
                 }
                 else

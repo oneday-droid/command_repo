@@ -69,6 +69,9 @@ namespace FunP
             }
 
             langComboBox.DataSource = new BindingSource(langDict, null);
+            SetRequestSheet();
+
+            weatherButton.Text = translator.Translate(WeatherButtonDefaultText, language);
         }
 
         private void TranslateView()
@@ -150,8 +153,13 @@ namespace FunP
             int colCount = table.TableStruct.GetColCount();
 
             dataGridView.ColumnCount = colCount;
+            dataGridView.AutoResizeColumns();
+
             for (int k = 0; k < colCount; k++)
+            {
                 dataGridView.Columns[k].Name = translator.Translate(columnNames[k], language);
+                dataGridView.Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
             for (int i = 0; i < rowCount; i++)
             {
@@ -200,49 +208,18 @@ namespace FunP
 
         private void getDataButton_Click(object sender, EventArgs e)
         {
-            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            var index = requestSheetList.SelectedIndex;
 
-            //using (var connection = new SqlConnection(connectionString))
-            //{
-            //    connection.Open();
-
-            //    var cmd = new SqlCommand();
-            //    cmd.Connection = connection;
-            //    cmd.CommandText = $"UPDATE Universities SET @Nam=@Value1 WHERE ID=8"; //, @Name2=@Value2, [@Name3]=@Value3
-
-            //    var sqlParameter = new SqlParameter("@Value1", "qqq");
-            //    cmd.Parameters.Add(sqlParameter);
-            //    sqlParameter = new SqlParameter("@Value2", "www");
-            //    cmd.Parameters.Add(sqlParameter);
-            //    sqlParameter = new SqlParameter("@Value3", "235436");
-            //    cmd.Parameters.Add(sqlParameter);
-
-            //    sqlParameter = new SqlParameter("@Name1", "University name");
-            //    cmd.Parameters.Add(sqlParameter);
-            //    sqlParameter = new SqlParameter("@Name2", "City");
-            //    cmd.Parameters.Add(sqlParameter);
-            //    sqlParameter = new SqlParameter("@Name3", "[Year of foundation]");
-            //    cmd.Parameters.Add(sqlParameter);
-
-            //    if (cmd.ExecuteNonQuery() > 0)
-            //    {
-            //        string streg = "";
-            //    }
-
-            //}
-
-            //return;
-
-            if (requestSheetList.SelectedIndex == -1)
+            if (index == -1)
             {
                 //TODO сообщение "не выбран запрос"
                 return;
             }
 
+            var requestSheet = presenter.GetRequestSheet();
             var firstIndex = Convert.ToInt32(firstIndexText.Text);
             var lastIndex = Convert.ToInt32(lastIndexText.Text);
-
-            var request = (string)requestSheetList.SelectedItem;
+            var request = requestSheet[index];
 
             presenter.SendRequest(request, firstIndex, lastIndex, null);
         }
@@ -257,17 +234,14 @@ namespace FunP
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            var rows = dataGridView.SelectedRows;
-            
-            if (rows.Count == 0)
+            if( dataGridView.CurrentCell == null)
             {
-                //TODO сообщение "выберите строку значений для редактирования"
+                //report table is empty
                 return;
             }
 
             var tableName = presenter.GetRequestResultTableName();            
 
-            //TODO подумать, как редактировать бд используя нетипизированные выходные данные, а пока return
             if (tableName == "Default")
                 return;
 
@@ -288,11 +262,9 @@ namespace FunP
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            var rows = dataGridView.SelectedRows;
-
-            if (rows.Count == 0)
+            if (dataGridView.CurrentCell == null)
             {
-                //TODO сообщение "выберите строку значений для редактирования"
+                //report table is empty
                 return;
             }
 

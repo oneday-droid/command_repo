@@ -17,7 +17,7 @@ namespace FunP
 
             var tableStruct = new StudentTableStruct();
             var tableName = tableStruct.GetTableName();
-            var filename = $".\\{tableName}.fdb";
+            var filename = String.Format(".\\{0}.fdb", tableName);
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
 
             if (fileData == null)

@@ -10,14 +10,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FunP
 {
-    
-
     class FileBasicFunc : IDBBasicFunc
     {
         public bool LineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
             var tableName = tableStruct.GetTableName();
-            var filename = $".\\{tableName}.fdb";
+            var filename = String.Format(".\\{0}.fdb", tableName);
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
             int newLineID;
 
@@ -46,7 +44,7 @@ namespace FunP
         public bool LineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
             var tableName = tableStruct.GetTableName();
-            var filename = $".\\{tableName}.fdb";
+            var filename = String.Format(".\\{0}.fdb", tableName);
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
             var lineCount = fileData.Length;
 
@@ -60,7 +58,7 @@ namespace FunP
             {
                 var fileDataID = fileData[i][0];
                 
-                if (lineToEditID == fileDataID)
+                if (lineToEditID.Equals(fileDataID))
                 {
                     //переписывает строку
                     fileData[i] = newState;
@@ -70,14 +68,14 @@ namespace FunP
             }
             //создание нового файла
             DBFileReaderWriter.SerializeArrayToFile(filename, fileData);
-
+            
             return result;
         }
 
         public bool LineDelete(BaseTableStruct tableStruct, TableValuesLine line)
         {
             var tableName = tableStruct.GetTableName();
-            var filename = $".\\{tableName}.fdb";
+            var filename = String.Format(".\\{0}.fdb", tableName);
             var fileData = DBFileReaderWriter.DeserializeFileToArray(filename);
             var lineCount = fileData.Length;
 
@@ -90,7 +88,7 @@ namespace FunP
             {
                 var fileDataID = fileData[i][0];
 
-                if(lineToDeleteID == fileDataID)
+                if(lineToDeleteID.Equals(fileDataID))
                 {
                     //сдвиг значений
                     for (int j = i; j < lineCount - 1; j++)
@@ -103,7 +101,7 @@ namespace FunP
             }
 
             DBFileReaderWriter.SerializeArrayToFile(filename, fileData);
-
+            
             return result;
         }
     }

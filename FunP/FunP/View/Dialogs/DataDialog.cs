@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace FunP
 {
@@ -18,40 +19,35 @@ namespace FunP
         private TableValuesLine tableLine;
         private BaseTableStruct tableStruct;
 
+        private int idColIndex;
+
         public DataDialog()
         {
             InitializeComponent();
+
+            idColIndex = 0;
         }
 
         private void applyButton_Click(object sender, EventArgs e)
-        {
-            int ID = -1;
-            if (tableLine != null)
-                ID = (int)tableLine[0];
+        {            
+            int ID = -1; 
+            
+            if(tableLine != null)
+                ID = (int)tableLine[idColIndex];
 
-            //set new values to tableLine if user clicked accept
-            //otherwise GetData() returns not changed tableLine
+            var colCount = tableStruct.GetColCount();
+
             tableLine = new TableValuesLine();
             tableLine.Add(ID);
 
-            var count = tableStruct.GetColCount();
-            for (int i = 1; i < count; i++)
+            for (int i = 0; i < colCount; i++)
             {
-                object value;
-                Type type = tableStruct.GetColType(i);
+                if (i == idColIndex)
+                    continue;
 
-                if (type == typeof(Int32))
-                {
-                    value = Convert.ToInt32(textBoxes[i].Text);
-                }
-                else if (type == typeof(double))
-                {
-                    value = Convert.ToDouble(textBoxes[i].Text);
-                }
-                else //string
-                {
-                    value = Convert.ToString(textBoxes[i].Text);
-                }
+                var type = tableStruct.GetColType(i);
+                var converter = TypeDescriptor.GetConverter(type);
+                object value = converter.ConvertFromString(null, CultureInfo.CurrentCulture, textBoxes[i].Text);
 
                 tableLine.Add(value);
             }
@@ -67,8 +63,14 @@ namespace FunP
             textBoxes = new TextBox[colCount];
             labels = new Label[colCount];
 
-            for (int k = 1; k < colCount; k++)
+            for (int k = 0; k < colCount; k++)
             {
+                if (tableStruct.GetColName(k) == BaseTableStruct.IDColName)
+                {
+                    idColIndex = k;
+                    continue;
+                }
+
                 labels[k] = new Label();
                 labels[k].Text = tableStruct.GetColName(k);
                 flowLayoutPanel.Controls.Add(labels[k]);
@@ -84,7 +86,7 @@ namespace FunP
         }
 
         public TableValuesLine GetData()
-        {            
+        {
             return tableLine;
         }
     }
