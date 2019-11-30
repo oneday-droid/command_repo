@@ -62,6 +62,7 @@ namespace FunP
             SetNewLineSheet();          
 
             Dictionary<string, LanguageType> langDict = new Dictionary<string, LanguageType>();
+            
             for (int k = 0; k < 2; k++)
             {
                 LanguageType lang = (LanguageType)k;

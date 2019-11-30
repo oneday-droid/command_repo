@@ -54,7 +54,7 @@ namespace FunP
 
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            DBType dbType = DBType.File;
+            DBType dbType = DBType.SQL;
 
             //создания описаний таблиц БД
             var dbStruct = new DBStruct();

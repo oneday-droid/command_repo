@@ -13,7 +13,7 @@ namespace FunP
         public bool LineAdd(BaseTableStruct tableStruct, TableValuesLine line)
         {
             bool result = false;
-            /*string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             IFormatProvider format = System.Globalization.CultureInfo.GetCultureInfo("en-US");
 
             var tableName = tableStruct.GetTableName();
@@ -55,14 +55,14 @@ namespace FunP
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;
-            }*/
+            }
 
             return result;
         }
         public bool LineEdit(BaseTableStruct tableStruct, TableValuesLine lineToEdit, TableValuesLine newState)
         {
             bool result = false;
-            /*string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             var tableName = tableStruct.GetTableName();
             var colCount = tableStruct.GetColCount();
@@ -109,14 +109,14 @@ namespace FunP
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;
-            }*/
+            }
 
             return result;
         }
         public bool LineDelete(BaseTableStruct tableStruct, TableValuesLine line)
         {
             bool result = false;
-            /*string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             var tableName = tableStruct.GetTableName();
 
@@ -133,7 +133,7 @@ namespace FunP
 
                 if (cmd.ExecuteNonQuery() > 0)
                     result = true;
-            }*/
+            }
 
             return result;
         }
